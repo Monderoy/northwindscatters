@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hantera kattungar | Admin - NorthWind Scatters</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .admin-layout {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      min-height: 100vh;
+    }
+    
+    @media (max-width: 768px) {
+      .admin-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .admin-sidebar {
+      background-color: var(--color-primary);
+      color: var(--color-white);
+      padding: var(--space-6);
+    }
+    
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-8);
+    }
+    
+    .admin-brand-icon {
+      width: 40px;
+      height: 40px;
+      background-color: rgba(255,255,255,0.2);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+    
+    .admin-brand-text {
+      font-family: var(--font-heading);
+      font-size: var(--text-lg);
+    }
+    
+    .admin-nav {
+      list-style: none;
+    }
+    
+    .admin-nav-item {
+      margin-bottom: var(--space-2);
+    }
+    
+    .admin-nav-link {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-md);
+      color: rgba(255,255,255,0.8);
+      transition: all var(--transition-fast);
+      font-size: var(--text-sm);
+    }
+    
+    .admin-nav-link:hover,
+    .admin-nav-link.active {
+      background-color: rgba(255,255,255,0.1);
+      color: var(--color-white);
+    }
+    
+    .admin-content {
+      background-color: var(--color-neutral-light);
+      padding: var(--space-6);
+      overflow-x: auto;
+    }
+    
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-6);
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+    
+    .admin-title {
+      font-size: var(--text-3xl);
+    }
+    
+    .admin-table {
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+    
+    .table-header {
+      display: grid;
+      grid-template-columns: 60px 1fr 1fr 120px 120px 100px;
+      gap: var(--space-3);
+      padding: var(--space-4);
+      background-color: var(--color-neutral-base);
+      font-weight: 600;
+      font-size: var(--text-sm);
+      align-items: center;
+    }
+    
+    @media (max-width: 768px) {
+      .table-header {
+        grid-template-columns: 1fr;
+        display: none;
+      }
+    }
+    
+    .table-row {
+      display: grid;
+      grid-template-columns: 60px 1fr 1fr 120px 120px 100px;
+      gap: var(--space-3);
+      padding: var(--space-4);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      align-items: center;
+    }
+    
+    @media (max-width: 768px) {
+      .table-row {
+        grid-template-columns: 1fr;
+        gap: var(--space-2);
+      }
+    }
+    
+    .table-row:last-child {
+      border-bottom: none;
+    }
+    
+    .table-row:hover {
+      background-color: rgba(0,0,0,0.02);
+    }
+    
+    .table-img {
+      width: 50px;
+      height: 50px;
+      border-radius: var(--radius-md);
+      object-fit: cover;
+    }
+    
+    .btn-sm {
+      padding: var(--space-1) var(--space-3);
+      font-size: var(--text-xs);
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: var(--space-2);
+    }
+    
+    @media (max-width: 768px) {
+      .action-buttons {
+        width: 100%;
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="admin-layout">
+    
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-brand">
+        <div class="admin-brand-icon">N</div>
+        <span class="admin-brand-text">NorthWind</span>
+      </div>
+      
+      <nav>
+        <ul class="admin-nav">
+          <li class="admin-nav-item">
+            <a href="admin-dashboard.html" class="admin-nav-link">
+              📊 Dashboard
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-kittens.html" class="admin-nav-link active">
+              🐱 Kattungar
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-cats.html" class="admin-nav-link">
+              🐾 Mina katter
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-news.html" class="admin-nav-link">
+              📰 Nyheter
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-hero.html" class="admin-nav-link">
+              🖼️ Hero bild
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-settings.html" class="admin-nav-link">
+              ⚙️ Inställningar
+            </a>
+          </li>
+          <li class="admin-nav-item" style="margin-top: var(--space-8);">
+            <a href="index.html" class="admin-nav-link">
+              🌐 Visa sida
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-login.html" class="admin-nav-link">
+              🚪 Logga ut
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+    
+    <!-- Content -->
+    <main class="admin-content">
+      
+      <div class="admin-header">
+        <h1 class="admin-title">Hantera kattungar</h1>
+        <button class="btn btn-primary" onclick="alert('Öppna modal för att lägga till kattunge')">
+          + Lägg till kattunge
+        </button>
+      </div>
+      
+      <!-- Filters -->
+      <div class="filters" style="margin-bottom: var(--space-5); justify-content: flex-start;">
+        <button class="filter-btn active">Alla (6)</button>
+        <button class="filter-btn">Till salu (3)</button>
+        <button class="filter-btn">Tingad (2)</button>
+        <button class="filter-btn">Såld (1)</button>
+      </div>
+      
+      <!-- Table -->
+      <div class="admin-table">
+        
+        <div class="table-header">
+          <span>Bild</span>
+          <span>Namn</span>
+          <span>Info</span>
+          <span>Pris</span>
+          <span>Status</span>
+          <span>Åtgärder</span>
+        </div>
+        
+        <div class="table-row">
+          <img src="https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=100&q=80" alt="Luna" class="table-img">
+          <div>
+            <strong>Luna</strong><br>
+            <span style="font-size: var(--text-sm); color: var(--color-text-muted);">Kull: 2024-10-15</span>
+          </div>
+          <div style="font-size: var(--text-sm);">
+            Honkatt • 12 v<br>
+            Brun tabby
+          </div>
+          <div><strong>12 000 kr</strong></div>
+          <div><span class="badge badge-sale">Till salu</span></div>
+          <div class="action-buttons">
+            <button class="btn btn-outline btn-sm">Redigera</button>
+            <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);">Ta bort</button>
+          </div>
+        </div>
+        
+        <div class="table-row">
+          <img src="https://images.unsplash.com/photo-1574158622682-e40e69881006?w=100&q=80" alt="Thor" class="table-img">
+          <div>
+            <strong>Thor</strong><br>
+            <span style="font-size: var(--text-sm); color: var(--color-text-muted);">Kull: 2024-10-15</span>
+          </div>
+          <div style="font-size: var(--text-sm);">
+            Hankatt • 12 v<br>
+            Svart tabby
+          </div>
+          <div><strong>12 000 kr</strong></div>
+          <div><span class="badge badge-reserved">Tingad</span></div>
+          <div class="action-buttons">
+            <button class="btn btn-outline btn-sm">Redigera</button>
+            <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);">Ta bort</button>
+          </div>
+        </div>
+        
+        <div class="table-row">
+          <img src="https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=100&q=80" alt="Freja" class="table-img">
+          <div>
+            <strong>Freja</strong><br>
+            <span style="font-size: var(--text-sm); color: var(--color-text-muted);">Kull: 2024-10-15</span>
+          </div>
+          <div style="font-size: var(--text-sm);">
+            Honkatt • 12 v<br>
+            Vit och svart
+          </div>
+          <div><strong>12 000 kr</strong></div>
+          <div><span class="badge badge-sale">Till salu</span></div>
+          <div class="action-buttons">
+            <button class="btn btn-outline btn-sm">Redigera</button>
+            <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);">Ta bort</button>
+          </div>
+        </div>
+        
+        <div class="table-row">
+          <img src="https://images.unsplash.com/photo-1571566882372-1598d88abd90?w=100&q=80" alt="Oscar" class="table-img">
+          <div>
+            <strong>Oscar</strong><br>
+            <span style="font-size: var(--text-sm); color: var(--color-text-muted);">Kull: 2024-09-20</span>
+          </div>
+          <div style="font-size: var(--text-sm);">
+            Hankatt • 16 v<br>
+            Brun tabby
+          </div>
+          <div style="text-decoration: line-through; color: var(--color-text-muted);">12 000 kr</div>
+          <div><span class="badge badge-sold">Såld</span></div>
+          <div class="action-buttons">
+            <button class="btn btn-outline btn-sm">Redigera</button>
+            <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);">Ta bort</button>
+          </div>
+        </div>
+        
+        <div class="table-row">
+          <img src="https://images.unsplash.com/photo-1519052537078-e6302a4968d4?w=100&q=80" alt="Maja" class="table-img">
+          <div>
+            <strong>Maja</strong><br>
+            <span style="font-size: var(--text-sm); color: var(--color-text-muted);">Kull: 2024-10-01</span>
+          </div>
+          <div style="font-size: var(--text-sm);">
+            Honkatt • 14 v<br>
+            Silver tabby
+          </div>
+          <div><strong>13 000 kr</strong></div>
+          <div><span class="badge badge-sale">Till salu</span></div>
+          <div class="action-buttons">
+            <button class="btn btn-outline btn-sm">Redigera</button>
+            <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);">Ta bort</button>
+          </div>
+        </div>
+        
+        <div class="table-row">
+          <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=100&q=80" alt="Loki" class="table-img">
+          <div>
+            <strong>Loki</strong><br>
+            <span style="font-size: var(--text-sm); color: var(--color-text-muted);">Kull: 2024-10-25</span>
+          </div>
+          <div style="font-size: var(--text-sm);">
+            Hankatt • 10 v<br>
+            Svart
+          </div>
+          <div><strong>11 000 kr</strong></div>
+          <div><span class="badge badge-reserved">Tingad</span></div>
+          <div class="action-buttons">
+            <button class="btn btn-outline btn-sm">Redigera</button>
+            <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);">Ta bort</button>
+          </div>
+        </div>
+        
+      </div>
+      
+      <!-- Pagination -->
+      <div class="text-center" style="margin-top: var(--space-5);">
+        <div style="display: flex; gap: var(--space-2); justify-content: center; align-items: center; font-size: var(--text-sm); color: var(--color-text-muted);">
+          Visar 1-6 av 6 kattungar
+        </div>
+      </div>
+      
+    </main>
+    
+  </div>
+
+</body>
+</html>

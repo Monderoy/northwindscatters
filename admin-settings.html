@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inställningar | Admin - NorthWind Scatters</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .admin-layout {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      min-height: 100vh;
+    }
+    
+    @media (max-width: 768px) {
+      .admin-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .admin-sidebar {
+      background-color: var(--color-primary);
+      color: var(--color-white);
+      padding: var(--space-6);
+    }
+    
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-8);
+    }
+    
+    .admin-brand-icon {
+      width: 40px;
+      height: 40px;
+      background-color: rgba(255,255,255,0.2);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+    
+    .admin-brand-text {
+      font-family: var(--font-heading);
+      font-size: var(--text-lg);
+    }
+    
+    .admin-nav {
+      list-style: none;
+    }
+    
+    .admin-nav-item {
+      margin-bottom: var(--space-2);
+    }
+    
+    .admin-nav-link {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-md);
+      color: rgba(255,255,255,0.8);
+      transition: all var(--transition-fast);
+      font-size: var(--text-sm);
+    }
+    
+    .admin-nav-link:hover,
+    .admin-nav-link.active {
+      background-color: rgba(255,255,255,0.1);
+      color: var(--color-white);
+    }
+    
+    .admin-content {
+      background-color: var(--color-neutral-light);
+      padding: var(--space-6);
+      overflow-x: auto;
+    }
+    
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-6);
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+    
+    .admin-title {
+      font-size: var(--text-3xl);
+    }
+    
+    .settings-card {
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      box-shadow: var(--shadow-md);
+      margin-bottom: var(--space-6);
+    }
+    
+    .settings-title {
+      font-size: var(--text-xl);
+      margin-bottom: var(--space-4);
+      padding-bottom: var(--space-3);
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+    
+    .form-group {
+      margin-bottom: var(--space-5);
+    }
+    
+    .form-label {
+      display: block;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      margin-bottom: var(--space-2);
+      color: var(--color-text);
+    }
+    
+    .form-input,
+    .form-textarea,
+    .form-select {
+      width: 100%;
+      padding: var(--space-3) var(--space-4);
+      font-size: var(--text-base);
+      font-family: var(--font-body);
+      border: 2px solid #E5E7EB;
+      border-radius: var(--radius-md);
+      transition: border-color var(--transition-fast);
+      background: var(--color-white);
+    }
+    
+    .form-input:focus,
+    .form-textarea:focus,
+    .form-select:focus {
+      outline: none;
+      border-color: var(--color-primary);
+    }
+    
+    .form-textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+    
+    .form-hint {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      margin-top: var(--space-1);
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-4);
+    }
+    
+    @media (max-width: 640px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .switch-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-3) 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .switch-label {
+      font-size: var(--text-base);
+    }
+    
+    .switch-description {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      margin-top: var(--space-1);
+    }
+    
+    .switch {
+      position: relative;
+      width: 50px;
+      height: 28px;
+      flex-shrink: 0;
+    }
+    
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 28px;
+    }
+    
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .slider {
+      background-color: var(--color-primary);
+    }
+    
+    input:checked + .slider:before {
+      transform: translateX(22px);
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="admin-layout">
+    
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-brand">
+        <div class="admin-brand-icon">N</div>
+        <span class="admin-brand-text">NorthWind</span>
+      </div>
+      
+      <nav>
+        <ul class="admin-nav">
+          <li class="admin-nav-item">
+            <a href="admin-dashboard.html" class="admin-nav-link">
+              📊 Dashboard
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-kittens.html" class="admin-nav-link">
+              🐱 Kattungar
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-cats.html" class="admin-nav-link">
+              🐾 Mina katter
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-news.html" class="admin-nav-link">
+              📰 Nyheter
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-hero.html" class="admin-nav-link">
+              🖼️ Hero bild
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-settings.html" class="admin-nav-link active">
+              ⚙️ Inställningar
+            </a>
+          </li>
+          <li class="admin-nav-item" style="margin-top: var(--space-8);">
+            <a href="index.html" class="admin-nav-link">
+              🌐 Visa sida
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-login.html" class="admin-nav-link">
+              🚪 Logga ut
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+    
+    <!-- Content -->
+    <main class="admin-content">
+      
+      <div class="admin-header">
+        <h1 class="admin-title">Inställningar</h1>
+      </div>
+      
+      <!-- General Settings -->
+      <div class="settings-card">
+        <h2 class="settings-title">Allmänna inställningar</h2>
+        
+        <div class="form-group">
+          <label class="form-label">Uppfödningsnamn</label>
+          <input type="text" class="form-input" value="NorthWind Scatters">
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">E-post</label>
+            <input type="email" class="form-input" value="info@northwindscatters.se">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Telefon</label>
+            <input type="tel" class="form-input" value="+46 70 123 45 67">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Plats</label>
+          <input type="text" class="form-input" value="Stockholm, Sverige">
+          <p class="form-hint">Visas på kontaktsidan och i footer</p>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Beskrivning (kort)</label>
+          <textarea class="form-textarea">Norsk Skogskatt uppfödning med kärlek och omsorg. Vi är en liten hemuppfödning belägen i Sverige som fokuserar på hälsa, temperament och rasstandard.</textarea>
+          <p class="form-hint">Används i footer och meta-beskrivningar</p>
+        </div>
+      </div>
+      
+      <!-- Language Settings -->
+      <div class="settings-card">
+        <h2 class="settings-title">Språkinställningar</h2>
+        
+        <div class="switch-container">
+          <div>
+            <div class="switch-label">Aktivera engelska</div>
+            <div class="switch-description">Visa språkbyte-knapp (SV/EN) på webbplatsen</div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        
+        <div class="switch-container">
+          <div>
+            <div class="switch-label">Standardspråk</div>
+            <div class="switch-description">Välj vilket språk som ska visas först</div>
+          </div>
+          <select class="form-select" style="width: auto;">
+            <option value="sv" selected>Svenska</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- Display Settings -->
+      <div class="settings-card">
+        <h2 class="settings-title">Visningsinställningar</h2>
+        
+        <div class="switch-container">
+          <div>
+            <div class="switch-label">Visa priser</div>
+            <div class="switch-description">Visa priser på kattungar</div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        
+        <div class="switch-container">
+          <div>
+            <div class="switch-label">Visa "Ängel"-katter</div>
+            <div class="switch-description">Visa avlidna katter i listan</div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        
+        <div class="switch-container">
+          <div>
+            <div class="switch-label">Visa "Såld"-kattungar</div>
+            <div class="switch-description">Visa sålda kattungar i listan</div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        
+        <div class="form-group" style="margin-top: var(--space-4);">
+          <label class="form-label">Antal kattungar per sida</label>
+          <select class="form-select" style="width: auto;">
+            <option value="6" selected>6</option>
+            <option value="9">9</option>
+            <option value="12">12</option>
+            <option value="24">24</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- Contact Form Settings -->
+      <div class="settings-card">
+        <h2 class="settings-title">Kontaktformulär</h2>
+        
+        <div class="form-group">
+          <label class="form-label">E-post för kontaktformulär</label>
+          <input type="email" class="form-input" value="info@northwindscatters.se">
+          <p class="form-hint">Meddelanden från kontaktformuläret skickas hit</p>
+        </div>
+        
+        <div class="switch-container">
+          <div>
+            <div class="switch-label">Aktivera kontaktformulär</div>
+            <div class="switch-description">Tillåt besökare att skicka meddelanden</div>
+          </div>
+          <label class="switch">
+            <input type="checkbox" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+      
+      <!-- Social Media -->
+      <div class="settings-card">
+        <h2 class="settings-title">Sociala medier</h2>
+        
+        <div class="form-group">
+          <label class="form-label">Facebook URL</label>
+          <input type="url" class="form-input" placeholder="https://facebook.com/northwindscatters">
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Instagram URL</label>
+          <input type="url" class="form-input" placeholder="https://instagram.com/northwindscatters">
+        </div>
+      </div>
+      
+      <!-- Save Button -->
+      <div style="display: flex; gap: var(--space-3);">
+        <button class="btn btn-primary" onclick="alert('Inställningar sparade!')">Spara inställningar</button>
+        <button class="btn btn-outline" onclick="alert('Återställd!')">Återställ standard</button>
+      </div>
+      
+    </main>
+    
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nyheter | NorthWind Scatters</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">N</div>
+        <span class="nav-logo-text">NorthWind Scatters</span>
+      </a>
+      
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Hem</a></li>
+        <li><a href="kittens.html" class="nav-link">Kattungar</a></li>
+        <li><a href="cats.html" class="nav-link">Mina katter</a></li>
+        <li><a href="about.html" class="nav-link">Om oss</a></li>
+        <li><a href="gallery.html" class="nav-link">Galleri</a></li>
+        <li><a href="news.html" class="nav-link active">Nyheter</a></li>
+        <li><a href="contact.html" class="nav-link">Kontakt</a></li>
+      </ul>
+      
+      <div class="nav-actions">
+        <button class="lang-toggle">EN</button>
+        <button class="mobile-menu-btn">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="section section-light">
+    <div class="container">
+      <div class="section-header">
+        <h1 class="section-title">Nyheter</h1>
+        <p class="section-subtitle">Håll dig uppdaterad med de senaste nyheterna från NorthWind Scatters. Kullar, uppdateringar och annat som händer i vår uppfödning.</p>
+      </div>
+      
+      <!-- News Grid -->
+      <div class="grid grid-2" style="max-width: 1000px; margin: 0 auto; gap: var(--space-8);">
+        
+        <!-- News 1 -->
+        <article class="card">
+          <img src="https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=600&q=80" alt="Ny kull" class="card-image">
+          <div class="card-body">
+            <div style="display: flex; gap: var(--space-2); margin-bottom: var(--space-3); flex-wrap: wrap;">
+              <span class="badge" style="background: var(--color-accent); color: white;">Ny kull</span>
+              <span style="color: var(--color-text-muted); font-size: var(--text-sm);">27 Februari, 2025</span>
+            </div>
+            <h3 class="card-title">Ny kull född!</h3>
+            <p class="card-text">Vi är stolta att meddela att Saga har fått en ny kull med 4 underbara kattunger! 2 honkatter och 2 hannar, alla friska och starka.</p>
+            <a href="#" class="btn btn-outline" style="margin-top: var(--space-3);">Läs mer</a>
+          </div>
+        </article>
+        
+        <!-- News 2 -->
+        <article class="card">
+          <img src="https://images.unsplash.com/photo-1533743983669-94fa5c4338ec?w=600&q=80" alt="Utställning" class="card-image">
+          <div class="card-body">
+            <div style="display: flex; gap: var(--space-2); margin-bottom: var(--space-3); flex-wrap: wrap;">
+              <span class="badge" style="background: var(--color-male); color: white;">Utställning</span>
+              <span style="color: var(--color-text-muted); font-size: var(--text-sm);">15 Februari, 2025</span>
+            </div>
+            <h3 class="card-title">Framgångar på Stockholm Cat Show</h3>
+            <p class="card-text">Birk tog hem EX1 och BIV (Best in Variety) på Stockholm Cat Show! Vi är otroligt stolta över vår underbara avelshane.</p>
+            <a href="#" class="btn btn-outline" style="margin-top: var(--space-3);">Läs mer</a>
+          </div>
+        </article>
+        
+        <!-- News 3 -->
+        <article class="card">
+          <img src="https://images.unsplash.com/photo-1574158622682-e40e69881006?w=600&q=80" alt="Kattungar flyttar" class="card-image">
+          <div class="card-body">
+            <div style="display: flex; gap: var(--space-2); margin-bottom: var(--space-3); flex-wrap: wrap;">
+              <span class="badge" style="background: var(--color-sale);">Uppdatering</span>
+              <span style="color: var(--color-text-muted); font-size: var(--text-sm);">10 Februari, 2025</span>
+            </div>
+            <h3 class="card-title">Thor och Freja flyttar snart</h3>
+            <p class="card-text">Våra underbara kattunger Thor och Freja är nu 12 veckor och redo att flytta till sina nya hem. Thor är tingad men Freja söker fortfarande sitt forever home.</p>
+            <a href="kittens.html" class="btn btn-outline" style="margin-top: var(--space-3);">Se kattungar</a>
+          </div>
+        </article>
+        
+        <!-- News 4 -->
+        <article class="card">
+          <img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=600&q=80" alt="Hälsotester" class="card-image">
+          <div class="card-body">
+            <div style="display: flex; gap: var(--space-2); margin-bottom: var(--space-3); flex-wrap: wrap;">
+              <span class="badge" style="background: var(--color-neutral-base); color: var(--color-text);">Hälsa</span>
+              <span style="color: var(--color-text-muted); font-size: var(--text-sm);">5 Februari, 2025</span>
+            </div>
+            <h3 class="card-title">Årliga hälsotester klara</h3>
+            <p class="card-text">Alla våra avelskatter har genomgått sina årliga hälsotester för HCM och PKD. Alla resultat är negativa - våra katter är friska!</p>
+            <a href="cats.html" class="btn btn-outline" style="margin-top: var(--space-3);">Se resultat</a>
+          </div>
+        </article>
+        
+        <!-- News 5 -->
+        <article class="card">
+          <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=600&q=80" alt="Oden pensionerad" class="card-image">
+          <div class="card-body">
+            <div style="display: flex; gap: var(--space-2); margin-bottom: var(--space-3); flex-wrap: wrap;">
+              <span class="badge" style="background: var(--color-retired);">Pensionering</span>
+              <span style="color: var(--color-text-muted); font-size: var(--text-sm);">20 Januari, 2025</span>
+            </div>
+            <h3 class="card-title">Oden går i pension</h3>
+            <p class="card-text">Efter 4 underbara år som avelshane har Oden pensionerats. Han kommer nu få njuta av livet som en vanlig familjemedlem med oss.</p>
+            <a href="cats.html" class="btn btn-outline" style="margin-top: var(--space-3);">Läs mer</a>
+          </div>
+        </article>
+        
+        <!-- News 6 -->
+        <article class="card">
+          <img src="https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=600&q=80" alt="Ny medlem" class="card-image">
+          <div class="card-body">
+            <div style="display: flex; gap: var(--space-2); margin-bottom: var(--space-3); flex-wrap: wrap;">
+              <span class="badge" style="background: var(--color-female); color: white;">Ny katt</span>
+              <span style="color: var(--color-text-muted); font-size: var(--text-sm);">10 Januari, 2025</span>
+            </div>
+            <h3 class="card-title">Välkommen Freya!</h3>
+            <p class="card-text">Vi är glada att välkomna Freya till vår uppfödning! Hon är en 2-årig brun tabby hona som vi har stora förhoppningar på för framtida kullar.</p>
+            <a href="cats.html" class="btn btn-outline" style="margin-top: var(--space-3);">Möt Freya</a>
+          </div>
+        </article>
+        
+      </div>
+      
+      <!-- Pagination -->
+      <div class="text-center" style="margin-top: var(--space-8);">
+        <div style="display: flex; gap: var(--space-2); justify-content: center; align-items: center;">
+          <button class="btn btn-outline" disabled style="opacity: 0.5;">← Föregående</button>
+          <span style="padding: 0 var(--space-3); color: var(--color-text-muted);">Sida 1 av 3</span>
+          <button class="btn btn-outline">Nästa →</button>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>NorthWind Scatters</h3>
+          <p>Norsk Skogskatt uppfödning med kärlek och omsorg. Vi är en liten hemuppfödning belägen i Sverige som fokuserar på hälsa, temperament och rasstandard.</p>
+        </div>
+        
+        <div>
+          <h4 class="footer-title">Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="kittens.html">Kattungar</a></li>
+            <li><a href="cats.html">Mina katter</a></li>
+            <li><a href="about.html">Om oss</a></li>
+            <li><a href="gallery.html">Galleri</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="footer-title">Information</h4>
+          <ul class="footer-links">
+            <li><a href="news.html">Nyheter</a></li>
+            <li><a href="contact.html">Kontakt</a></li>
+            <li><a href="#">Intresseanmälan</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="footer-title">Kontakt</h4>
+          <ul class="footer-links">
+            <li>📧 info@northwindscatters.se</li>
+            <li>📱 +46 70 123 45 67</li>
+            <li>📍 Sverige</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2025 NorthWind Scatters. Alla rättigheter förbehållna.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kattungar | NorthWind Scatters</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">N</div>
+        <span class="nav-logo-text">NorthWind Scatters</span>
+      </a>
+      
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Hem</a></li>
+        <li><a href="kittens.html" class="nav-link active">Kattungar</a></li>
+        <li><a href="cats.html" class="nav-link">Mina katter</a></li>
+        <li><a href="about.html" class="nav-link">Om oss</a></li>
+        <li><a href="gallery.html" class="nav-link">Galleri</a></li>
+        <li><a href="news.html" class="nav-link">Nyheter</a></li>
+        <li><a href="contact.html" class="nav-link">Kontakt</a></li>
+      </ul>
+      
+      <div class="nav-actions">
+        <button class="lang-toggle">EN</button>
+        <button class="mobile-menu-btn">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="section section-light">
+    <div class="container">
+      <div class="section-header">
+        <h1 class="section-title">Våra Kattungar</h1>
+        <p class="section-subtitle">Möt våra underbara Norsk Skogskatt-kattungar. Alla våra kattunger växer upp i hemmet med massor av kärlek och socialisering.</p>
+      </div>
+      
+      <!-- Filters -->
+      <div class="filters">
+        <button class="filter-btn active">Alla</button>
+        <button class="filter-btn">Till salu</button>
+        <button class="filter-btn">Tingad</button>
+        <button class="filter-btn">Såld</button>
+      </div>
+      
+      <!-- Kittens Grid -->
+      <div class="grid grid-3">
+        
+        <!-- Kitten 1 - Sale -->
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=600&q=80" alt="Luna" class="card-image">
+          <div class="card-body">
+            <span class="badge badge-sale">Till salu</span>
+            <h3 class="card-title">Luna</h3>
+            <p class="card-text">Honkatt • 12 veckor • Brun tabby</p>
+            <p class="card-text" style="font-size: var(--text-base); color: var(--color-primary); font-weight: 600;">12 000 kr</p>
+            <a href="kitten-detail.html" class="btn btn-outline" style="margin-top: var(--space-3); width: 100%;">Läs mer</a>
+          </div>
+        </div>
+        
+        <!-- Kitten 2 - Reserved -->
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1574158622682-e40e69881006?w=600&q=80" alt="Thor" class="card-image">
+          <div class="card-body">
+            <span class="badge badge-reserved">Tingad</span>
+            <h3 class="card-title">Thor</h3>
+            <p class="card-text">Hankatt • 12 veckor • Svart tabby</p>
+            <p class="card-text" style="font-size: var(--text-base); color: var(--color-text-muted);">12 000 kr</p>
+            <a href="kitten-detail.html" class="btn btn-outline" style="margin-top: var(--space-3); width: 100%;">Läs mer</a>
+          </div>
+        </div>
+        
+        <!-- Kitten 3 - Sale -->
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=600&q=80" alt="Freja" class="card-image">
+          <div class="card-body">
+            <span class="badge badge-sale">Till salu</span>
+            <h3 class="card-title">Freja</h3>
+            <p class="card-text">Honkatt • 12 veckor • Vit och svart</p>
+            <p class="card-text" style="font-size: var(--text-base); color: var(--color-primary); font-weight: 600;">12 000 kr</p>
+            <a href="kitten-detail.html" class="btn btn-outline" style="margin-top: var(--space-3); width: 100%;">Läs mer</a>
+          </div>
+        </div>
+        
+        <!-- Kitten 4 - Sold -->
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1571566882372-1598d88abd90?w=600&q=80" alt="Oscar" class="card-image">
+          <div class="card-body">
+            <span class="badge badge-sold">Såld</span>
+            <h3 class="card-title">Oscar</h3>
+            <p class="card-text">Hankatt • 16 veckor • Brun tabby</p>
+            <p class="card-text" style="font-size: var(--text-base); color: var(--color-text-muted); text-decoration: line-through;">12 000 kr</p>
+            <a href="kitten-detail.html" class="btn btn-outline" style="margin-top: var(--space-3); width: 100%; opacity: 0.6; cursor: not-allowed;">Läs mer</a>
+          </div>
+        </div>
+        
+        <!-- Kitten 5 - Sale -->
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1519052537078-e6302a4968d4?w=600&q=80" alt="Maja" class="card-image">
+          <div class="card-body">
+            <span class="badge badge-sale">Till salu</span>
+            <h3 class="card-title">Maja</h3>
+            <p class="card-text">Honkatt • 14 veckor • Silver tabby</p>
+            <p class="card-text" style="font-size: var(--text-base); color: var(--color-primary); font-weight: 600;">13 000 kr</p>
+            <a href="kitten-detail.html" class="btn btn-outline" style="margin-top: var(--space-3); width: 100%;">Läs mer</a>
+          </div>
+        </div>
+        
+        <!-- Kitten 6 - Reserved -->
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=600&q=80" alt="Loki" class="card-image">
+          <div class="card-body">
+            <span class="badge badge-reserved">Tingad</span>
+            <h3 class="card-title">Loki</h3>
+            <p class="card-text">Hankatt • 10 veckor • Svart</p>
+            <p class="card-text" style="font-size: var(--text-base); color: var(--color-text-muted);">11 000 kr</p>
+            <a href="kitten-detail.html" class="btn btn-outline" style="margin-top: var(--space-3); width: 100%;">Läs mer</a>
+          </div>
+        </div>
+        
+      </div>
+      
+      <!-- Empty State Example (hidden by default) -->
+      <div class="empty-state" style="display: none;">
+        <div class="empty-state-icon">🐱</div>
+        <h3 class="empty-state-title">Inga kattungar just nu</h3>
+        <p class="empty-state-text">Vi har för närvarande inga kattungar tillgängliga. Kontakta oss för information om kommande kullar.</p>
+        <a href="contact.html" class="btn btn-primary" style="margin-top: var(--space-5);">Kontakta oss</a>
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- Info Section -->
+  <section class="section section-beige">
+    <div class="container">
+      <div class="grid grid-2" style="max-width: 900px; margin: 0 auto;">
+        <div>
+          <h2 class="section-title">Vad ingår?</h2>
+          <p>Alla våra kattunger levereras med:</p>
+          <ul style="list-style: none; padding: 0;">
+            <li style="padding: var(--space-2) 0;">✓ Vaccination enligt schema</li>
+            <li style="padding: var(--space-2) 0;">✓ ID-märkning (chip)</li>
+            <li style="padding: var(--space-2) 0;">✓ Registrering i SVERAK</li>
+            <li style="padding: var(--space-2) 0;">✓ Veterinärintyg</li>
+            <li style="padding: var(--space-2) 0;">✓ Starterkit med mat och leksaker</li>
+            <li style="padding: var(--space-2) 0;">✓ Livslångt stöd och rådgivning</li>
+          </ul>
+        </div>
+        
+        <div>
+          <h2 class="section-title">Intresserad?</h2>
+          <p>Vi vill säkerställa att våra kattunger kommer till rätt hem. Därför ber vi alla intresserade att:</p>
+          <ul style="list-style: none; padding: 0;">
+            <li style="padding: var(--space-2) 0;">✓ Fylla i intresseanmälan</li>
+            <li style="padding: var(--space-2) 0;">✓ Besöka oss och träffa katterna</li>
+            <li style="padding: var(--space-2) 0;">✓ Berätta om er erfarenhet med katter</li>
+            <li style="padding: var(--space-2) 0;">✓ Signera köpeavtal</li>
+          </ul>
+          <a href="contact.html" class="btn btn-primary" style="margin-top: var(--space-4);">Kontakta oss</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>NorthWind Scatters</h3>
+          <p>Norsk Skogskatt uppfödning med kärlek och omsorg. Vi är en liten hemuppfödning belägen i Sverige som fokuserar på hälsa, temperament och rasstandard.</p>
+        </div>
+        
+        <div>
+          <h4 class="footer-title">Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="kittens.html">Kattungar</a></li>
+            <li><a href="cats.html">Mina katter</a></li>
+            <li><a href="about.html">Om oss</a></li>
+            <li><a href="gallery.html">Galleri</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="footer-title">Information</h4>
+          <ul class="footer-links">
+            <li><a href="news.html">Nyheter</a></li>
+            <li><a href="contact.html">Kontakt</a></li>
+            <li><a href="#">Intresseanmälan</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="footer-title">Kontakt</h4>
+          <ul class="footer-links">
+            <li>📧 info@northwindscatters.se</li>
+            <li>📱 +46 70 123 45 67</li>
+            <li>📍 Sverige</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2025 NorthWind Scatters. Alla rättigheter förbehållna.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

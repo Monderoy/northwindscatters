@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | NorthWind Scatters</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .admin-layout {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      min-height: 100vh;
+    }
+    
+    @media (max-width: 768px) {
+      .admin-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .admin-sidebar {
+      background-color: var(--color-primary);
+      color: var(--color-white);
+      padding: var(--space-6);
+    }
+    
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-8);
+    }
+    
+    .admin-brand-icon {
+      width: 40px;
+      height: 40px;
+      background-color: rgba(255,255,255,0.2);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+    
+    .admin-brand-text {
+      font-family: var(--font-heading);
+      font-size: var(--text-lg);
+    }
+    
+    .admin-nav {
+      list-style: none;
+    }
+    
+    .admin-nav-item {
+      margin-bottom: var(--space-2);
+    }
+    
+    .admin-nav-link {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-md);
+      color: rgba(255,255,255,0.8);
+      transition: all var(--transition-fast);
+      font-size: var(--text-sm);
+    }
+    
+    .admin-nav-link:hover,
+    .admin-nav-link.active {
+      background-color: rgba(255,255,255,0.1);
+      color: var(--color-white);
+    }
+    
+    .admin-content {
+      background-color: var(--color-neutral-light);
+      padding: var(--space-6);
+      overflow-x: auto;
+    }
+    
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-6);
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+    
+    .admin-title {
+      font-size: var(--text-3xl);
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: var(--space-5);
+      margin-bottom: var(--space-6);
+    }
+    
+    .stat-card {
+      background: var(--color-white);
+      padding: var(--space-5);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .stat-label {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-2);
+    }
+    
+    .stat-value {
+      font-size: var(--text-4xl);
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+    
+    .stat-change {
+      font-size: var(--text-sm);
+      margin-top: var(--space-2);
+    }
+    
+    .stat-change.positive {
+      color: var(--color-sale);
+    }
+    
+    .recent-activity {
+      background: var(--color-white);
+      padding: var(--space-5);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .activity-title {
+      font-size: var(--text-xl);
+      margin-bottom: var(--space-4);
+    }
+    
+    .activity-list {
+      list-style: none;
+    }
+    
+    .activity-item {
+      padding: var(--space-3) 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      font-size: var(--text-sm);
+    }
+    
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+    
+    .activity-time {
+      color: var(--color-text-muted);
+      font-size: var(--text-xs);
+      margin-left: var(--space-2);
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="admin-layout">
+    
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-brand">
+        <div class="admin-brand-icon">N</div>
+        <span class="admin-brand-text">NorthWind</span>
+      </div>
+      
+      <nav>
+        <ul class="admin-nav">
+          <li class="admin-nav-item">
+            <a href="admin-dashboard.html" class="admin-nav-link active">
+              📊 Dashboard
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-kittens.html" class="admin-nav-link">
+              🐱 Kattungar
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-cats.html" class="admin-nav-link">
+              🐾 Mina katter
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-news.html" class="admin-nav-link">
+              📰 Nyheter
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-hero.html" class="admin-nav-link">
+              🖼️ Hero bild
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-settings.html" class="admin-nav-link">
+              ⚙️ Inställningar
+            </a>
+          </li>
+          <li class="admin-nav-item" style="margin-top: var(--space-8);">
+            <a href="index.html" class="admin-nav-link">
+              🌐 Visa sida
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-login.html" class="admin-nav-link">
+              🚪 Logga ut
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+    
+    <!-- Content -->
+    <main class="admin-content">
+      
+      <div class="admin-header">
+        <h1 class="admin-title">Dashboard</h1>
+        <div style="font-size: var(--text-sm); color: var(--color-text-muted);">
+          Välkommen tillbaka! 👋
+        </div>
+      </div>
+      
+      <!-- Stats -->
+      <div class="stats-grid">
+        
+        <div class="stat-card">
+          <div class="stat-label">Tillgängliga kattungar</div>
+          <div class="stat-value">3</div>
+          <div class="stat-change positive">+2 från förra månaden</div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-label">Tingade kattungar</div>
+          <div class="stat-value">2</div>
+          <div class="stat-change">Väntar på avhämtning</div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-label">Aktiva avelskatter</div>
+          <div class="stat-value">4</div>
+          <div class="stat-change">2 hanar, 2 honor</div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-label">Besökare denna vecka</div>
+          <div class="stat-value">127</div>
+          <div class="stat-change positive">↑ 23% från förra veckan</div>
+        </div>
+        
+      </div>
+      
+      <!-- Recent Activity -->
+      <div class="recent-activity">
+        <h2 class="activity-title">Senaste aktiviteter</h2>
+        
+        <ul class="activity-list">
+          <li class="activity-item">
+            ✅ Thor markerad som tingad <span class="activity-time">2 timmar sedan</span>
+          </li>
+          <li class="activity-item">
+            📝 Nyhet publicerad: "Ny kull född!" <span class="activity-time">Igår kl 14:30</span>
+          </li>
+          <li class="activity-item">
+            📸 Nya bilder uppladdade för Luna <span class="activity-time">Igår kl 10:15</span>
+          </li>
+          <li class="activity-item">
+            📧 Kontaktformulär mottaget från Anna Karlsson <span class="activity-time">2 dagar sedan</span>
+          </li>
+          <li class="activity-item">
+            ✏️ Sagas sida uppdaterad med hälsotester <span class="activity-time">3 dagar sedan</span>
+          </li>
+          <li class="activity-item">
+            🎉 Oscar markerad som såld <span class="activity-time">5 dagar sedan</span>
+          </li>
+        </ul>
+        
+      </div>
+      
+      <!-- Quick Actions -->
+      <div style="margin-top: var(--space-6); display: flex; gap: var(--space-3); flex-wrap: wrap;">
+        <a href="admin-kittens.html" class="btn btn-primary">+ Lägg till kattunge</a>
+        <a href="admin-news.html" class="btn btn-outline">+ Ny nyhet</a>
+        <a href="index.html" class="btn btn-outline">Visa sida</a>
+      </div>
+      
+    </main>
+    
+  </div>
+
+</body>
+</html>

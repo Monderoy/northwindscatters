@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saga | NorthWind Scatters</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">N</div>
+        <span class="nav-logo-text">NorthWind Scatters</span>
+      </a>
+      
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Hem</a></li>
+        <li><a href="kittens.html" class="nav-link">Kattungar</a></li>
+        <li><a href="cats.html" class="nav-link active">Mina katter</a></li>
+        <li><a href="about.html" class="nav-link">Om oss</a></li>
+        <li><a href="gallery.html" class="nav-link">Galleri</a></li>
+        <li><a href="news.html" class="nav-link">Nyheter</a></li>
+        <li><a href="contact.html" class="nav-link">Kontakt</a></li>
+      </ul>
+      
+      <div class="nav-actions">
+        <button class="lang-toggle">EN</button>
+        <button class="mobile-menu-btn">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Detail Section -->
+  <section class="detail-hero section-beige">
+    <div class="container">
+      <div class="detail-grid">
+        
+        <!-- Images -->
+        <div>
+          <div class="detail-image-main">
+            <img src="https://images.unsplash.com/photo-1533743983669-94fa5c4338ec?w=800&q=80" alt="Saga">
+          </div>
+          
+          <!-- Thumbnail Gallery -->
+          <div class="gallery-grid" style="margin-top: var(--space-4); grid-template-columns: repeat(4, 1fr);">
+            <div class="gallery-item">
+              <img src="https://images.unsplash.com/photo-1533743983669-94fa5c4338ec?w=300&q=80" alt="Saga 1">
+            </div>
+            <div class="gallery-item">
+              <img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=300&q=80" alt="Saga 2">
+            </div>
+            <div class="gallery-item">
+              <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=300&q=80" alt="Saga 3">
+            </div>
+            <div class="gallery-item">
+              <img src="https://images.unsplash.com/photo-1574158622682-e40e69881006?w=300&q=80" alt="Saga 4">
+            </div>
+          </div>
+        </div>
+        
+        <!-- Info -->
+        <div class="detail-info">
+          <span class="badge badge-female">Aktiv hona</span>
+          <h1>Saga</h1>
+          
+          <div class="detail-meta">
+            <span class="badge" style="background: var(--color-neutral-base);">Honkatt</span>
+            <span class="badge" style="background: var(--color-neutral-base);">4 år</span>
+            <span class="badge" style="background: var(--color-neutral-base);">Svart silver tabby</span>
+          </div>
+          
+          <!-- Description -->
+          <div class="detail-field">
+            <p class="detail-label">Personlighet</p>
+            <p style="line-height: 1.7;">Saga är vår underbara ledarinna med ett hjärta av guld! Hon är otroligt kärleksfull, social och alltid nyfiken. Hon älskar att leka och är en fantastisk mamma till sina kattunger. Saga är den första att hälsa när vi kommer hem och hon sover alltid vid våra fötter på natten.</p>
+          </div>
+          
+          <!-- Born -->
+          <div class="detail-field">
+            <p class="detail-label">Född</p>
+            <p class="detail-value">15 Mars 2020</p>
+          </div>
+          
+          <!-- Pedigree (Optional - shown only if filled) -->
+          <div class="detail-field">
+            <p class="detail-label">Stamtavla / Pedigree nr</p>
+            <p class="detail-value">SVERAK NFO ns 11 67890/2020</p>
+          </div>
+          
+          <!-- EMS Code -->
+          <div class="detail-field">
+            <p class="detail-label">EMS-kod (Färgkod)</p>
+            <p class="detail-value">NFO ns 11</p>
+          </div>
+          
+          <!-- Health Tests (Optional - shown only if filled) -->
+          <div class="detail-field">
+            <p class="detail-label">Hälsotester</p>
+            <div style="background: var(--color-neutral-light); padding: var(--space-4); border-radius: var(--radius-md); margin-top: var(--space-2);">
+              <div style="display: flex; justify-content: space-between; padding: var(--space-2) 0; border-bottom: 1px solid rgba(0,0,0,0.05);">
+                <span><strong>HCM (Hjärt)</strong></span>
+                <span style="color: var(--color-sale); font-weight: 600;">✓ Negativ</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: var(--space-2) 0; border-bottom: 1px solid rgba(0,0,0,0.05);">
+                <span><strong>PKD (Njure)</strong></span>
+                <span style="color: var(--color-sale); font-weight: 600;">✓ Negativ</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: var(--space-2) 0; border-bottom: 1px solid rgba(0,0,0,0.05);">
+                <span><strong>HD (Höft)</strong></span>
+                <span style="color: var(--color-sale); font-weight: 600;">✓ Grad A</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding: var(--space-2) 0;">
+                <span><strong>Patella</strong></span>
+                <span style="color: var(--color-sale); font-weight: 600;">✓ Frisk</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Show Results (Optional - shown only if filled) -->
+          <div class="detail-field">
+            <p class="detail-label">Utställningsmeriter</p>
+            <ul style="list-style: none; padding: 0;">
+              <li style="padding: var(--space-2) 0;">🏆 SVERAK International Show 2022 - EX1, CAP</li>
+              <li style="padding: var(--space-2) 0;">🏆 Stockholm Cat Show 2023 - EX1, BIV</li>
+              <li style="padding: var(--space-2) 0;">🏆 Göteborg Cat Fair 2023 - EX1, NOM</li>
+            </ul>
+          </div>
+          
+          <!-- Kittens -->
+          <div class="detail-field">
+            <p class="detail-label">Kullar</p>
+            <p class="detail-value">3 kullar (2021, 2022, 2024)</p>
+            <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-top: var(--space-1);">Totalt 8 kattunger</p>
+          </div>
+          
+          <!-- CTA -->
+          <div style="margin-top: var(--space-6); display: flex; gap: var(--space-3); flex-wrap: wrap;">
+            <a href="cats.html" class="btn btn-outline">← Alla katter</a>
+            <a href="kittens.html" class="btn btn-primary">Se kattungar</a>
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- Offspring Section -->
+  <section class="section section-light">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Sagas kattungar</h2>
+        <p class="section-subtitle">Några av Sagas underbara kattunger från tidigare kullar.</p>
+      </div>
+      
+      <div class="grid grid-3" style="max-width: 900px; margin: 0 auto;">
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1574158622682-e40e69881006?w=600&q=80" alt="Thor" class="card-image">
+          <div class="card-body">
+            <span class="badge badge-reserved">Tingad</span>
+            <h3 class="card-title">Thor</h3>
+            <p class="card-text">Kull 2024 • 12 veckor</p>
+            <a href="kitten-detail.html" class="btn btn-outline" style="margin-top: var(--space-3); width: 100%;">Läs mer</a>
+          </div>
+        </div>
+        
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=600&q=80" alt="Luna" class="card-image">
+          <div class="card-body">
+            <span class="badge badge-sale">Till salu</span>
+            <h3 class="card-title">Luna</h3>
+            <p class="card-text">Kull 2024 • 12 veckor</p>
+            <a href="kitten-detail.html" class="btn btn-outline" style="margin-top: var(--space-3); width: 100%;">Läs mer</a>
+          </div>
+        </div>
+        
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1571566882372-1598d88abd90?w=600&q=80" alt="Oscar" class="card-image">
+          <div class="card-body">
+            <span class="badge badge-sold">Såld</span>
+            <h3 class="card-title">Oscar</h3>
+            <p class="card-text">Kull 2022 • 2 år</p>
+            <a href="kitten-detail.html" class="btn btn-outline" style="margin-top: var(--space-3); width: 100%; opacity: 0.6;">Läs mer</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>NorthWind Scatters</h3>
+          <p>Norsk Skogskatt uppfödning med kärlek och omsorg. Vi är en liten hemuppfödning belägen i Sverige som fokuserar på hälsa, temperament och rasstandard.</p>
+        </div>
+        
+        <div>
+          <h4 class="footer-title">Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="kittens.html">Kattungar</a></li>
+            <li><a href="cats.html">Mina katter</a></li>
+            <li><a href="about.html">Om oss</a></li>
+            <li><a href="gallery.html">Galleri</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="footer-title">Information</h4>
+          <ul class="footer-links">
+            <li><a href="news.html">Nyheter</a></li>
+            <li><a href="contact.html">Kontakt</a></li>
+            <li><a href="#">Intresseanmälan</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="footer-title">Kontakt</h4>
+          <ul class="footer-links">
+            <li>📧 info@northwindscatters.se</li>
+            <li>📱 +46 70 123 45 67</li>
+            <li>📍 Sverige</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2025 NorthWind Scatters. Alla rättigheter förbehållna.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

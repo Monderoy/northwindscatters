@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kontakt | NorthWind Scatters</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .contact-form {
+      background: var(--color-white);
+      padding: var(--space-6);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .form-group {
+      margin-bottom: var(--space-5);
+    }
+    
+    .form-label {
+      display: block;
+      font-size: var(--text-sm);
+      font-weight: 500;
+      margin-bottom: var(--space-2);
+      color: var(--color-text);
+    }
+    
+    .form-input,
+    .form-textarea,
+    .form-select {
+      width: 100%;
+      padding: var(--space-3) var(--space-4);
+      font-size: var(--text-base);
+      font-family: var(--font-body);
+      border: 2px solid #E5E7EB;
+      border-radius: var(--radius-md);
+      transition: border-color var(--transition-fast);
+      background: var(--color-white);
+    }
+    
+    .form-input:focus,
+    .form-textarea:focus,
+    .form-select:focus {
+      outline: none;
+      border-color: var(--color-primary);
+    }
+    
+    .form-textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+    
+    .form-required {
+      color: var(--color-accent);
+    }
+    
+    .contact-info-card {
+      background: var(--color-neutral-base);
+      padding: var(--space-6);
+      border-radius: var(--radius-lg);
+    }
+    
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      margin-bottom: var(--space-5);
+    }
+    
+    .contact-item:last-child {
+      margin-bottom: 0;
+    }
+    
+    .contact-icon {
+      font-size: var(--text-xl);
+      flex-shrink: 0;
+    }
+    
+    .contact-details h4 {
+      font-size: var(--text-base);
+      margin-bottom: var(--space-1);
+    }
+    
+    .contact-details p {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">N</div>
+        <span class="nav-logo-text">NorthWind Scatters</span>
+      </a>
+      
+      <ul class="nav-menu">
+        <li><a href="index.html" class="nav-link">Hem</a></li>
+        <li><a href="kittens.html" class="nav-link">Kattungar</a></li>
+        <li><a href="cats.html" class="nav-link">Mina katter</a></li>
+        <li><a href="about.html" class="nav-link">Om oss</a></li>
+        <li><a href="gallery.html" class="nav-link">Galleri</a></li>
+        <li><a href="news.html" class="nav-link">Nyheter</a></li>
+        <li><a href="contact.html" class="nav-link active">Kontakt</a></li>
+      </ul>
+      
+      <div class="nav-actions">
+        <button class="lang-toggle">EN</button>
+        <button class="mobile-menu-btn">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="section section-light">
+    <div class="container">
+      <div class="section-header">
+        <h1 class="section-title">Kontakta oss</h1>
+        <p class="section-subtitle">Har du frågor om våra katter eller vill anmäla intresse för en kattunge? Vi gärna höra från dig!</p>
+      </div>
+      
+      <div class="grid grid-2" style="max-width: 1000px; margin: 0 auto; gap: var(--space-8);">
+        
+        <!-- Contact Form -->
+        <div>
+          <form class="contact-form">
+            <div class="form-group">
+              <label class="form-label">
+                Namn <span class="form-required">*</span>
+              </label>
+              <input type="text" class="form-input" placeholder="Ditt namn" required>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">
+                E-post <span class="form-required">*</span>
+              </label>
+              <input type="email" class="form-input" placeholder="din@email.se" required>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">
+                Telefon
+              </label>
+              <input type="tel" class="form-input" placeholder="+46 70 123 45 67">
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">
+                Ämne <span class="form-required">*</span>
+              </label>
+              <select class="form-select" required>
+                <option value="">Välj ett ämne</option>
+                <option value="kattunge">Intresse för kattunge</option>
+                <option value="besok">Boka besök</option>
+                <option value="frage">Allmän fråga</option>
+                <option value="samarbete">Samarbete</option>
+                <option value="annat">Annat</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">
+                Meddelande <span class="form-required">*</span>
+              </label>
+              <textarea class="form-textarea" placeholder="Berätta lite om dig själv och varför du är intresserad av en Norsk Skogskatt..." required></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Skicka meddelande</button>
+            
+          </form>
+        </div>
+        
+        <!-- Contact Info -->
+        <div>
+          <div class="contact-info-card">
+            <h3 style="margin-bottom: var(--space-6);">Kontaktinformation</h3>
+            
+            <div class="contact-item">
+              <span class="contact-icon">📧</span>
+              <div class="contact-details">
+                <h4>E-post</h4>
+                <p>info@northwindscatters.se</p>
+              </div>
+            </div>
+            
+            <div class="contact-item">
+              <span class="contact-icon">📱</span>
+              <div class="contact-details">
+                <h4>Telefon</h4>
+                <p>+46 70 123 45 67</p>
+              </div>
+            </div>
+            
+            <div class="contact-item">
+              <span class="contact-icon">📍</span>
+              <div class="contact-details">
+                <h4>Plats</h4>
+                <p>Stockholm, Sverige</p>
+              </div>
+            </div>
+            
+            <div class="contact-item">
+              <span class="contact-icon">🕐</span>
+              <div class="contact-details">
+                <h4>Svarstid</h4>
+                <p>Vi svarar vanligtvis inom 24-48 timmar</p>
+              </div>
+            </div>
+            
+          </div>
+          
+          <div style="margin-top: var(--space-6);">
+            <h3 style="margin-bottom: var(--space-4);">Besök oss</h3>
+            <p style="color: var(--color-text-muted); line-height: 1.7;">
+              Vi tar emot besök för intresserade kattköpare efter överenskommelse. Kontakta oss för att boka en tid att träffa våra katter och lära känna oss.
+            </p>
+            <p style="color: var(--color-text-muted); line-height: 1.7; margin-top: var(--space-3); font-size: var(--text-sm);">
+              <strong>Observera:</strong> Av hälsoskäl och för att skydda våra kattunger tar vi inte emot spontanbesök.
+            </p>
+          </div>
+          
+          <!-- Social Links -->
+          <div style="margin-top: var(--space-6);">
+            <h3 style="margin-bottom: var(--space-4);">Följ oss</h3>
+            <div style="display: flex; gap: var(--space-3);">
+              <a href="#" class="btn btn-outline" style="padding: var(--space-3); min-width: auto;">
+                📘 Facebook
+              </a>
+              <a href="#" class="btn btn-outline" style="padding: var(--space-3); min-width: auto;">
+                📸 Instagram
+              </a>
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Preview -->
+  <section class="section section-beige">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Vanliga frågor</h2>
+        <p class="section-subtitle">Snabba svar på de vanligaste frågorna vi får</p>
+      </div>
+      
+      <div class="grid grid-2" style="max-width: 900px; margin: 0 auto;">
+        
+        <div>
+          <h4 style="margin-bottom: var(--space-2);">Vad kostar en kattunge?</h4>
+          <p style="color: var(--color-text-muted); font-size: var(--text-sm); line-height: 1.6; margin-bottom: var(--space-5);">
+            Priset för våra kattunger varierar beroende på färg och kvalitet. Kontakta oss för information om aktuella priser.
+          </p>
+          
+          <h4 style="margin-bottom: var(--space-2);">När kan kattungen flytta?</h4>
+          <p style="color: var(--color-text-muted); font-size: var(--text-sm); line-height: 1.6; margin-bottom: var(--space-5);">
+            Kattunger flyttar tidigast vid 12 veckors ålder, efter full vaccination och veterinärintyg.
+          </p>
+          
+          <h4 style="margin-bottom: var(--space-2);">Vad ingår i priset?</h4>
+          <p style="color: var(--color-text-muted); font-size: var(--text-sm); line-height: 1.6;">
+            Vaccination, ID-märkning, registrering i SVERAK, veterinärintyg, starterkit och livslångt stöd.
+          </p>
+        </div>
+        
+        <div>
+          <h4 style="margin-bottom: var(--space-2);">Gör ni köparscreening?</h4>
+          <p style="color: var(--color-text-muted); font-size: var(--text-sm); line-height: 1.6; margin-bottom: var(--space-5);">
+            Ja, vi vill säkerställa att våra kattunger kommer till rätt hem. Vi ber alla intresserade fylla i intresseanmälan och besöka oss.
+          </p>
+          
+          <h4 style="margin-bottom: var(--space-2);">Kan jag boka ett besök?</h4>
+          <p style="color: var(--color-text-muted); font-size: var(--text-sm); line-height: 1.6; margin-bottom: var(--space-5);">
+            Absolut! Kontakta oss för att boka en tid att träffa våra katter. Vi tar inte emot spontanbesök.
+          </p>
+          
+          <h4 style="margin-bottom: var(--space-2);">Har ni väntelista?</h4>
+          <p style="color: var(--color-text-muted); font-size: var(--text-sm); line-height: 1.6;">
+            Ja, vi har en intresselista för kommande kullar. Kontakta oss för att anmäla intresse.
+          </p>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>NorthWind Scatters</h3>
+          <p>Norsk Skogskatt uppfödning med kärlek och omsorg. Vi är en liten hemuppfödning belägen i Sverige som fokuserar på hälsa, temperament och rasstandard.</p>
+        </div>
+        
+        <div>
+          <h4 class="footer-title">Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="kittens.html">Kattungar</a></li>
+            <li><a href="cats.html">Mina katter</a></li>
+            <li><a href="about.html">Om oss</a></li>
+            <li><a href="gallery.html">Galleri</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="footer-title">Information</h4>
+          <ul class="footer-links">
+            <li><a href="news.html">Nyheter</a></li>
+            <li><a href="contact.html">Kontakt</a></li>
+            <li><a href="#">Intresseanmälan</a></li>
+            <li><a href="#">FAQ</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="footer-title">Kontakt</h4>
+          <ul class="footer-links">
+            <li>📧 info@northwindscatters.se</li>
+            <li>📱 +46 70 123 45 67</li>
+            <li>📍 Sverige</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2025 NorthWind Scatters. Alla rättigheter förbehållna.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
