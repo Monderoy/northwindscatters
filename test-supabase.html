@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Supabase Connection</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .test-card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .success {
+      background: #d1fae5;
+      border-left: 4px solid #10b981;
+      padding: 15px;
+      margin: 10px 0;
+    }
+    .error {
+      background: #fee2e2;
+      border-left: 4px solid #ef4444;
+      padding: 15px;
+      margin: 10px 0;
+    }
+    .info {
+      background: #dbeafe;
+      border-left: 4px solid #3b82f6;
+      padding: 15px;
+      margin: 10px 0;
+    }
+    button {
+      background: #2D4A3E;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    button:hover {
+      background: #1E332A;
+    }
+    pre {
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🔍 NorthWind Scatters - Felsökning</h1>
+
+  <div class="test-card">
+    <h2>1. Supabase Uppkoppling</h2>
+    <div id="connection-status">Testar...</div>
+    <button onclick="testConnection()">Testa uppkoppling</button>
+  </div>
+
+  <div class="test-card">
+    <h2>2. Tabeller</h2>
+    <div id="tables-status">Ej testat</div>
+    <button onclick="testTables()">Testa tabeller</button>
+  </div>
+
+  <div class="test-card">
+    <h2>3. Testa Login</h2>
+    <input type="email" id="test-email" placeholder="Din email" style="padding: 8px; width: 300px; margin: 5px;">
+    <br>
+    <input type="password" id="test-password" placeholder="Ditt lösenord" style="padding: 8px; width: 300px; margin: 5px;">
+    <br>
+    <button onclick="testLogin()">Testa inloggning</button>
+    <div id="login-status"></div>
+  </div>
+
+  <div class="test-card">
+    <h2>4. Kontrollera Admin-status</h2>
+    <input type="email" id="admin-email" placeholder="Din email" style="padding: 8px; width: 300px; margin: 5px;">
+    <br>
+    <button onclick="checkAdmin()">Kontrollera admin</button>
+    <div id="admin-status"></div>
+  </div>
+
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <script>
+    const SUPABASE_URL = 'https://lsjzeubrhagoutqxlsoz.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_bUUZjgFpx_6GH8WS3nY9aQ_NAXbrZBt';
+    
+    const { createClient } = window.supabase;
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    console.log('✅ Supabase client skapad');
+
+    async function testConnection() {
+      const statusDiv = document.getElementById('connection-status');
+      statusDiv.innerHTML = '<div class="info">Testar uppkoppling...</div>';
+      
+      try {
+        // Test simple query
+        const { data, error } = await supabase.from('settings').select('key').limit(1);
+        
+        if (error) {
+          statusDiv.innerHTML = '<div class="error">❌ Uppkoppling misslyckades:<br><pre>' + JSON.stringify(error, null, 2) + '</pre></div>';
+          return;
+        }
+        
+        statusDiv.innerHTML = '<div class="success">✅ Uppkoppling fungerar!<br>Data: ' + JSON.stringify(data) + '</div>';
+      } catch (err) {
+        statusDiv.innerHTML = '<div class="error">❌ Fel:<br><pre>' + err.message + '</pre></div>';
+      }
+    }
+
+    async function testTables() {
+      const statusDiv = document.getElementById('tables-status');
+      statusDiv.innerHTML = '<div class="info">Testar tabeller...</div>';
+      
+      try {
+        // Test each table
+        const tables = ['kittens', 'cats', 'news', 'settings'];
+        let results = [];
+        
+        for (const table of tables) {
+          try {
+            const { data, error } = await supabase.from(table).select('*').limit(1);
+            if (error) {
+              results.push(`❌ ${table}: ${error.message}`);
+            } else {
+              results.push(`✅ ${table}: OK (${data.length} rader)`);
+            }
+          } catch (e) {
+            results.push(`❌ ${table}: ${e.message}`);
+          }
+        }
+        
+        statusDiv.innerHTML = '<div class="success"><strong>Tabell-status:</strong><br>' + results.join('<br>') + '</div>';
+      } catch (err) {
+        statusDiv.innerHTML = '<div class="error">❌ Fel:<br><pre>' + err.message + '</pre></div>';
+      }
+    }
+
+    async function testLogin() {
+      const email = document.getElementById('test-email').value;
+      const password = document.getElementById('test-password').value;
+      const statusDiv = document.getElementById('login-status');
+      
+      if (!email || !password) {
+        statusDiv.innerHTML = '<div class="error">Fyll i både email och lösenord!</div>';
+        return;
+      }
+      
+      statusDiv.innerHTML = '<div class="info">Testar inloggning...</div>';
+      
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
+        if (error) {
+          statusDiv.innerHTML = '<div class="error">❌ Inloggning misslyckades:<br><pre>' + JSON.stringify(error, null, 2) + '</pre></div>';
+          return;
+        }
+
+        statusDiv.innerHTML = '<div class="success">✅ Inloggad!<br><pre>' + JSON.stringify(data.user, null, 2) + '</pre></div>';
+      } catch (err) {
+        statusDiv.innerHTML = '<div class="error">❌ Fel:<br><pre>' + err.message + '</pre></div>';
+      }
+    }
+
+    async function checkAdmin() {
+      const email = document.getElementById('admin-email').value;
+      const statusDiv = document.getElementById('admin-status');
+      
+      if (!email) {
+        statusDiv.innerHTML = '<div class="error">Fyll i din email!</div>';
+        return;
+      }
+      
+      statusDiv.innerHTML = '<div class="info">Kontrollerar admin-status...</div>';
+      
+      try {
+        // This requires service role key, so it won't work from browser
+        // Instead, let's try a different approach
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: email,
+          password: 'test123'  // This will fail, but we'll see the error
+        });
+
+        // If we get here with actual user data, check metadata
+        if (data && data.user) {
+          const role = data.user.app_metadata?.role || 'no role';
+          statusDiv.innerHTML = `<div class="info">
+            <strong>Email:</strong> ${data.user.email}<br>
+            <strong>Admin-roll:</strong> ${role}<br>
+            ${role === 'admin' ? '✅ Du är admin!' : '❌ Du är INTE admin än. Kör SQL-koden!'}
+          </div>`;
+        } else {
+          statusDiv.innerHTML = '<div class="error">Kunde inte kontrollera. Logga in först (fyll i lösenord ovan).</div>';
+        }
+      } catch (err) {
+        statusDiv.innerHTML = '<div class="info">💡 Tips: Du måste logga in först (se Testa Login ovan) för att kontrollera admin-status.</div>';
+      }
+    }
+
+    // Auto-run connection test on load
+    setTimeout(testConnection, 500);
+  </script>
+
+</body>
+</html>
