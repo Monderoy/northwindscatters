@@ -1,6 +1,9 @@
 // NorthWind Scatters - Main Application JavaScript
 // Supabase integration for cat breeder website
 
+// Use the global supabase client from supabase-config.js
+const supabase = window.supabaseClient || window.supabase;
+
 // ============================================
 // AUTHENTICATION
 // ============================================

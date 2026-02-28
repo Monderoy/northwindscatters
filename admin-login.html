@@ -128,5 +128,32 @@
     </div>
   </div>
 
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- Your Config -->
+  <script src="supabase-config.js"></script>
+  
+  <!-- App Logic -->
+  <script src="app.js"></script>
+  
+  <!-- Login Form Handler -->
+  <script>
+    document.querySelector('form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const email = e.target.querySelector('input[type="email"]').value;
+      const password = e.target.querySelector('input[type="password"]').value;
+      
+      const result = await signIn(email, password);
+      
+      if (result.success) {
+        alert('Inloggad! Omdirigerar...');
+      } else {
+        alert('Fel: ' + result.error);
+      }
+    });
+  </script>
+
 </body>
 </html>
