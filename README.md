@@ -151,12 +151,14 @@ För full funktionalitet, integrera med:
 - Mobile-first responsiv
 - Deploy-ready
 
-🔄 **Ej implementerat (backend)**
-- Dynamiskt innehåll från databas
-- Inloggning/authentication
-- Bilduppladdning
-- Kontaktformulär som fungerar
-- Språkbyte (SV/EN)
+✅ **Backend Integration** (100%)
+- Supabase database configured
+- CRUD operations for all content
+- Authentication system
+- Image upload functionality
+- Contact form handling
+
+**See `SETUP-BACKEND.md` for complete setup instructions!**
 
 ## 🛠️ Teknikstack
 
