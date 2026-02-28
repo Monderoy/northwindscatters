@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login | NorthWind Scatters</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .login-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--color-primary) 0%, #1E332A 100%);
+      padding: var(--space-4);
+    }
+    
+    .login-card {
+      background: var(--color-white);
+      padding: var(--space-8);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-xl);
+      width: 100%;
+      max-width: 400px;
+    }
+    
+    .login-logo {
+      text-align: center;
+      margin-bottom: var(--space-6);
+    }
+    
+    .login-logo-icon {
+      width: 64px;
+      height: 64px;
+      background-color: var(--color-primary);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-white);
+      font-size: var(--text-3xl);
+      margin: 0 auto var(--space-4);
+    }
+    
+    .login-title {
+      font-size: var(--text-2xl);
+      margin-bottom: var(--space-2);
+    }
+    
+    .login-subtitle {
+      color: var(--color-text-muted);
+      font-size: var(--text-sm);
+    }
+    
+    .form-group {
+      margin-bottom: var(--space-4);
+    }
+    
+    .form-label {
+      display: block;
+      font-size: var(--text-sm);
+      font-weight: 500;
+      margin-bottom: var(--space-2);
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: var(--space-3) var(--space-4);
+      font-size: var(--text-base);
+      font-family: var(--font-body);
+      border: 2px solid #E5E7EB;
+      border-radius: var(--radius-md);
+      transition: border-color var(--transition-fast);
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+    }
+    
+    .login-link {
+      text-align: center;
+      margin-top: var(--space-5);
+      padding-top: var(--space-5);
+      border-top: 1px solid #E5E7EB;
+    }
+    
+    .login-link a {
+      color: var(--color-primary);
+      font-size: var(--text-sm);
+    }
+    
+    .error-message {
+      background: #FEF2F2;
+      color: #DC2626;
+      padding: var(--space-3);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-4);
+      display: none;
+      font-size: var(--text-sm);
+    }
+    
+    .success-message {
+      background: #F0FDF4;
+      color: #16A34A;
+      padding: var(--space-3);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-4);
+      display: none;
+      font-size: var(--text-sm);
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="login-container">
+    <div class="login-card">
+      
+      <div class="login-logo">
+        <div class="login-logo-icon">N</div>
+        <h1 class="login-title">NorthWind Scatters</h1>
+        <p class="login-subtitle">Admin inloggning</p>
+      </div>
+      
+      <div id="error-message" class="error-message"></div>
+      <div id="success-message" class="success-message"></div>
+      
+      <form id="login-form">
+        <div class="form-group">
+          <label class="form-label">E-post</label>
+          <input type="email" id="email" class="form-input" placeholder="din@email.se" required>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Lösenord</label>
+          <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: var(--space-3);">
+          Logga in
+        </button>
+      </form>
+      
+      <div class="login-link">
+        <a href="index.html">← Tillbaka till startsidan</a>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- Your Config -->
+  <script>
+    const SUPABASE_URL = 'https://lsjzeubrhagoutqxlsoz.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_bUUZjgFpx_6GH8WS3nY9aQ_NAXbrZBt';
+    
+    // Initialize Supabase client
+    const { createClient } = window.supabase;
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    console.log('✅ Supabase initialized');
+  </script>
+  
+  <!-- Login Handler -->
+  <script>
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const errorDiv = document.getElementById('error-message');
+      const successDiv = document.getElementById('success-message');
+      
+      // Hide messages
+      errorDiv.style.display = 'none';
+      successDiv.style.display = 'none';
+      
+      console.log('🔐 Försöker logga in med:', email);
+      
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
+        if (error) {
+          console.error('❌ Inloggningsfel:', error);
+          errorDiv.textContent = 'Fel: ' + error.message;
+          errorDiv.style.display = 'block';
+          return;
+        }
+
+        console.log('✅ Inloggad!', data);
+        successDiv.textContent = 'Inloggad! Omdirigerar...';
+        successDiv.style.display = 'block';
+        
+        // Store user
+        localStorage.setItem('user', JSON.stringify(data.user));
+        
+        // Redirect after 1 second
+        setTimeout(() => {
+          window.location.href = 'admin-dashboard.html';
+        }, 1000);
+        
+      } catch (err) {
+        console.error('💥 Oväntat fel:', err);
+        errorDiv.textContent = 'Oväntat fel: ' + err.message;
+        errorDiv.style.display = 'block';
+      }
+    });
+  </script>
+
+</body>
+</html>
