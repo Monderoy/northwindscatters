@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     .admin-layout {
       display: grid;
@@ -168,7 +169,7 @@
     }
   </style>
 </head>
-<body>
+<body data-page="kittens">
   
   <div class="admin-layout">
     
@@ -230,145 +231,21 @@
       
       <div class="admin-header">
         <h1 class="admin-title">Hantera kattungar</h1>
-        <button class="btn btn-primary" onclick="alert('Öppna modal för att lägga till kattunge')">
+        <button class="btn btn-primary" onclick="Admin.openKittenModal()">
           + Lägg till kattunge
         </button>
       </div>
       
       <!-- Filters -->
-      <div class="filters" style="margin-bottom: var(--space-5); justify-content: flex-start;">
-        <button class="filter-btn active">Alla (6)</button>
-        <button class="filter-btn">Till salu (3)</button>
-        <button class="filter-btn">Tingad (2)</button>
-        <button class="filter-btn">Såld (1)</button>
+      <div id="kittens-filters" class="filters" style="margin-bottom: var(--space-5); justify-content: flex-start;">
+        <!-- Filters will be populated by JavaScript -->
       </div>
       
       <!-- Table -->
-      <div class="admin-table">
-        
-        <div class="table-header">
-          <span>Bild</span>
-          <span>Namn</span>
-          <span>Info</span>
-          <span>Pris</span>
-          <span>Status</span>
-          <span>Åtgärder</span>
-        </div>
-        
-        <div class="table-row">
-          <img src="https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=100&q=80" alt="Luna" class="table-img">
-          <div>
-            <strong>Luna</strong><br>
-            <span style="font-size: var(--text-sm); color: var(--color-text-muted);">Kull: 2024-10-15</span>
-          </div>
-          <div style="font-size: var(--text-sm);">
-            Honkatt • 12 v<br>
-            Brun tabby
-          </div>
-          <div><strong>12 000 kr</strong></div>
-          <div><span class="badge badge-sale">Till salu</span></div>
-          <div class="action-buttons">
-            <button class="btn btn-outline btn-sm">Redigera</button>
-            <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);">Ta bort</button>
-          </div>
-        </div>
-        
-        <div class="table-row">
-          <img src="https://images.unsplash.com/photo-1574158622682-e40e69881006?w=100&q=80" alt="Thor" class="table-img">
-          <div>
-            <strong>Thor</strong><br>
-            <span style="font-size: var(--text-sm); color: var(--color-text-muted);">Kull: 2024-10-15</span>
-          </div>
-          <div style="font-size: var(--text-sm);">
-            Hankatt • 12 v<br>
-            Svart tabby
-          </div>
-          <div><strong>12 000 kr</strong></div>
-          <div><span class="badge badge-reserved">Tingad</span></div>
-          <div class="action-buttons">
-            <button class="btn btn-outline btn-sm">Redigera</button>
-            <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);">Ta bort</button>
-          </div>
-        </div>
-        
-        <div class="table-row">
-          <img src="https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=100&q=80" alt="Freja" class="table-img">
-          <div>
-            <strong>Freja</strong><br>
-            <span style="font-size: var(--text-sm); color: var(--color-text-muted);">Kull: 2024-10-15</span>
-          </div>
-          <div style="font-size: var(--text-sm);">
-            Honkatt • 12 v<br>
-            Vit och svart
-          </div>
-          <div><strong>12 000 kr</strong></div>
-          <div><span class="badge badge-sale">Till salu</span></div>
-          <div class="action-buttons">
-            <button class="btn btn-outline btn-sm">Redigera</button>
-            <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);">Ta bort</button>
-          </div>
-        </div>
-        
-        <div class="table-row">
-          <img src="https://images.unsplash.com/photo-1571566882372-1598d88abd90?w=100&q=80" alt="Oscar" class="table-img">
-          <div>
-            <strong>Oscar</strong><br>
-            <span style="font-size: var(--text-sm); color: var(--color-text-muted);">Kull: 2024-09-20</span>
-          </div>
-          <div style="font-size: var(--text-sm);">
-            Hankatt • 16 v<br>
-            Brun tabby
-          </div>
-          <div style="text-decoration: line-through; color: var(--color-text-muted);">12 000 kr</div>
-          <div><span class="badge badge-sold">Såld</span></div>
-          <div class="action-buttons">
-            <button class="btn btn-outline btn-sm">Redigera</button>
-            <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);">Ta bort</button>
-          </div>
-        </div>
-        
-        <div class="table-row">
-          <img src="https://images.unsplash.com/photo-1519052537078-e6302a4968d4?w=100&q=80" alt="Maja" class="table-img">
-          <div>
-            <strong>Maja</strong><br>
-            <span style="font-size: var(--text-sm); color: var(--color-text-muted);">Kull: 2024-10-01</span>
-          </div>
-          <div style="font-size: var(--text-sm);">
-            Honkatt • 14 v<br>
-            Silver tabby
-          </div>
-          <div><strong>13 000 kr</strong></div>
-          <div><span class="badge badge-sale">Till salu</span></div>
-          <div class="action-buttons">
-            <button class="btn btn-outline btn-sm">Redigera</button>
-            <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);">Ta bort</button>
-          </div>
-        </div>
-        
-        <div class="table-row">
-          <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=100&q=80" alt="Loki" class="table-img">
-          <div>
-            <strong>Loki</strong><br>
-            <span style="font-size: var(--text-sm); color: var(--color-text-muted);">Kull: 2024-10-25</span>
-          </div>
-          <div style="font-size: var(--text-sm);">
-            Hankatt • 10 v<br>
-            Svart
-          </div>
-          <div><strong>11 000 kr</strong></div>
-          <div><span class="badge badge-reserved">Tingad</span></div>
-          <div class="action-buttons">
-            <button class="btn btn-outline btn-sm">Redigera</button>
-            <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);">Ta bort</button>
-          </div>
-        </div>
-        
-      </div>
-      
-      <!-- Pagination -->
-      <div class="text-center" style="margin-top: var(--space-5);">
-        <div style="display: flex; gap: var(--space-2); justify-content: center; align-items: center; font-size: var(--text-sm); color: var(--color-text-muted);">
-          Visar 1-6 av 6 kattungar
+      <div id="kittens-table" class="admin-table">
+        <!-- Table will be populated by JavaScript -->
+        <div class="text-center" style="padding: var(--space-12);">
+          <p style="color: var(--color-text-muted);">Laddar kattungar...</p>
         </div>
       </div>
       
@@ -376,5 +253,6 @@
     
   </div>
 
+  <script src="admin.js"></script>
 </body>
 </html>

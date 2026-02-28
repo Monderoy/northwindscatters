@@ -8,167 +8,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    .admin-layout {
-      display: grid;
-      grid-template-columns: 250px 1fr;
-      min-height: 100vh;
-    }
-    
-    @media (max-width: 768px) {
-      .admin-layout {
-        grid-template-columns: 1fr;
-      }
-    }
-    
-    .admin-sidebar {
-      background-color: var(--color-primary);
-      color: var(--color-white);
-      padding: var(--space-6);
-    }
-    
-    .admin-brand {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-      margin-bottom: var(--space-8);
-    }
-    
-    .admin-brand-icon {
-      width: 40px;
-      height: 40px;
-      background-color: rgba(255,255,255,0.2);
-      border-radius: var(--radius-md);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-    }
-    
-    .admin-brand-text {
-      font-family: var(--font-heading);
-      font-size: var(--text-lg);
-    }
-    
-    .admin-nav {
-      list-style: none;
-    }
-    
-    .admin-nav-item {
-      margin-bottom: var(--space-2);
-    }
-    
-    .admin-nav-link {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-      padding: var(--space-3) var(--space-4);
-      border-radius: var(--radius-md);
-      color: rgba(255,255,255,0.8);
-      transition: all var(--transition-fast);
-      font-size: var(--text-sm);
-    }
-    
-    .admin-nav-link:hover,
-    .admin-nav-link.active {
-      background-color: rgba(255,255,255,0.1);
-      color: var(--color-white);
-    }
-    
-    .admin-content {
-      background-color: var(--color-neutral-light);
-      padding: var(--space-6);
-      overflow-x: auto;
-    }
-    
-    .admin-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: var(--space-6);
-      flex-wrap: wrap;
-      gap: var(--space-3);
-    }
-    
-    .admin-title {
-      font-size: var(--text-3xl);
-    }
-    
-    .admin-table {
-      background: var(--color-white);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm);
-      overflow: hidden;
-    }
-    
-    .table-header {
-      display: grid;
-      grid-template-columns: 60px 1fr 1fr 100px 100px 140px;
-      gap: var(--space-3);
-      padding: var(--space-4);
-      background-color: var(--color-neutral-base);
-      font-weight: 600;
-      font-size: var(--text-sm);
-      align-items: center;
-    }
-    
-    @media (max-width: 768px) {
-      .table-header {
-        grid-template-columns: 1fr;
-        display: none;
-      }
-    }
-    
-    .table-row {
-      display: grid;
-      grid-template-columns: 60px 1fr 1fr 100px 100px 140px;
-      gap: var(--space-3);
-      padding: var(--space-4);
-      border-bottom: 1px solid rgba(0,0,0,0.05);
-      align-items: center;
-    }
-    
-    @media (max-width: 768px) {
-      .table-row {
-        grid-template-columns: 1fr;
-        gap: var(--space-2);
-      }
-    }
-    
-    .table-row:last-child {
-      border-bottom: none;
-    }
-    
-    .table-row:hover {
-      background-color: rgba(0,0,0,0.02);
-    }
-    
-    .table-img {
-      width: 50px;
-      height: 50px;
-      border-radius: var(--radius-md);
-      object-fit: cover;
-    }
-    
-    .btn-sm {
-      padding: var(--space-1) var(--space-3);
-      font-size: var(--text-xs);
-    }
-    
-    .action-buttons {
-      display: flex;
-      gap: var(--space-2);
-    }
-    
-    @media (max-width: 768px) {
-      .action-buttons {
-        width: 100%;
-        justify-content: flex-start;
-      }
-    }
-  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body>
+<body data-page="cats">
   
   <div class="admin-layout">
     
@@ -230,146 +72,21 @@
       
       <div class="admin-header">
         <h1 class="admin-title">Hantera katter</h1>
-        <button class="btn btn-primary" onclick="alert('Öppna modal för att lägga till katt')">
+        <button class="btn btn-primary" onclick="Admin.openCatModal()">
           + Lägg till katt
         </button>
       </div>
       
       <!-- Filters -->
-      <div class="filters" style="margin-bottom: var(--space-5); justify-content: flex-start;">
-        <button class="filter-btn active">Alla (6)</button>
-        <button class="filter-btn">Avelshane (2)</button>
-        <button class="filter-btn">Aktiv hona (2)</button>
-        <button class="filter-btn">Pensionerad (1)</button>
-        <button class="filter-btn">Ängel (1)</button>
+      <div id="cats-filters" class="filters" style="margin-bottom: var(--space-5); justify-content: flex-start;">
+        <!-- Filters will be populated by JavaScript -->
       </div>
       
       <!-- Table -->
-      <div class="admin-table">
-        
-        <div class="table-header">
-          <span>Bild</span>
-          <span>Namn</span>
-          <span>Info</span>
-          <span>Ålder</span>
-          <span>Roll</span>
-          <span>Åtgärder</span>
-        </div>
-        
-        <div class="table-row">
-          <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=100&q=80" alt="Birk" class="table-img">
-          <div>
-            <strong>Birk</strong><br>
-            <span style="font-size: var(--text-sm); color: var(--color-text-muted);">NFO n 09 23</span>
-          </div>
-          <div style="font-size: var(--text-sm);">
-            Hankatt<br>
-            Brun tabby med vit
-          </div>
-          <div><strong>3 år</strong></div>
-          <div><span class="badge badge-male">Avelshane</span></div>
-          <div class="action-buttons">
-            <button class="btn btn-outline btn-sm">Redigera</button>
-            <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);">Ta bort</button>
-          </div>
-        </div>
-        
-        <div class="table-row">
-          <img src="https://images.unsplash.com/photo-1533743983669-94fa5c4338ec?w=100&q=80" alt="Saga" class="table-img">
-          <div>
-            <strong>Saga</strong><br>
-            <span style="font-size: var(--text-sm); color: var(--color-text-muted);">NFO ns 11</span>
-          </div>
-          <div style="font-size: var(--text-sm);">
-            Honkatt<br>
-            Svart silver tabby
-          </div>
-          <div><strong>4 år</strong></div>
-          <div><span class="badge badge-female">Aktiv hona</span></div>
-          <div class="action-buttons">
-            <button class="btn btn-outline btn-sm">Redigera</button>
-            <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);">Ta bort</button>
-          </div>
-        </div>
-        
-        <div class="table-row">
-          <img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=100&q=80" alt="Freya" class="table-img">
-          <div>
-            <strong>Freya</strong><br>
-            <span style="font-size: var(--text-sm); color: var(--color-text-muted);">NFO n 23</span>
-          </div>
-          <div style="font-size: var(--text-sm);">
-            Honkatt<br>
-            Brun tabby
-          </div>
-          <div><strong>2 år</strong></div>
-          <div><span class="badge badge-female">Aktiv hona</span></div>
-          <div class="action-buttons">
-            <button class="btn btn-outline btn-sm">Redigera</button>
-            <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);">Ta bort</button>
-          </div>
-        </div>
-        
-        <div class="table-row">
-          <img src="https://images.unsplash.com/photo-1571566882372-1598d88abd90?w=100&q=80" alt="Oden" class="table-img">
-          <div>
-            <strong>Oden</strong><br>
-            <span style="font-size: var(--text-sm); color: var(--color-text-muted);">NFO w 03</span>
-          </div>
-          <div style="font-size: var(--text-sm);">
-            Hankatt<br>
-            Vit
-          </div>
-          <div><strong>5 år</strong></div>
-          <div><span class="badge badge-male">Avelshane</span></div>
-          <div class="action-buttons">
-            <button class="btn btn-outline btn-sm">Redigera</button>
-            <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);">Ta bort</button>
-          </div>
-        </div>
-        
-        <div class="table-row">
-          <img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=100&q=80" alt="Saga Senior" class="table-img">
-          <div>
-            <strong>Saga Senior</strong><br>
-            <span style="font-size: var(--text-sm); color: var(--color-text-muted);">NFO n 23</span>
-          </div>
-          <div style="font-size: var(--text-sm);">
-            Honkatt<br>
-            Brun tabby
-          </div>
-          <div><strong>9 år</strong></div>
-          <div><span class="badge badge-retired">Pensionerad</span></div>
-          <div class="action-buttons">
-            <button class="btn btn-outline btn-sm">Redigera</button>
-            <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);">Ta bort</button>
-          </div>
-        </div>
-        
-        <div class="table-row" style="opacity: 0.8;">
-          <img src="https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=100&q=80" alt="Lill-Skog" class="table-img">
-          <div>
-            <strong>Lill-Skog</strong><br>
-            <span style="font-size: var(--text-sm); color: var(--color-text-muted);">NFO n 23</span>
-          </div>
-          <div style="font-size: var(--text-sm);">
-            Honkatt<br>
-            Svart tabby
-          </div>
-          <div style="font-size: var(--text-sm); color: var(--color-text-muted);">2012-2023</div>
-          <div><span class="badge badge-angel">Ängel</span></div>
-          <div class="action-buttons">
-            <button class="btn btn-outline btn-sm">Redigera</button>
-            <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);">Ta bort</button>
-          </div>
-        </div>
-        
-      </div>
-      
-      <!-- Pagination -->
-      <div class="text-center" style="margin-top: var(--space-5);">
-        <div style="display: flex; gap: var(--space-2); justify-content: center; align-items: center; font-size: var(--text-sm); color: var(--color-text-muted);">
-          Visar 1-6 av 6 katter
+      <div id="cats-table" class="admin-table">
+        <!-- Table will be populated by JavaScript -->
+        <div class="text-center" style="padding: var(--space-12);">
+          <p style="color: var(--color-text-muted);">Laddar katter...</p>
         </div>
       </div>
       
@@ -377,5 +94,6 @@
     
   </div>
 
+  <script src="admin.js"></script>
 </body>
 </html>

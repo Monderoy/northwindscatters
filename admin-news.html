@@ -8,177 +8,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    .admin-layout {
-      display: grid;
-      grid-template-columns: 250px 1fr;
-      min-height: 100vh;
-    }
-    
-    @media (max-width: 768px) {
-      .admin-layout {
-        grid-template-columns: 1fr;
-      }
-    }
-    
-    .admin-sidebar {
-      background-color: var(--color-primary);
-      color: var(--color-white);
-      padding: var(--space-6);
-    }
-    
-    .admin-brand {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-      margin-bottom: var(--space-8);
-    }
-    
-    .admin-brand-icon {
-      width: 40px;
-      height: 40px;
-      background-color: rgba(255,255,255,0.2);
-      border-radius: var(--radius-md);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-    }
-    
-    .admin-brand-text {
-      font-family: var(--font-heading);
-      font-size: var(--text-lg);
-    }
-    
-    .admin-nav {
-      list-style: none;
-    }
-    
-    .admin-nav-item {
-      margin-bottom: var(--space-2);
-    }
-    
-    .admin-nav-link {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-      padding: var(--space-3) var(--space-4);
-      border-radius: var(--radius-md);
-      color: rgba(255,255,255,0.8);
-      transition: all var(--transition-fast);
-      font-size: var(--text-sm);
-    }
-    
-    .admin-nav-link:hover,
-    .admin-nav-link.active {
-      background-color: rgba(255,255,255,0.1);
-      color: var(--color-white);
-    }
-    
-    .admin-content {
-      background-color: var(--color-neutral-light);
-      padding: var(--space-6);
-      overflow-x: auto;
-    }
-    
-    .admin-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: var(--space-6);
-      flex-wrap: wrap;
-      gap: var(--space-3);
-    }
-    
-    .admin-title {
-      font-size: var(--text-3xl);
-    }
-    
-    .admin-table {
-      background: var(--color-white);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm);
-      overflow: hidden;
-    }
-    
-    .table-header {
-      display: grid;
-      grid-template-columns: 80px 1fr 120px 100px 100px;
-      gap: var(--space-3);
-      padding: var(--space-4);
-      background-color: var(--color-neutral-base);
-      font-weight: 600;
-      font-size: var(--text-sm);
-      align-items: center;
-    }
-    
-    @media (max-width: 768px) {
-      .table-header {
-        grid-template-columns: 1fr;
-        display: none;
-      }
-    }
-    
-    .table-row {
-      display: grid;
-      grid-template-columns: 80px 1fr 120px 100px 100px;
-      gap: var(--space-3);
-      padding: var(--space-4);
-      border-bottom: 1px solid rgba(0,0,0,0.05);
-      align-items: center;
-    }
-    
-    @media (max-width: 768px) {
-      .table-row {
-        grid-template-columns: 1fr;
-        gap: var(--space-2);
-      }
-    }
-    
-    .table-row:last-child {
-      border-bottom: none;
-    }
-    
-    .table-row:hover {
-      background-color: rgba(0,0,0,0.02);
-    }
-    
-    .table-img {
-      width: 60px;
-      height: 60px;
-      border-radius: var(--radius-md);
-      object-fit: cover;
-    }
-    
-    .btn-sm {
-      padding: var(--space-1) var(--space-3);
-      font-size: var(--text-xs);
-    }
-    
-    .action-buttons {
-      display: flex;
-      gap: var(--space-2);
-    }
-    
-    @media (max-width: 768px) {
-      .action-buttons {
-        width: 100%;
-        justify-content: flex-start;
-      }
-    }
-    
-    .status-draft {
-      background: #FEF3C7;
-      color: #92400E;
-    }
-    
-    .status-published {
-      background: #D1FAE5;
-      color: #065F46;
-    }
-  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body>
+<body data-page="news">
   
   <div class="admin-layout">
     
@@ -240,134 +72,16 @@
       
       <div class="admin-header">
         <h1 class="admin-title">Hantera nyheter</h1>
-        <button class="btn btn-primary" onclick="alert('Öppna modal för att skapa nyhet')">
-          + Skapa nyhet
+        <button class="btn btn-primary" onclick="Admin.openNewsModal()">
+          + Skriv nyhet
         </button>
       </div>
       
-      <!-- Filters -->
-      <div class="filters" style="margin-bottom: var(--space-5); justify-content: flex-start;">
-        <button class="filter-btn active">Alla (6)</button>
-        <button class="filter-btn">Publicerad (5)</button>
-        <button class="filter-btn">Utkast (1)</button>
-      </div>
-      
       <!-- Table -->
-      <div class="admin-table">
-        
-        <div class="table-header">
-          <span>Bild</span>
-          <span>Titel</span>
-          <span>Kategori</span>
-          <span>Datum</span>
-          <span>Åtgärder</span>
-        </div>
-        
-        <div class="table-row">
-          <img src="https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=100&q=80" alt="Ny kull" class="table-img">
-          <div>
-            <strong>Ny kull född!</strong><br>
-            <span style="font-size: var(--text-sm); color: var(--color-text-muted);">Vi är stolta att meddela att Saga har fått...</span>
-          </div>
-          <div><span class="badge" style="background: var(--color-accent); color: white;">Ny kull</span></div>
-          <div style="font-size: var(--text-sm);">27 Feb 2025</div>
-          <div class="action-buttons">
-            <button class="btn btn-outline btn-sm">Redigera</button>
-            <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);">Ta bort</button>
-          </div>
-        </div>
-        
-        <div class="table-row">
-          <img src="https://images.unsplash.com/photo-1533743983669-94fa5c4338ec?w=100&q=80" alt="Utställning" class="table-img">
-          <div>
-            <strong>Framgångar på Stockholm Cat Show</strong><br>
-            <span style="font-size: var(--text-sm); color: var(--color-text-muted);">Birk tog hem EX1 och BIV...</span>
-          </div>
-          <div><span class="badge" style="background: var(--color-male); color: white;">Utställning</span></div>
-          <div style="font-size: var(--text-sm);">15 Feb 2025</div>
-          <div class="action-buttons">
-            <button class="btn btn-outline btn-sm">Redigera</button>
-            <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);">Ta bort</button>
-          </div>
-        </div>
-        
-        <div class="table-row">
-          <img src="https://images.unsplash.com/photo-1574158622682-e40e69881006?w=100&q=80" alt="Kattungar flyttar" class="table-img">
-          <div>
-           _DEL>Thor och Freja flyttar snart
-          </div>
-          <div><span class="badge status-published">Uppdatering</span></div>
-          <div style="font-size: var(--text-sm);">10 Feb 2025</div>
-          <div class="action-buttons">
-            <button class="btn btn-outline btn-sm">Redigera</button>
-            <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);">Ta bort</button>
-          </div>
-        </div>
-        
-        <div class="table-row">
-          <img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=100&q=80" alt="Hälsotester" class="table-img">
-          <div>
-            <strong>Årliga hälsotester klara</strong><br>
-            <span style="font-size: var(--text-sm); color: var(--color-text-muted);">Alla våra avelskatter har genomgått...</span>
-          </div>
-          <div><span class="badge" style="background: var(--color-neutral-base);">Hälsa</span></div>
-          <div style="font-size: var(--text-sm);">5 Feb 2025</div>
-          <div class="action-buttons">
-            <button class="btn btn-outline btn-sm">Redigera</button>
-            <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);">Ta bort</button>
-          </div>
-        </div>
-        
-        <div class="table-row">
-          <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=100&q=80" alt="Oden pensionerad" class="table-img">
-          <div>
-            <strong>Oden går i pension</strong><br>
-            <span style="font-size: var(--text-sm); color: var(--color-text-muted);">Efter 4 underbara år som avelshane...</span>
-          </div>
-          <div><span class="badge" style="background: var(--color-retired);">Pensionering</span></div>
-          <div style="font-size: var(--text-sm);">20 Jan 2025</div>
-          <div class="action-buttons">
-            <button class="btn btn-outline btn-sm">Redigera</button>
-            <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);">Ta bort</button>
-          </div>
-        </div>
-        
-        <div class="table-row">
-          <img src="https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=100&q=80" alt="Ny medlem" class="table-img">
-          <div>
-            <strong>Välkommen Freya!</strong><br>
-            <span style="font-size: var(--text-sm); color: var(--color-text-muted);">Vi är glada att välkomna Freya...</span>
-          </div>
-          <div><span class="badge" style="background: var(--color-female); color: white;">Ny katt</span></div>
-          <div style="font-size: var(--text-sm);">10 Jan 2025</div>
-          <div class="action-buttons">
-            <button class="btn btn-outline btn-sm">Redigera</button>
-            <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);">Ta bort</button>
-          </div>
-        </div>
-        
-        <div class="table-row" style="opacity: 0.6;">
-          <img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=100&q=80" alt="Utkast" class="table-img">
-          <div>
-            <strong style="color: var(--color-text-muted);">[Utkast] Kommande kull planer</strong><br>
-            <span style="font-size: var(--text-sm); color: var(--color-text-muted);">Ej publicerat än...</span>
-          </div>
-          <div><span class="badge status-draft">Utkast</span></div>
-          <div style="font-size: var(--text-sm);">1 Mar 2025</div>
-          <div class="action-buttons">
-            <button class="btn btn-outline btn-sm">Redigera</button>
-            <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);">Ta bort</button>
-          </div>
-        </div>
-        
-      </div>
-      
-      <!-- Pagination -->
-      <div class="text-center" style="margin-top: var(--space-5);">
-        <div style="display: flex; gap: var(--space-2); justify-content: center; align-items: center;">
-          <button class="btn btn-outline btn-sm" disabled style="opacity: 0.5;">← Föregående</button>
-          <span style="padding: 0 var(--space-3); font-size: var(--text-sm); color: var(--color-text-muted);">Sida 1 av 1</span>
-          <button class="btn btn-outline btn-sm" disabled style="opacity: 0.5;">Nästa →</button>
+      <div id="news-table" class="admin-table">
+        <!-- Table will be populated by JavaScript -->
+        <div class="text-center" style="padding: var(--space-12);">
+          <p style="color: var(--color-text-muted);">Laddar nyheter...</p>
         </div>
       </div>
       
@@ -375,5 +89,6 @@
     
   </div>
 
+  <script src="admin.js"></script>
 </body>
 </html>
