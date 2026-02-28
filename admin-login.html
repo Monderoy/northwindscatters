@@ -155,54 +155,56 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script>
-    const SUPABASE_URL = 'https://lsjzeubrhagoutqxlsoz.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxzanpldWJyaGFnb3V0cXhsc296Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyODQzODksImV4cCI6MjA4Nzg2MDM4OX0.BPkdOavlxXwsP7ubHpWqjGMOU_QpkiP5hl5XKK4IePg';
+    (function() {
+      const SUPABASE_URL = 'https://lsjzeubrhagoutqxlsoz.supabase.co';
+      const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxzanpldWJyaGFnb3V0cXhsc296Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyODQzODksImV4cCI6MjA4Nzg2MDM4OX0.BPkdOavlxXwsP7ubHpWqjGMOU_QpkiP5hl5XKK4IePg';
 
-    const { createClient } = window.supabase;
-    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      const { createClient } = window.supabase;
+      const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    document.getElementById('login-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
+      document.getElementById('login-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      const errorDiv = document.getElementById('error-message');
-      const successDiv = document.getElementById('success-message');
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const errorDiv = document.getElementById('error-message');
+        const successDiv = document.getElementById('success-message');
 
-      errorDiv.style.display = 'none';
-      successDiv.style.display = 'none';
+        errorDiv.style.display = 'none';
+        successDiv.style.display = 'none';
 
-      console.log('Försöker logga in:', email);
+        console.log('Försöker logga in:', email);
 
-      try {
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: email,
-          password: password
-        });
+        try {
+          const { data, error } = await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+          });
 
-        if (error) {
-          console.error('Inloggningsfel:', error);
-          errorDiv.textContent = 'Fel: ' + error.message;
+          if (error) {
+            console.error('Inloggningsfel:', error);
+            errorDiv.textContent = 'Fel: ' + error.message;
+            errorDiv.style.display = 'block';
+            return;
+          }
+
+          console.log('Inloggad:', data);
+          successDiv.textContent = 'Inloggad! Omdirigerar...';
+          successDiv.style.display = 'block';
+
+          localStorage.setItem('user', JSON.stringify(data.user));
+
+          setTimeout(() => {
+            window.location.href = 'admin-dashboard.html';
+          }, 1000);
+
+        } catch (err) {
+          console.error('Fel:', err);
+          errorDiv.textContent = 'Fel: ' + err.message;
           errorDiv.style.display = 'block';
-          return;
         }
-
-        console.log('Inloggad:', data);
-        successDiv.textContent = 'Inloggad! Omdirigerar...';
-        successDiv.style.display = 'block';
-
-        localStorage.setItem('user', JSON.stringify(data.user));
-
-        setTimeout(() => {
-          window.location.href = 'admin-dashboard.html';
-        }, 1000);
-
-      } catch (err) {
-        console.error('Fel:', err);
-        errorDiv.textContent = 'Fel: ' + err.message;
-        errorDiv.style.display = 'block';
-      }
-    });
+      });
+    })();
   </script>
 
 </body>
