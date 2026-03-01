@@ -410,7 +410,11 @@
             </div>
             <div class="form-group full-width">
               <label>Bild</label>
-              <div id="cat-image-uploader"></div>
+              <div id="cat-image-uploader">
+                <div class="text-center" style="padding: var(--space-4); color: var(--color-text-muted);">
+                  Laddar bilduppladdare...
+                </div>
+              </div>
             </div>
             <div class="form-group full-width">
               <label for="cat-description">Beskrivning</label>
@@ -460,8 +464,23 @@
     modal.style.display = 'flex';
     
     setTimeout(() => {
+      console.log('🔍 Checking if createImageUploader exists...');
+      console.log('window.createImageUploader:', typeof window.createImageUploader);
+      
       if (window.createImageUploader) {
-        createImageUploader('cat-image-uploader', 'image_url', cat?.image_url || '');
+        console.log('✅ createImageUploader found, initializing...');
+        try {
+          createImageUploader('cat-image-uploader', 'image_url', cat?.image_url || '');
+          console.log('✅ Image uploader initialized');
+        } catch (error) {
+          console.error('❌ Error initializing image uploader:', error);
+        }
+      } else {
+        console.error('❌ createImageUploader not found! image-upload.js may not be loaded');
+        const container = document.getElementById('cat-image-uploader');
+        if (container) {
+          container.innerHTML = '<p style="color: red; padding: var(--space-4);">⚠️ Bilduppladdare kunde inte laddas. Kontrollera att image-upload.js är inkluderad.</p>';
+        }
       }
     }, 100);
   };
