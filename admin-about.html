@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Om Oss | Admin - NorthWind Scatters</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body data-page="about">
+  
+  <div class="admin-layout">
+    
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-brand">
+        <div class="admin-brand-icon">N</div>
+        <span class="admin-brand-text">NorthWind</span>
+      </div>
+      
+      <nav>
+        <ul class="admin-nav">
+          <li class="admin-nav-item">
+            <a href="admin-dashboard.html" class="admin-nav-link">
+              📊 Dashboard
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-kittens.html" class="admin-nav-link">
+              🐱 Kattungar
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-cats.html" class="admin-nav-link">
+              🐾 Mina katter
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-news.html" class="admin-nav-link">
+              📰 Nyheter
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-gallery.html" class="admin-nav-link">
+              🖼️ Galleri
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-about.html" class="admin-nav-link active">
+              ℹ️ Om Oss
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-hero.html" class="admin-nav-link">
+              🖼️ Hero bild
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-settings.html" class="admin-nav-link">
+              ⚙️ Inställningar
+            </a>
+          </li>
+          <li class="admin-nav-item" style="margin-top: var(--space-8);">
+            <a href="index.html" class="admin-nav-link">
+              🌐 Visa sida
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-login.html" class="admin-nav-link">
+              🚪 Logga ut
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+    
+    <!-- Content -->
+    <main class="admin-content">
+      
+      <div class="admin-header">
+        <h1 class="admin-title">Om Oss</h1>
+      </div>
+      
+      <form id="about-form" onsubmit="Admin.saveAbout(event)">
+        
+        <div class="settings-card">
+          <h2 class="settings-title">Om uppfödningen</h2>
+          
+          <div class="form-group">
+            <label class="form-label">Rubrik</label>
+            <input type="text" name="about_title" class="form-input" value="Om NorthWind Scatters">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Huvudtext</label>
+            <textarea name="about_text" class="form-textarea" rows="6" placeholder="Berätta om er uppfödning..."></textarea>
+            <p class="form-hint">Detta visas på Om Oss-sidan</p>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Bild</label>
+            <div id="about-image-uploader"></div>
+          </div>
+        </div>
+        
+        <div class="settings-card">
+          <h2 class="settings-title">Vår filosofi</h2>
+          
+          <div class="form-group">
+            <label class="form-label">Rubrik</label>
+            <input type="text" name="philosophy_title" class="form-input" value="Vår Filosofi">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Text</label>
+            <textarea name="philosophy_text" class="form-textarea" rows="4" placeholder="Berätta om er filosofi..."></textarea>
+          </div>
+        </div>
+        
+        <div class="settings-card">
+          <h2 class="settings-title">Erfarenhet</h2>
+          
+          <div class="form-group">
+            <label class="form-label">Antal år som uppfödare</label>
+            <input type="number" name="years_experience" class="form-input" value="10">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Antal kullar</label>
+            <input type="number" name="number_of_litters" class="form-input" value="15">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Medlemskap</label>
+            <textarea name="memberships" class="form-textarea" rows="3" placeholder="t.ex. SVERAK, FIFe..."></textarea>
+            <p class="form-hint">En per rad</p>
+          </div>
+        </div>
+        
+        <!-- Save Button -->
+        <div style="display: flex; gap: var(--space-3);">
+          <button type="submit" class="btn btn-primary">Spara</button>
+        </div>
+        
+      </form>
+      
+    </main>
+    
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="image-upload.js"></script>
+  <script src="admin.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Load about data
+      try {
+        const { data: settings, error } = await supabaseClient
+          .from('settings')
+          .select('*')
+          .in('key', ['about_title', 'about_text', 'about_image', 'philosophy_title', 'philosophy_text', 'years_experience', 'number_of_litters', 'memberships']);
+        
+        if (error) throw error;
+        
+        const settingsObj = {};
+        (settings || []).forEach(s => {
+          settingsObj[s.key] = s.value;
+        });
+        
+        // Populate form
+        const form = document.getElementById('about-form');
+        Object.keys(settingsObj).forEach(key => {
+          const field = form.querySelector(`[name="${key}"]`);
+          if (field) field.value = settingsObj[key];
+        });
+        
+        // Initialize image uploader
+        if (window.createImageUploader) {
+          createImageUploader('about-image-uploader', 'about_image', settingsObj.about_image || '');
+        }
+        
+      } catch (error) {
+        console.error('Error loading about data:', error);
+      }
+    });
+    
+    // Save about data
+    window.saveAbout = async function(event) {
+      event.preventDefault();
+      const form = event.target;
+      const formData = new FormData(form);
+      
+      try {
+        for (let [key, value] of formData.entries()) {
+          await supabaseClient
+            .from('settings')
+            .upsert({ key, value }, { onConflict: 'key' });
+        }
+        
+        // Save image from uploader
+        const aboutImage = getImageValue('about-image-uploader');
+        if (aboutImage) {
+          await supabaseClient
+            .from('settings')
+            .upsert({ key: 'about_image', value: aboutImage }, { onConflict: 'key' });
+        }
+        
+        showSuccess('Om oss uppdaterat!');
+      } catch (error) {
+        console.error('Error saving about:', error);
+        showError('Kunde inte spara: ' + error.message);
+      }
+    };
+  </script>
+  
+  <style>
+    .admin-layout {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      min-height: 100vh;
+    }
+    
+    @media (max-width: 768px) {
+      .admin-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .admin-sidebar {
+      background-color: var(--color-primary);
+      color: var(--color-white);
+      padding: var(--space-6);
+    }
+    
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-8);
+    }
+    
+    .admin-brand-icon {
+      width: 40px;
+      height: 40px;
+      background-color: rgba(255,255,255,0.2);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+    
+    .admin-brand-text {
+      font-family: var(--font-heading);
+      font-size: var(--text-lg);
+    }
+    
+    .admin-nav {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .admin-nav-item {
+      margin-bottom: var(--space-2);
+    }
+    
+    .admin-nav-link {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-md);
+      color: rgba(255,255,255,0.8);
+      transition: all var(--transition-fast);
+      font-size: var(--text-sm);
+      text-decoration: none;
+    }
+    
+    .admin-nav-link:hover,
+    .admin-nav-link.active {
+      background-color: rgba(255,255,255,0.1);
+      color: var(--color-white);
+    }
+    
+    .admin-content {
+      background-color: var(--color-neutral-light);
+      padding: var(--space-6);
+      overflow-x: auto;
+    }
+    
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-6);
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+    
+    .admin-title {
+      font-size: var(--text-3xl);
+    }
+    
+    .settings-card {
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      box-shadow: var(--shadow-md);
+      margin-bottom: var(--space-6);
+    }
+    
+    .settings-title {
+      font-size: var(--text-xl);
+      margin-bottom: var(--space-4);
+      padding-bottom: var(--space-3);
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+    
+    .form-hint {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      margin-top: var(--space-1);
+    }
+  </style>
+</body>
+</html>

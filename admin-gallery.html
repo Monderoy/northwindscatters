@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galleri | Admin - NorthWind Scatters</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body data-page="gallery">
+  
+  <div class="admin-layout">
+    
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-brand">
+        <div class="admin-brand-icon">N</div>
+        <span class="admin-brand-text">NorthWind</span>
+      </div>
+      
+      <nav>
+        <ul class="admin-nav">
+          <li class="admin-nav-item">
+            <a href="admin-dashboard.html" class="admin-nav-link">
+              📊 Dashboard
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-kittens.html" class="admin-nav-link">
+              🐱 Kattungar
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-cats.html" class="admin-nav-link">
+              🐾 Mina katter
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-news.html" class="admin-nav-link">
+              📰 Nyheter
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-gallery.html" class="admin-nav-link active">
+              🖼️ Galleri
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-about.html" class="admin-nav-link">
+              ℹ️ Om Oss
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-hero.html" class="admin-nav-link">
+              🖼️ Hero bild
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-settings.html" class="admin-nav-link">
+              ⚙️ Inställningar
+            </a>
+          </li>
+          <li class="admin-nav-item" style="margin-top: var(--space-8);">
+            <a href="index.html" class="admin-nav-link">
+              🌐 Visa sida
+            </a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-login.html" class="admin-nav-link">
+              🚪 Logga ut
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+    
+    <!-- Content -->
+    <main class="admin-content">
+      
+      <div class="admin-header">
+        <h1 class="admin-title">Galleri</h1>
+        <button class="btn btn-primary" onclick="Admin.openGalleryModal()">
+          + Lägg till bild
+        </button>
+      </div>
+      
+      <!-- Gallery Grid -->
+      <div id="gallery-grid" class="gallery-grid">
+        <div class="text-center" style="grid-column: 1 / -1; padding: var(--space-12);">
+          <p style="color: var(--color-text-muted);">Laddar galleri...</p>
+        </div>
+      </div>
+      
+    </main>
+    
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="image-upload.js"></script>
+  <script src="admin.js"></script>
+  <script>
+    // Load gallery images
+    async function loadGallery() {
+      try {
+        const container = document.getElementById('gallery-grid');
+        
+        const { data: images, error } = await supabaseClient
+          .from('gallery')
+          .select('*')
+          .order('created_at', { ascending: false });
+        
+        if (error) throw error;
+        
+        if (!images || images.length === 0) {
+          container.innerHTML = `
+            <div class="text-center" style="grid-column: 1 / -1; padding: var(--space-12);">
+              <p style="color: var(--color-text-muted);">Inga bilder i galleriet</p>
+              <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-top: var(--space-2);">Klicka på "+ Lägg till bild" för att börja!</p>
+            </div>
+          `;
+          return;
+        }
+        
+        const cards = images.map(img => `
+          <div class="gallery-card">
+            <img src="${img.image_url}" alt="${img.caption || 'Galleribild'}" class="gallery-image">
+            ${img.caption ? `<p class="gallery-caption">${img.caption}</p>` : ''}
+            <div class="gallery-actions">
+              <button class="btn btn-outline btn-sm" onclick="Admin.editGalleryImage('${img.id}')">Redigera</button>
+              <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);" onclick="Admin.deleteGalleryImage('${img.id}')">Ta bort</button>
+            </div>
+          </div>
+        `).join('');
+        
+        container.innerHTML = cards;
+        
+      } catch (error) {
+        console.error('Error loading gallery:', error);
+        showError('Kunde inte ladda galleri: ' + error.message);
+      }
+    }
+    
+    // Open gallery modal
+    window.openGalleryModal = function(image = null) {
+      const modal = document.createElement('div');
+      modal.id = 'gallery-modal';
+      modal.className = 'modal';
+      modal.innerHTML = `
+        <div class="modal-overlay" onclick="Admin.closeGalleryModal()"></div>
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>${image ? 'Redigera bild' : 'Lägg till bild'}</h2>
+            <button class="modal-close" onclick="Admin.closeGalleryModal()">&times;</button>
+          </div>
+          <form id="gallery-form" onsubmit="Admin.saveGalleryImage(event, ${image ? `'${image.id}'` : 'null'})">
+            <div class="form-group">
+              <label>Bild</label>
+              <div id="gallery-image-uploader"></div>
+            </div>
+            <div class="form-group">
+              <label for="gallery-caption">Bildtext (valfritt)</label>
+              <input type="text" id="gallery-caption" name="caption" value="${image?.caption || ''}" placeholder="t.ex. Luna som valp">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" onclick="Admin.closeGalleryModal()">Avbryt</button>
+              <button type="submit" class="btn btn-primary">${image ? 'Spara ändringar' : 'Lägg till'}</button>
+            </div>
+          </form>
+        </div>
+      `;
+      document.body.appendChild(modal);
+      modal.style.display = 'flex';
+      
+      setTimeout(() => {
+        if (window.createImageUploader) {
+          createImageUploader('gallery-image-uploader', 'image_url', image?.image_url || '');
+        }
+      }, 100);
+    };
+    
+    // Close gallery modal
+    window.closeGalleryModal = function() {
+      const modal = document.getElementById('gallery-modal');
+      if (modal) modal.remove();
+    };
+    
+    // Save gallery image
+    window.saveGalleryImage = async function(event, imageId) {
+      event.preventDefault();
+      const form = event.target;
+      const formData = new FormData(form);
+      
+      const imageData = {
+        image_url: getImageValue('gallery-image-uploader'),
+        caption: formData.get('caption') || null,
+      };
+      
+      if (!imageData.image_url) {
+        showError('Vänligen ladda upp en bild');
+        return;
+      }
+      
+      try {
+        let result;
+        if (imageId) {
+          result = await supabaseClient.from('gallery').update(imageData).eq('id', imageId);
+        } else {
+          result = await supabaseClient.from('gallery').insert([imageData]);
+        }
+        if (result.error) throw result.error;
+        showSuccess(imageId ? 'Bild uppdaterad!' : 'Bild tillagd!');
+        closeGalleryModal();
+        loadGallery();
+      } catch (error) {
+        console.error('Error saving gallery image:', error);
+        showError('Kunde inte spara: ' + error.message);
+      }
+    };
+    
+    // Edit gallery image
+    window.editGalleryImage = async function(imageId) {
+      try {
+        const { data: image, error } = await supabaseClient.from('gallery').select('*').eq('id', imageId).single();
+        if (error) throw error;
+        openGalleryModal(image);
+      } catch (error) {
+        console.error('Error loading image:', error);
+        showError('Kunde inte ladda bild: ' + error.message);
+      }
+    };
+    
+    // Delete gallery image
+    window.deleteGalleryImage = async function(imageId) {
+      if (!confirm('Är du säker på att du vill ta bort denna bild?')) return;
+      try {
+        const { error } = await supabaseClient.from('gallery').delete().eq('id', imageId);
+        if (error) throw error;
+        showSuccess('Bild borttagen!');
+        loadGallery();
+      } catch (error) {
+        console.error('Error deleting image:', error);
+        showError('Kunde inte ta bort: ' + error.message);
+      }
+    };
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', loadGallery);
+    
+    window.Admin = Object.assign(window.Admin || {}, {
+      openGalleryModal,
+      closeGalleryModal,
+      saveGalleryImage,
+      editGalleryImage,
+      deleteGalleryImage,
+    });
+  </script>
+  
+  <style>
+    .admin-layout {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      min-height: 100vh;
+    }
+    
+    @media (max-width: 768px) {
+      .admin-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .admin-sidebar {
+      background-color: var(--color-primary);
+      color: var(--color-white);
+      padding: var(--space-6);
+    }
+    
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-8);
+    }
+    
+    .admin-brand-icon {
+      width: 40px;
+      height: 40px;
+      background-color: rgba(255,255,255,0.2);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+    
+    .admin-brand-text {
+      font-family: var(--font-heading);
+      font-size: var(--text-lg);
+    }
+    
+    .admin-nav {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .admin-nav-item {
+      margin-bottom: var(--space-2);
+    }
+    
+    .admin-nav-link {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-md);
+      color: rgba(255,255,255,0.8);
+      transition: all var(--transition-fast);
+      font-size: var(--text-sm);
+      text-decoration: none;
+    }
+    
+    .admin-nav-link:hover,
+    .admin-nav-link.active {
+      background-color: rgba(255,255,255,0.1);
+      color: var(--color-white);
+    }
+    
+    .admin-content {
+      background-color: var(--color-neutral-light);
+      padding: var(--space-6);
+      overflow-x: auto;
+    }
+    
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-6);
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+    
+    .admin-title {
+      font-size: var(--text-3xl);
+    }
+    
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: var(--space-6);
+    }
+    
+    .gallery-card {
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+    
+    .gallery-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    
+    .gallery-caption {
+      padding: var(--space-3) var(--space-4);
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      margin: 0;
+    }
+    
+    .gallery-actions {
+      padding: var(--space-3) var(--space-4);
+      display: flex;
+      gap: var(--space-2);
+      border-top: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .modal-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+    }
+    
+    .modal-content {
+      position: relative;
+      background: var(--color-white);
+      border-radius: var(--radius-lg);
+      max-width: 600px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-xl);
+    }
+    
+    .modal-header {
+      padding: var(--space-6);
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .modal-header h2 {
+      margin: 0;
+    }
+    
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: var(--text-2xl);
+      cursor: pointer;
+      padding: 0;
+      color: var(--color-text-muted);
+    }
+    
+    .modal-content form {
+      padding: var(--space-6);
+    }
+    
+    .modal-footer {
+      display: flex;
+      gap: var(--space-3);
+      justify-content: flex-end;
+      margin-top: var(--space-6);
+      padding-top: var(--space-4);
+      border-top: 1px solid rgba(0,0,0,0.1);
+    }
+  </style>
+</body>
+</html>
