@@ -8,92 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    .admin-layout {
-      display: grid;
-      grid-template-columns: 250px 1fr;
-      min-height: 100vh;
-    }
-    
-    @media (max-width: 768px) {
-      .admin-layout {
-        grid-template-columns: 1fr;
-      }
-    }
-    
-    .admin-sidebar {
-      background-color: var(--color-primary);
-      color: var(--color-white);
-      padding: var(--space-6);
-    }
-    
-    .admin-brand {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-      margin-bottom: var(--space-8);
-    }
-    
-    .admin-brand-icon {
-      width: 40px;
-      height: 40px;
-      background-color: rgba(255,255,255,0.2);
-      border-radius: var(--radius-md);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-    }
-    
-    .admin-brand-text {
-      font-family: var(--font-heading);
-      font-size: var(--text-lg);
-    }
-    
-    .admin-nav {
-      list-style: none;
-    }
-    
-    .admin-nav-item {
-      margin-bottom: var(--space-2);
-    }
-    
-    .admin-nav-link {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-      padding: var(--space-3) var(--space-4);
-      border-radius: var(--radius-md);
-      color: rgba(255,255,255,0.8);
-      transition: all var(--transition-fast);
-      font-size: var(--text-sm);
-    }
-    
-    .admin-nav-link:hover,
-    .admin-nav-link.active {
-      background-color: rgba(255,255,255,0.1);
-      color: var(--color-white);
-    }
-    
-    .admin-content {
-      background-color: var(--color-neutral-light);
-      padding: var(--space-6);
-      overflow-x: auto;
-    }
-    
-    .admin-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: var(--space-6);
-      flex-wrap: wrap;
-      gap: var(--space-3);
-    }
-    
-    .admin-title {
-      font-size: var(--text-3xl);
-    }
-    
     .settings-card {
       background: var(--color-white);
       border-radius: var(--radius-lg);
@@ -107,43 +23,6 @@
       margin-bottom: var(--space-4);
       padding-bottom: var(--space-3);
       border-bottom: 1px solid rgba(0,0,0,0.1);
-    }
-    
-    .form-group {
-      margin-bottom: var(--space-5);
-    }
-    
-    .form-label {
-      display: block;
-      font-size: var(--text-sm);
-      font-weight: 600;
-      margin-bottom: var(--space-2);
-      color: var(--color-text);
-    }
-    
-    .form-input,
-    .form-textarea,
-    .form-select {
-      width: 100%;
-      padding: var(--space-3) var(--space-4);
-      font-size: var(--text-base);
-      font-family: var(--font-body);
-      border: 2px solid #E5E7EB;
-      border-radius: var(--radius-md);
-      transition: border-color var(--transition-fast);
-      background: var(--color-white);
-    }
-    
-    .form-input:focus,
-    .form-textarea:focus,
-    .form-select:focus {
-      outline: none;
-      border-color: var(--color-primary);
-    }
-    
-    .form-textarea {
-      min-height: 80px;
-      resize: vertical;
     }
     
     .form-hint {
@@ -228,7 +107,7 @@
     }
   </style>
 </head>
-<body>
+<body data-page="settings">
   
   <div class="admin-layout">
     
@@ -292,161 +171,126 @@
         <h1 class="admin-title">Inställningar</h1>
       </div>
       
-      <!-- General Settings -->
-      <div class="settings-card">
-        <h2 class="settings-title">Allmänna inställningar</h2>
+      <form id="settings-form" onsubmit="Admin.saveSettings(event)">
         
-        <div class="form-group">
-          <label class="form-label">Uppfödningsnamn</label>
-          <input type="text" class="form-input" value="NorthWind Scatters">
-        </div>
-        
-        <div class="form-row">
+        <!-- General Settings -->
+        <div class="settings-card">
+          <h2 class="settings-title">Allmänna inställningar</h2>
+          
           <div class="form-group">
-            <label class="form-label">E-post</label>
-            <input type="email" class="form-input" value="info@northwindscatters.se">
+            <label class="form-label">Uppfödningsnamn</label>
+            <input type="text" name="kennel_name" class="form-input" value="NorthWind Scatters">
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">E-post</label>
+              <input type="email" name="contact_email" class="form-input" value="info@northwindscatters.se">
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Telefon</label>
+              <input type="tel" name="contact_phone" class="form-input" value="+46 70 123 45 67">
+            </div>
           </div>
           
           <div class="form-group">
-            <label class="form-label">Telefon</label>
-            <input type="tel" class="form-input" value="+46 70 123 45 67">
+            <label class="form-label">Plats</label>
+            <input type="text" name="contact_address" class="form-input" value="Stockholm, Sverige">
+            <p class="form-hint">Visas på kontaktsidan och i footer</p>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Beskrivning (kort)</label>
+            <textarea name="kennel_description" class="form-textarea">Norsk Skogskatt uppfödning med kärlek och omsorg. Vi är en liten hemuppfödning belägen i Sverige som fokuserar på hälsa, temperament och rasstandard.</textarea>
+            <p class="form-hint">Används i footer och meta-beskrivningar</p>
           </div>
         </div>
         
-        <div class="form-group">
-          <label class="form-label">Plats</label>
-          <input type="text" class="form-input" value="Stockholm, Sverige">
-          <p class="form-hint">Visas på kontaktsidan och i footer</p>
-        </div>
-        
-        <div class="form-group">
-          <label class="form-label">Beskrivning (kort)</label>
-          <textarea class="form-textarea">Norsk Skogskatt uppfödning med kärlek och omsorg. Vi är en liten hemuppfödning belägen i Sverige som fokuserar på hälsa, temperament och rasstandard.</textarea>
-          <p class="form-hint">Används i footer och meta-beskrivningar</p>
-        </div>
-      </div>
-      
-      <!-- Language Settings -->
-      <div class="settings-card">
-        <h2 class="settings-title">Språkinställningar</h2>
-        
-        <div class="switch-container">
-          <div>
-            <div class="switch-label">Aktivera engelska</div>
-            <div class="switch-description">Visa språkbyte-knapp (SV/EN) på webbplatsen</div>
+        <!-- Hero Settings -->
+        <div class="settings-card">
+          <h2 class="settings-title">Hero-sektion (startsida)</h2>
+          
+          <div class="form-group">
+            <label class="form-label">Hero titel</label>
+            <input type="text" name="hero_title" class="form-input" value="NorthWind Scatters">
           </div>
-          <label class="switch">
-            <input type="checkbox" checked>
-            <span class="slider"></span>
-          </label>
-        </div>
-        
-        <div class="switch-container">
-          <div>
-            <div class="switch-label">Standardspråk</div>
-            <div class="switch-description">Välj vilket språk som ska visas först</div>
+          
+          <div class="form-group">
+            <label class="form-label">Hero undertext</label>
+            <textarea name="hero_subtitle" class="form-textarea">Norsk Skogskatt uppfödning med kärlek och omsorg i Sverige. Våra katter är vår familj.</textarea>
           </div>
-          <select class="form-select" style="width: auto;">
-            <option value="sv" selected>Svenska</option>
-            <option value="en">English</option>
-          </select>
-        </div>
-      </div>
-      
-      <!-- Display Settings -->
-      <div class="settings-card">
-        <h2 class="settings-title">Visningsinställningar</h2>
-        
-        <div class="switch-container">
-          <div>
-            <div class="switch-label">Visa priser</div>
-            <div class="switch-description">Visa priser på kattungar</div>
+          
+          <div class="form-group">
+            <label class="form-label">Hero bild URL</label>
+            <input type="url" name="hero_image_url" class="form-input" value="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=1920&q=80">
+            <p class="form-hint">URL till stor bild för hero-sektionen (1920x1080 rekommenderat)</p>
           </div>
-          <label class="switch">
-            <input type="checkbox" checked>
-            <span class="slider"></span>
-          </label>
         </div>
         
-        <div class="switch-container">
-          <div>
-            <div class="switch-label">Visa "Ängel"-katter</div>
-            <div class="switch-description">Visa avlidna katter i listan</div>
+        <!-- Social Media -->
+        <div class="settings-card">
+          <h2 class="settings-title">Sociala medier</h2>
+          
+          <div class="form-group">
+            <label class="form-label">Facebook URL</label>
+            <input type="url" name="facebook_url" class="form-input" placeholder="https://facebook.com/northwindscatters">
           </div>
-          <label class="switch">
-            <input type="checkbox" checked>
-            <span class="slider"></span>
-          </label>
-        </div>
-        
-        <div class="switch-container">
-          <div>
-            <div class="switch-label">Visa "Såld"-kattungar</div>
-            <div class="switch-description">Visa sålda kattungar i listan</div>
+          
+          <div class="form-group">
+            <label class="form-label">Instagram URL</label>
+            <input type="url" name="instagram_url" class="form-input" placeholder="https://instagram.com/northwindscatters">
           </div>
-          <label class="switch">
-            <input type="checkbox" checked>
-            <span class="slider"></span>
-          </label>
         </div>
         
-        <div class="form-group" style="margin-top: var(--space-4);">
-          <label class="form-label">Antal kattungar per sida</label>
-          <select class="form-select" style="width: auto;">
-            <option value="6" selected>6</option>
-            <option value="9">9</option>
-            <option value="12">12</option>
-            <option value="24">24</option>
-          </select>
-        </div>
-      </div>
-      
-      <!-- Contact Form Settings -->
-      <div class="settings-card">
-        <h2 class="settings-title">Kontaktformulär</h2>
-        
-        <div class="form-group">
-          <label class="form-label">E-post för kontaktformulär</label>
-          <input type="email" class="form-input" value="info@northwindscatters.se">
-          <p class="form-hint">Meddelanden från kontaktformuläret skickas hit</p>
+        <!-- Save Button -->
+        <div style="display: flex; gap: var(--space-3);">
+          <button type="submit" class="btn btn-primary">Spara inställningar</button>
+          <button type="button" class="btn btn-outline" onclick="if(confirm('Är du säker? Detta återställer alla inställningar till standard.')) { Admin.resetSettings(); }">Återställ standard</button>
         </div>
         
-        <div class="switch-container">
-          <div>
-            <div class="switch-label">Aktivera kontaktformulär</div>
-            <div class="switch-description">Tillåt besökare att skicka meddelanden</div>
-          </div>
-          <label class="switch">
-            <input type="checkbox" checked>
-            <span class="slider"></span>
-          </label>
-        </div>
-      </div>
-      
-      <!-- Social Media -->
-      <div class="settings-card">
-        <h2 class="settings-title">Sociala medier</h2>
-        
-        <div class="form-group">
-          <label class="form-label">Facebook URL</label>
-          <input type="url" class="form-input" placeholder="https://facebook.com/northwindscatters">
-        </div>
-        
-        <div class="form-group">
-          <label class="form-label">Instagram URL</label>
-          <input type="url" class="form-input" placeholder="https://instagram.com/northwindscatters">
-        </div>
-      </div>
-      
-      <!-- Save Button -->
-      <div style="display: flex; gap: var(--space-3);">
-        <button class="btn btn-primary" onclick="alert('Inställningar sparade!')">Spara inställningar</button>
-        <button class="btn btn-outline" onclick="alert('Återställd!')">Återställ standard</button>
-      </div>
+      </form>
       
     </main>
     
   </div>
 
+  <script src="admin.js"></script>
+  <script>
+    // Add reset settings function
+    window.resetSettings = async function() {
+      if (!confirm('Är du säker på att du vill återställa alla inställningar?')) {
+        return;
+      }
+      
+      try {
+        const defaultSettings = {
+          kennel_name: 'NorthWind Scatters',
+          contact_email: 'info@northwindscatters.se',
+          contact_phone: '+46 70 123 45 67',
+          contact_address: 'Stockholm, Sverige',
+          kennel_description: 'Norsk Skogskatt uppfödning med kärlek och omsorg.',
+          hero_title: 'NorthWind Scatters',
+          hero_subtitle: 'Norsk Skogskatt uppfödning med kärlek och omsorg i Sverige.',
+          hero_image_url: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=1920&q=80',
+          facebook_url: '',
+          instagram_url: '',
+        };
+        
+        for (const [key, value] of Object.entries(defaultSettings)) {
+          await supabaseClient
+            .from('settings')
+            .upsert({ key, value }, { onConflict: 'key' });
+        }
+        
+        alert('Inställningar återställda!');
+        location.reload();
+        
+      } catch (error) {
+        console.error('Error resetting settings:', error);
+        alert('Kunde inte återställa: ' + error.message);
+      }
+    };
+  </script>
 </body>
 </html>
