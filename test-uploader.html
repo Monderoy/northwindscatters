@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Image Uploader</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body style="padding: 40px; background: #f5f5f5;">
+  
+  <h1>🧪 Test: Image Uploader</h1>
+  
+  <div style="background: white; padding: 20px; border-radius: 8px; margin-top: 20px;">
+    <h2>Test 1: Kontrollera om script laddas</h2>
+    <p>Öppna Console (F12) och kolla:</p>
+    <ul>
+      <li>Finns det några fel?</li>
+      <li>Vad står det?</li>
+    </ul>
+  </div>
+  
+  <div style="background: white; padding: 20px; border-radius: 8px; margin-top: 20px;">
+    <h2>Test 2: Bilduppladdare ska visas här:</h2>
+    <div id="test-uploader" style="margin-top: 20px;">
+      <p style="color: #999;">Laddar...</p>
+    </div>
+  </div>
+  
+  <div style="background: white; padding: 20px; border-radius: 8px; margin-top: 20px;">
+    <h2>Test 3: Kontrollera funktionen</h2>
+    <button onclick="checkFunction()" class="btn btn-primary">Kontrollera createImageUploader</button>
+    <div id="result" style="margin-top: 10px;"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="image-upload.js"></script>
+  <script>
+    console.log('🧪 Test Page: Scripts loaded');
+    console.log('window.createImageUploader type:', typeof window.createImageUploader);
+    
+    // Test if function exists
+    window.checkFunction = function() {
+      const resultDiv = document.getElementById('result');
+      if (window.createImageUploader) {
+        resultDiv.innerHTML = '<p style="color: green; font-weight: bold;">✅ createImageUploader finns!</p>';
+        resultDiv.innerHTML += '<p>Typ: ' + typeof window.createImageUploader + '</p>';
+      } else {
+        resultDiv.innerHTML = '<p style="color: red; font-weight: bold;">❌ createImageUpdater SAKNAS!</p>';
+        resultDiv.innerHTML += '<p>image-upload.js laddades inte korrekt</p>';
+      }
+    };
+    
+    // Initialize uploader when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('🧪 Test Page: DOM loaded');
+      
+      setTimeout(function() {
+        console.log('🧪 Test Page: Trying to create image uploader...');
+        
+        if (window.createImageUploader) {
+          console.log('✅ Test Page: createImageUploader exists');
+          try {
+            createImageUploader('test-uploader', 'test_image', '');
+            console.log('✅ Test Page: Image uploader created');
+          } catch (error) {
+            console.error('❌ Test Page: Error creating uploader:', error);
+            document.getElementById('test-uploader').innerHTML = 
+              '<p style="color: red;">❌ Fel: ' + error.message + '</p>';
+          }
+        } else {
+          console.error('❌ Test Page: createImageUploader NOT FOUND');
+          document.getElementById('test-uploader').innerHTML = 
+            '<p style="color: red;">❌ createImageUploader saknas! image-upload.js laddades inte.</p>';
+        }
+      }, 100);
+    });
+  </script>
+  
+</body>
+</html>
