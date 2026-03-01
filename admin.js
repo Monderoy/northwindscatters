@@ -850,7 +850,12 @@
       // Convert array to object
       const settingsObj = {};
       (settings || []).forEach(s => {
-        settingsObj[s.key] = s.value;
+        // Handle JSONB value - extract string if it's a simple value
+        let value = s.value;
+        if (typeof value === 'object' && value !== null) {
+          value = JSON.stringify(value);
+        }
+        settingsObj[s.key] = value;
       });
       
       populateSettingsForm(settingsObj);
@@ -883,6 +888,13 @@
     if (contactEmail) contactEmail.value = settings.contact_email || '';
     if (contactPhone) contactPhone.value = settings.contact_phone || '';
     if (contactAddress) contactAddress.value = settings.contact_address || '';
+    
+    // Kennel info
+    const kennelName = form.querySelector('[name="kennel_name"]');
+    const kennelDesc = form.querySelector('[name="kennel_description"]');
+    
+    if (kennelName) kennelName.value = settings.kennel_name || '';
+    if (kennelDesc) kennelDesc.value = settings.kennel_description || '';
 
     // Social media
     const facebook = form.querySelector('[name="facebook_url"]');
@@ -902,7 +914,11 @@
     const settingsToUpdate = [];
     
     for (let [key, value] of formData.entries()) {
-      settingsToUpdate.push({ key, value });
+      // Convert to JSONB format that Supabase expects
+      settingsToUpdate.push({ 
+        key, 
+        value: value  // Keep as string, Supabase will handle conversion
+      });
     }
 
     try {
@@ -910,11 +926,15 @@
       
       // Update each setting
       for (const setting of settingsToUpdate) {
-        const { error } = await supabaseClient
+        const { data, error } = await supabaseClient
           .from('settings')
-          .upsert(setting, { onConflict: 'key' });
+          .upsert(setting, { onConflict: 'key' })
+          .select();
         
-        if (error) throw error;
+        if (error) {
+          console.error('Error saving setting:', key, error);
+          throw error;
+        }
       }
       
       showSuccess('Inställningar sparade!');
