@@ -8,210 +8,69 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    .admin-layout {
-      display: grid;
-      grid-template-columns: 250px 1fr;
-      min-height: 100vh;
-    }
-    
-    @media (max-width: 768px) {
-      .admin-layout {
-        grid-template-columns: 1fr;
-      }
-    }
-    
-    .admin-sidebar {
-      background-color: var(--color-primary);
-      color: var(--color-white);
-      padding: var(--space-6);
-    }
-    
-    .admin-brand {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-      margin-bottom: var(--space-8);
-    }
-    
-    .admin-brand-icon {
-      width: 40px;
-      height: 40px;
-      background-color: rgba(255,255,255,0.2);
-      border-radius: var(--radius-md);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-    }
-    
-    .admin-brand-text {
-      font-family: var(--font-heading);
-      font-size: var(--text-lg);
-    }
-    
-    .admin-nav {
-      list-style: none;
-    }
-    
-    .admin-nav-item {
-      margin-bottom: var(--space-2);
-    }
-    
-    .admin-nav-link {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-      padding: var(--space-3) var(--space-4);
-      border-radius: var(--radius-md);
-      color: rgba(255,255,255,0.8);
-      transition: all var(--transition-fast);
-      font-size: var(--text-sm);
-    }
-    
-    .admin-nav-link:hover,
-    .admin-nav-link.active {
-      background-color: rgba(255,255,255,0.1);
-      color: var(--color-white);
-    }
-    
-    .admin-content {
-      background-color: var(--color-neutral-light);
-      padding: var(--space-6);
-      overflow-x: auto;
-    }
-    
-    .admin-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: var(--space-6);
-      flex-wrap: wrap;
-      gap: var(--space-3);
-    }
-    
-    .admin-title {
-      font-size: var(--text-3xl);
-    }
-    
     .form-card {
       background: var(--color-white);
       border-radius: var(--radius-lg);
       padding: var(--space-6);
       box-shadow: var(--shadow-md);
-      max-width: 800px;
+      margin-bottom: var(--space-6);
     }
-    
-    .form-group {
-      margin-bottom: var(--space-5);
+
+    .form-card-title {
+      font-size: var(--text-xl);
+      margin-bottom: var(--space-4);
+      padding-bottom: var(--space-3);
+      border-bottom: 1px solid rgba(0,0,0,0.1);
     }
-    
-    .form-label {
-      display: block;
-      font-size: var(--text-sm);
-      font-weight: 600;
-      margin-bottom: var(--space-2);
-      color: var(--color-text);
-    }
-    
-    .form-input,
-    .form-textarea {
-      width: 100%;
-      padding: var(--space-3) var(--space-4);
-      font-size: var(--text-base);
-      font-family: var(--font-body);
-      border: 2px solid #E5E7EB;
-      border-radius: var(--radius-md);
-      transition: border-color var(--transition-fast);
+
+    .preview-card {
       background: var(--color-white);
-    }
-    
-    .form-input:focus,
-    .form-textarea:focus {
-      outline: none;
-      border-color: var(--color-primary);
-    }
-    
-    .form-textarea {
-      min-height: 100px;
-      resize: vertical;
-    }
-    
-    .file-upload {
-      border: 2px dashed #E5E7EB;
       border-radius: var(--radius-lg);
-      padding: var(--space-8);
-      text-align: center;
-      cursor: pointer;
-      transition: all var(--transition-fast);
-      background: var(--color-neutral-light);
+      padding: var(--space-6);
+      box-shadow: var(--shadow-md);
+      margin-bottom: var(--space-6);
     }
-    
-    .file-upload:hover {
-      border-color: var(--color-primary);
-      background: var(--color-neutral-base);
-    }
-    
-    .file-upload-icon {
-      font-size: 3rem;
-      margin-bottom: var(--space-3);
-    }
-    
-    .file-upload-text {
-      font-size: var(--text-base);
-      color: var(--color-text);
-      margin-bottom: var(--space-2);
-    }
-    
-    .file-upload-hint {
-      font-size: var(--text-sm);
-      color: var(--color-text-muted);
-    }
-    
-    .preview-section {
-      margin-top: var(--space-6);
-      padding-top: var(--space-6);
-      border-top: 1px solid rgba(0,0,0,0.1);
-    }
-    
+
     .preview-title {
       font-size: var(--text-lg);
       margin-bottom: var(--space-4);
     }
-    
+
     .preview-image {
       width: 100%;
-      max-width: 600px;
+      max-height: 400px;
+      object-fit: cover;
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-md);
     }
-    
+
     .info-box {
-      background: var(--color-neutral-base);
+      background: #EFF6FF;
+      border-left: 4px solid var(--color-primary);
       padding: var(--space-4);
       border-radius: var(--radius-md);
       margin-top: var(--space-4);
-      border-left: 4px solid var(--color-primary);
     }
-    
+
     .info-box h4 {
-      font-size: var(--text-sm);
-      margin-bottom: var(--space-2);
+      margin: 0 0 var(--space-2) 0;
+      color: var(--color-primary);
     }
-    
+
     .info-box ul {
       margin: 0;
-      padding-left: var(--space-4);
-      font-size: var(--text-sm);
-      color: var(--color-text-muted);
+      padding-left: var(--space-5);
     }
-    
+
     .info-box li {
       margin-bottom: var(--space-1);
+      font-size: var(--text-sm);
     }
   </style>
 </head>
-<body>
+<body data-page="hero">
   
   <div class="admin-layout">
     
@@ -273,77 +132,191 @@
       
       <div class="admin-header">
         <h1 class="admin-title">Hero bild</h1>
-        <a href="index.html" class="btn btn-outline">Visa på startsidan</a>
       </div>
-      
-      <div class="form-card">
+
+      <form id="hero-form" onsubmit="saveHeroSettings(event)">
         
-        <div class="form-group">
-          <label class="form-label">Nuvarande hero bild</label>
-          <div style="background: #000; border-radius: var(--radius-md); overflow: hidden; margin-bottom: var(--space-3);">
-            <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=800&q=80" alt="Nuvarande hero" style="width: 100%; display: block;">
+        <!-- Current Preview -->
+        <div class="preview-card">
+          <h3 class="preview-title">Nuvarande hero</h3>
+          <img id="hero-preview" src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=1920&q=80" alt="Hero preview" class="preview-image">
+        </div>
+        
+        <!-- Hero Settings -->
+        <div class="form-card">
+          <h2 class="form-card-title">Hero inställningar</h2>
+          
+          <div class="form-group">
+            <label class="form-label">Titel</label>
+            <input type="text" name="hero_title" id="hero-title" class="form-input" value="NorthWind Scatters">
+            <p class="form-hint">Stora rubriken på startsidan</p>
           </div>
-          <p style="font-size: var(--text-sm); color: var(--color-text-muted);">
-            Uppladdad: 2025-02-27
-          </p>
-        </div>
-        
-        <div class="form-group">
-          <label class="form-label">Ladda upp ny bild</label>
-          <div class="file-upload" onclick="document.getElementById('file-input').click()">
-            <div class="file-upload-icon">📤</div>
-            <div class="file-upload-text">Klicka för att välja bild</div>
-            <div class="file-upload-hint">eller dra och släpp här</div>
+          
+          <div class="form-group">
+            <label class="form-label">Undertext</label>
+            <textarea name="hero_subtitle" id="hero-subtitle" class="form-textarea" rows="3">Norsk Skogskatt uppfödning med kärlek och omsorg i Sverige. Våra katter är vår familj.</textarea>
+            <p class="form-hint">Beskrivande text under titeln</p>
           </div>
-          <input type="file" id="file-input" accept="image/*" style="display: none;">
+          
+          <div class="form-group">
+            <label class="form-label">Bild URL</label>
+            <input type="url" name="hero_image_url" id="hero-image-url" class="form-input" value="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=1920&q=80" oninput="updatePreview()">
+            <p class="form-hint">Direktlänk till bild (1920x1080 rekommenderat)</p>
+          </div>
+          
+          <!-- Save Buttons -->
+          <div style="display: flex; gap: var(--space-3);">
+            <button type="submit" class="btn btn-primary">Spara ändringar</button>
+            <button type="button" class="btn btn-outline" onclick="resetHero()">Återställ</button>
+          </div>
+          
+          <!-- Tips -->
+          <div class="info-box">
+            <h4>💡 Tips för bäst resultat</h4>
+            <ul>
+              <li>Använd högupplösta bilder (minst 1920x1080)</li>
+              <li>Välj bilder med bra kontrast för text</li>
+              <li>Undvik för ljusa eller mörka bilder</li>
+              <li>Bästa format: JPG eller PNG</li>
+              <li>Optimera bilden för webb innan uppladdning</li>
+            </ul>
+          </div>
         </div>
         
-        <div class="form-group">
-          <label class="form-label">Alt-text (beskrivning för sökmotorer)</label>
-          <input type="text" class="form-input" value="Vacker Norsk Skogskatt" placeholder="Beskriv bilden kortfattat">
-        </div>
-        
-        <div class="form-group">
-          <label class="form-label">Hero titel</label>
-          <input type="text" class="form-input" value="NorthWind Scatters" placeholder="Huvudrubrik på hero">
-        </div>
-        
-        <div class="form-group">
-          <label class="form-label">Hero undertext</label>
-          <textarea class="form-textarea" placeholder="Kort beskrivning under huvudrubriken">Norsk Skogskatt uppfödning med kärlek och omsorg i Sverige. Våra katter är vår familj.</textarea>
-        </div>
-        
-        <div class="form-group">
-          <label class="form-label">CTA-knapp text</label>
-          <input type="text" class="form-input" value="Se kattungar" placeholder="Text på knappen">
-        </div>
-        
-        <div class="form-group">
-          <label class="form-label">CTA-knapp länk</label>
-          <input type="text" class="form-input" value="kittens.html" placeholder="Sida eller URL knappen ska leda till">
-        </div>
-        
-        <div style="display: flex; gap: var(--space-3); margin-top: var(--space-6);">
-          <button class="btn btn-primary" onclick="alert('Bild uppdaterad!')">Spara ändringar</button>
-          <button class="btn btn-outline" onclick="alert('Återställd till standard')">Återställ</button>
-        </div>
-        
-        <div class="info-box">
-          <h4>💡 Tips för bäst resultat</h4>
-          <ul>
-            <li>Använd högupplösta bilder (minst 1920x1080 pixlar)</li>
-            <li>Optimalt format: Landskap/bred bild</li>
-            <li>Komprimera bilden för snabbare laddning (max 500KB)</li>
-            <li>Se till att katten syns tydligt i mitten av bilden</li>
-            <li>Använd ljusa, tydliga bilder för bäst kontrast mot text</li>
-          </ul>
-        </div>
-        
-      </div>
+      </form>
       
     </main>
     
   </div>
 
+  <script src="admin.js"></script>
+  <script>
+    // Update preview in real-time
+    function updatePreview() {
+      const imageUrl = document.getElementById('hero-image-url').value;
+      const preview = document.getElementById('hero-preview');
+      if (imageUrl && preview) {
+        preview.src = imageUrl;
+      }
+    }
+
+    // Load hero settings from database
+    async function loadHeroSettings() {
+      try {
+        const { data: settings, error } = await supabaseClient
+          .from('settings')
+          .select('*')
+          .in('key', ['hero_title', 'hero_subtitle', 'hero_image_url']);
+
+        if (error) throw error;
+
+        // Populate fields
+        settings.forEach(setting => {
+          const field = document.getElementById(setting.key.replace('hero_', 'hero-').replace('_url', '-url'));
+          if (field) {
+            let value = setting.value;
+            if (typeof value === 'object') {
+              value = JSON.stringify(value);
+            }
+            field.value = value;
+          }
+        });
+
+        // Update preview
+        updatePreview();
+        
+      } catch (error) {
+        console.error('Error loading hero settings:', error);
+      }
+    }
+
+    // Save hero settings
+    async function saveHeroSettings(event) {
+      event.preventDefault();
+      
+      const form = event.target;
+      const formData = new FormData(form);
+      
+      const settingsToUpdate = [];
+      
+      for (let [key, value] of formData.entries()) {
+        settingsToUpdate.push({ key, value });
+      }
+
+      try {
+        // Show loading state
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Sparar...';
+        submitBtn.disabled = true;
+
+        // Update each setting
+        for (const setting of settingsToUpdate) {
+          const { error } = await supabaseClient
+            .from('settings')
+            .upsert(setting, { onConflict: 'key' });
+          
+          if (error) throw error;
+        }
+        
+        // Show success
+        if (window.showSuccess) {
+          showSuccess('Hero inställningar sparade!');
+        } else {
+          alert('Hero inställningar sparade!');
+        }
+        
+        // Reset button
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+        
+      } catch (error) {
+        console.error('Error saving hero settings:', error);
+        
+        // Show error
+        if (window.showError) {
+          showError('Kunde inte spara: ' + error.message);
+        } else {
+          alert('Kunde inte spara: ' + error.message);
+        }
+        
+        // Reset button
+        const submitBtn = form.querySelector('button[type="submit"]');
+        submitBtn.textContent = 'Spara ändringar';
+        submitBtn.disabled = false;
+      }
+    }
+
+    // Reset to default
+    async function resetHero() {
+      if (!confirm('Återställ hero till standard?')) {
+        return;
+      }
+
+      const defaults = {
+        hero_title: 'NorthWind Scatters',
+        hero_subtitle: 'Norsk Skogskatt uppfödning med kärlek och omsorg i Sverige.',
+        hero_image_url: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=1920&q=80'
+      };
+
+      try {
+        for (const [key, value] of Object.entries(defaults)) {
+          await supabaseClient
+            .from('settings')
+            .upsert({ key, value }, { onConflict: 'key' });
+        }
+
+        alert('Hero återställd!');
+        location.reload();
+        
+      } catch (error) {
+        console.error('Error resetting hero:', error);
+        alert('Kunde inte återställa: ' + error.message);
+      }
+    }
+
+    // Load on page load
+    document.addEventListener('DOMContentLoaded', loadHeroSettings);
+  </script>
 </body>
 </html>
