@@ -733,13 +733,33 @@
       if (field) field.value = fields[key];
     });
 
-    // Hero image uploader
-    if (window.createImageUploader) {
-      const heroImageContainer = document.getElementById('hero-image-uploader');
-      if (heroImageContainer) {
-        createImageUploader('hero-image-uploader', 'hero_image_url', settings.hero_image_url || '');
+    // Hero image uploader with better error handling
+    console.log('🔍 Settings: Checking if createImageUploader exists...');
+    console.log('window.createImageUploader:', typeof window.createImageUploader);
+    
+    setTimeout(() => {
+      if (window.createImageUploader) {
+        console.log('✅ Settings: Initializing hero image uploader...');
+        const heroImageContainer = document.getElementById('hero-image-uploader');
+        if (heroImageContainer) {
+          try {
+            createImageUploader('hero-image-uploader', 'hero_image_url', settings.hero_image_url || '');
+            console.log('✅ Settings: Hero image uploader initialized successfully');
+          } catch (error) {
+            console.error('❌ Settings: Error initializing image uploader:', error);
+            heroImageContainer.innerHTML = '<p style="color: red; padding: var(--space-4);">⚠️ Kunde inte ladda bilduppladdare</p>';
+          }
+        } else {
+          console.error('❌ Settings: hero-image-uploader container not found!');
+        }
+      } else {
+        console.error('❌ Settings: createImageUploader not found! image-upload.js may not be loaded');
+        const heroImageContainer = document.getElementById('hero-image-uploader');
+        if (heroImageContainer) {
+          heroImageContainer.innerHTML = '<p style="color: red; padding: var(--space-4);">⚠️ Bilduppladdare kunde inte laddas. Ladda om sidan.</p>';
+        }
       }
-    }
+    }, 200); // Wait 200ms for scripts to load
   }
 
   window.saveSettings = async function(event) {
