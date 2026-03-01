@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body data-page="index">
   
   <!-- Navigation -->
   <nav class="nav">
@@ -89,35 +89,10 @@
         <p class="section-subtitle">Möt våra nuvarande kull av underbara Norsk Skogskatt-kattungar som söker sina forever homes.</p>
       </div>
       
-      <div class="grid grid-3">
-        <div class="card">
-          <img src="https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=600&q=80" alt="Luna" class="card-image">
-          <div class="card-body">
-            <span class="badge badge-sale">Till salu</span>
-            <h3 class="card-title">Luna</h3>
-            <p class="card-text">Honkatt • 12 veckor • Brun tabby</p>
-            <a href="kitten-detail.html" class="btn btn-outline" style="margin-top: var(--space-3); width: 100%;">Läs mer</a>
-          </div>
-        </div>
-        
-        <div class="card">
-          <img src="https://images.unsplash.com/photo-1574158622682-e40e69881006?w=600&q=80" alt="Thor" class="card-image">
-          <div class="card-body">
-            <span class="badge badge-reserved">Tingad</span>
-            <h3 class="card-title">Thor</h3>
-            <p class="card-text">Hankatt • 12 veckor • Svart tabby</p>
-            <a href="kitten-detail.html" class="btn btn-outline" style="margin-top: var(--space-3); width: 100%;">Läs mer</a>
-          </div>
-        </div>
-        
-        <div class="card">
-          <img src="https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=600&q=80" alt="Freja" class="card-image">
-          <div class="card-body">
-            <span class="badge badge-sale">Till salu</span>
-            <h3 class="card-title">Freja</h3>
-            <p class="card-text">Honkatt • 12 veckor • Vit och svart</p>
-            <a href="kitten-detail.html" class="btn btn-outline" style="margin-top: var(--space-3); width: 100%;">Läs mer</a>
-          </div>
+      <!-- Dynamic kittens from database -->
+      <div id="featured-kittens" class="grid grid-3">
+        <div class="text-center" style="grid-column: 1 / -1; padding: var(--space-12);">
+          <p style="color: var(--color-text-muted);">Laddar kattungar...</p>
         </div>
       </div>
       
@@ -135,25 +110,10 @@
         <p class="section-subtitle">Möt våra älskade avelskatter som är grunden för vår uppfödning.</p>
       </div>
       
-      <div class="grid grid-2" style="max-width: 900px; margin: 0 auto;">
-        <div class="card">
-          <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=600&q=80" alt="Birk" class="card-image">
-          <div class="card-body">
-            <span class="badge badge-male">Avelshane</span>
-            <h3 class="card-title">Birk</h3>
-            <p class="card-text">3 år • Brun tabby med vit</p>
-            <a href="cat-detail.html" class="btn btn-outline" style="margin-top: var(--space-3); width: 100%;">Läs mer</a>
-          </div>
-        </div>
-        
-        <div class="card">
-          <img src="https://images.unsplash.com/photo-1533743983669-94fa5c4338ec?w=600&q=80" alt="Saga" class="card-image">
-          <div class="card-body">
-            <span class="badge badge-female">Aktiv hona</span>
-            <h3 class="card-title">Saga</h3>
-            <p class="card-text">4 år • Svart silver tabby</p>
-            <a href="cat-detail.html" class="btn btn-outline" style="margin-top: var(--space-3); width: 100%;">Läs mer</a>
-          </div>
+      <!-- Dynamic cats from database -->
+      <div id="featured-cats" class="grid grid-2" style="max-width: 900px; margin: 0 auto;">
+        <div class="text-center" style="grid-column: 1 / -1; padding: var(--space-12);">
+          <p style="color: var(--color-text-muted);">Laddar katter...</p>
         </div>
       </div>
       
@@ -164,12 +124,10 @@
   </section>
 
   <!-- CTA Section -->
-  <section class="section" style="background-color: var(--color-primary); color: white;">
-    <div class="container text-center">
-      <h2 style="color: white; margin-bottom: var(--space-4);">Intresserad av en kattunge?</h2>
-      <p style="font-size: var(--text-lg); max-width: 600px; margin: 0 auto var(--space-6); opacity: 0.95;">
-        Kontakta oss för att lära dig mer om våra katter, kommande kullar, eller för att boka ett besök.
-      </p>
+  <section class="cta-section">
+    <div class="container">
+      <h2 class="cta-title">Intresserad av en kattunge?</h2>
+      <p class="cta-subtitle">Kontakta oss för mer information om tillgängliga kattungar eller kommande kullar.</p>
       <a href="contact.html" class="btn btn-accent">Kontakta oss</a>
     </div>
   </section>
@@ -178,46 +136,167 @@
   <footer class="footer">
     <div class="container">
       <div class="footer-grid">
-        <div class="footer-brand">
+        <div class="footer-section">
           <h3>NorthWind Scatters</h3>
-          <p>Norsk Skogskatt uppfödning med kärlek och omsorg. Vi är en liten hemuppfödning belägen i Sverige som fokuserar på hälsa, temperament och rasstandard.</p>
+          <p style="color: rgba(255,255,255,0.8); font-size: var(--text-sm); line-height: 1.6;">
+            Norsk Skogskatt uppfödning med kärlek och omsorg i Sverige.
+          </p>
         </div>
         
-        <div>
-          <h4 class="footer-title">Navigation</h4>
-          <ul class="footer-links">
-            <li><a href="kittens.html">Kattungar</a></li>
-            <li><a href="cats.html">Mina katter</a></li>
-            <li><a href="about.html">Om oss</a></li>
-            <li><a href="gallery.html">Galleri</a></li>
-          </ul>
+        <div class="footer-section">
+          <h3>Kontakt</h3>
+          <a href="mailto:info@northwindscatters.se" class="footer-link">info@northwindscatters.se</a>
+          <a href="tel:+46701234567" class="footer-link">+46 70 123 45 67</a>
+          <p class="footer-link" style="cursor: default;">Trelleborg, Sverige</p>
         </div>
         
-        <div>
-          <h4 class="footer-title">Information</h4>
-          <ul class="footer-links">
-            <li><a href="news.html">Nyheter</a></li>
-            <li><a href="contact.html">Kontakt</a></li>
-            <li><a href="#">Intresseanmälan</a></li>
-            <li><a href="#">FAQ</a></li>
-          </ul>
-        </div>
-        
-        <div>
-          <h4 class="footer-title">Kontakt</h4>
-          <ul class="footer-links">
-            <li>📧 info@northwindscatters.se</li>
-            <li>📱 +46 70 123 45 67</li>
-            <li>📍 Sverige</li>
-          </ul>
+        <div class="footer-section">
+          <h3>Länkar</h3>
+          <a href="about.html" class="footer-link">Om oss</a>
+          <a href="kittens.html" class="footer-link">Kattungar</a>
+          <a href="contact.html" class="footer-link">Kontakt</a>
         </div>
       </div>
       
       <div class="footer-bottom">
-        <p>&copy; 2025 NorthWind Scatters. Alla rättigheter förbehållna.</p>
+        <p>&copy; 2024 NorthWind Scatters. Alla rättigheter förbehållna.</p>
       </div>
     </div>
   </footer>
 
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // Load featured kittens and cats on index page
+    (function() {
+      const SUPABASE_URL = 'https://lsjzeubrhagoutqxlsoz.supabase.co';
+      const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxzanpldWJyaGFnb3V0cXhsc296Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyODQzODksImV4cCI6MjA4Nzg2MDM4OX0.BPkdOavlxXwsP7ubHpWqjGMOU_QpkiP5hl5XKK4IePg';
+      
+      const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      
+      function getStatusLabel(status) {
+        const labels = { sale: 'Till salu', reserved: 'Tingad', sold: 'Såld' };
+        return labels[status] || status;
+      }
+      
+      function getRoleLabel(role) {
+        const labels = { stud: 'Avelshane', queen: 'Aktiv hona', retired: 'Pensionerad', angel: 'Ängel' };
+        return labels[role] || role;
+      }
+      
+      function calculateAge(birthDate) {
+        if (!birthDate) return 'Okänd ålder';
+        const birth = new Date(birthDate);
+        const now = new Date();
+        const diffDays = Math.ceil(Math.abs(now - birth) / (1000 * 60 * 60 * 24));
+        const weeks = Math.floor(diffDays / 7);
+        const months = Math.floor(diffDays / 30);
+        return months > 0 ? `${months} mån` : `${weeks} v`;
+      }
+      
+      async function loadFeaturedKittens() {
+        try {
+          const { data: kittens, error } = await supabase
+            .from('kittens')
+            .select('*')
+            .eq('status', 'sale')
+            .order('created_at', { ascending: false })
+            .limit(3);
+          
+          const container = document.getElementById('featured-kittens');
+          
+          if (error || !kittens || kittens.length === 0) {
+            container.innerHTML = `
+              <div class="text-center" style="grid-column: 1 / -1; padding: var(--space-12);">
+                <p style="color: var(--color-text-muted); margin-bottom: var(--space-4);">
+                  Inga kattungar tillgängliga just nu
+                </p>
+                <p style="font-size: var(--text-sm); color: var(--color-text-muted);">
+                  Kontakta oss för information om kommande kullar!
+                </p>
+              </div>
+            `;
+            return;
+          }
+          
+          const cards = kittens.map(kitten => `
+            <div class="card">
+              <img src="${kitten.image_url || 'https://via.placeholder.com/400x300'}" 
+                   alt="${kitten.name}" 
+                   class="card-image"
+                   onerror="this.src='https://via.placeholder.com/400x300?text=Ingen+bild'">
+              <div class="card-body">
+                <span class="badge badge-${kitten.status}">${getStatusLabel(kitten.status)}</span>
+                <h3 class="card-title">${kitten.name}</h3>
+                <p class="card-text">
+                  ${kitten.gender === 'male' ? 'Hane' : 'Hona'} • ${calculateAge(kitten.born_date)}<br>
+                  ${kitten.color || 'Vacker'}
+                </p>
+                ${kitten.price ? `<p style="font-size: var(--text-lg); font-weight: 600; color: var(--color-primary); margin-top: var(--space-2);">${kitten.price.toLocaleString('sv-SE')} kr</p>` : ''}
+                <a href="kitten-detail.html?id=${kitten.id}" class="btn btn-outline" style="margin-top: var(--space-3); width: 100%;">Läs mer</a>
+              </div>
+            </div>
+          `).join('');
+          
+          container.innerHTML = cards;
+          
+        } catch (error) {
+          console.error('Error loading kittens:', error);
+        }
+      }
+      
+      async function loadFeaturedCats() {
+        try {
+          const { data: cats, error } = await supabase
+            .from('cats')
+            .select('*')
+            .in('role', ['stud', 'queen'])
+            .order('created_at', { ascending: false })
+            .limit(2);
+          
+          const container = document.getElementById('featured-cats');
+          
+          if (error || !cats || cats.length === 0) {
+            container.innerHTML = `
+              <div class="text-center" style="grid-column: 1 / -1; padding: var(--space-12);">
+                <p style="color: var(--color-text-muted);">
+                  Inga katter att visa ännu
+                </p>
+              </div>
+            `;
+            return;
+          }
+          
+          const cards = cats.map(cat => `
+            <div class="card">
+              <img src="${cat.image_url || 'https://via.placeholder.com/400x300'}" 
+                   alt="${cat.name}" 
+                   class="card-image"
+                   onerror="this.src='https://via.placeholder.com/400x300?text=Ingen+bild'">
+              <div class="card-body">
+                <span class="badge badge-${cat.role}">${getRoleLabel(cat.role)}</span>
+                <h3 class="card-title">${cat.name}</h3>
+                <p class="card-text">
+                  ${cat.gender === 'male' ? 'Hane' : 'Hona'}<br>
+                  ${cat.ems_code || ''}
+                </p>
+                <a href="cat-detail.html?id=${cat.id}" class="btn btn-outline" style="margin-top: var(--space-3); width: 100%;">Läs mer</a>
+              </div>
+            </div>
+          `).join('');
+          
+          container.innerHTML = cards;
+          
+        } catch (error) {
+          console.error('Error loading cats:', error);
+        }
+      }
+      
+      document.addEventListener('DOMContentLoaded', () => {
+        loadFeaturedKittens();
+        loadFeaturedCats();
+      });
+    })();
+  </script>
 </body>
 </html>
