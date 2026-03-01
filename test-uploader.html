@@ -3,77 +3,295 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Test Image Uploader</title>
+  <title>🧪 Test - NorthWind Scatters</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #F5F1EB 0%, #E8E4DE 100%);
+      min-height: 100vh;
+      padding: 0;
+      margin: 0;
+      font-family: var(--font-body);
+    }
+    
+    .test-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: var(--space-12) var(--space-6);
+    }
+    
+    .test-header {
+      text-align: center;
+      margin-bottom: var(--space-12);
+    }
+    
+    .test-header h1 {
+      font-family: var(--font-heading);
+      font-size: var(--text-5xl);
+      color: var(--color-primary);
+      margin-bottom: var(--space-4);
+    }
+    
+    .test-header p {
+      font-size: var(--text-lg);
+      color: var(--color-text-muted);
+    }
+    
+    .test-card {
+      background: white;
+      border-radius: var(--radius-xl);
+      padding: var(--space-8);
+      box-shadow: var(--shadow-lg);
+      margin-bottom: var(--space-6);
+      transition: all 0.3s ease;
+    }
+    
+    .test-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+    
+    .test-card h2 {
+      font-family: var(--font-heading);
+      font-size: var(--text-2xl);
+      color: var(--color-primary);
+      margin-bottom: var(--space-4);
+    }
+    
+    .test-card p {
+      color: var(--color-text-base);
+      line-height: 1.6;
+    }
+    
+    .status-box {
+      background: var(--color-neutral-light);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      margin-top: var(--space-4);
+    }
+    
+    .status-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) 0;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .status-item:last-child {
+      border-bottom: none;
+    }
+    
+    .status-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-lg);
+    }
+    
+    .status-icon.loading {
+      background: #FEF3C7;
+    }
+    
+    .status-icon.success {
+      background: #D1FAE5;
+    }
+    
+    .status-icon.error {
+      background: #FEE2E2;
+    }
+    
+    .status-text {
+      flex: 1;
+      font-weight: 500;
+    }
+    
+    .uploader-demo {
+      margin-top: var(--space-6);
+      border: 2px dashed #E5E7EB;
+      border-radius: var(--radius-xl);
+      padding: var(--space-8);
+      background: var(--color-neutral-light);
+    }
+    
+    .btn-test {
+      background: var(--color-primary);
+      color: white;
+      padding: var(--space-4) var(--space-8);
+      border: none;
+      border-radius: var(--radius-lg);
+      font-size: var(--text-base);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(45, 74, 62, 0.2);
+    }
+    
+    .btn-test:hover {
+      background: #1F3930;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(45, 74, 62, 0.3);
+    }
+    
+    .btn-test:active {
+      transform: translateY(0);
+    }
+    
+    .result-message {
+      margin-top: var(--space-4);
+      padding: var(--space-4);
+      border-radius: var(--radius-lg);
+      font-weight: 500;
+      display: none;
+    }
+    
+    .result-message.success {
+      background: #D1FAE5;
+      color: #065F46;
+      display: block;
+    }
+    
+    .result-message.error {
+      background: #FEE2E2;
+      color: #991B1B;
+      display: block;
+    }
+  </style>
 </head>
-<body style="padding: 40px; background: #f5f5f5;">
+<body>
   
-  <h1>🧪 Test: Image Uploader</h1>
-  
-  <div style="background: white; padding: 20px; border-radius: 8px; margin-top: 20px;">
-    <h2>Test 1: Kontrollera om script laddas</h2>
-    <p>Öppna Console (F12) och kolla:</p>
-    <ul>
-      <li>Finns det några fel?</li>
-      <li>Vad står det?</li>
-    </ul>
-  </div>
-  
-  <div style="background: white; padding: 20px; border-radius: 8px; margin-top: 20px;">
-    <h2>Test 2: Bilduppladdare ska visas här:</h2>
-    <div id="test-uploader" style="margin-top: 20px;">
-      <p style="color: #999;">Laddar...</p>
+  <div class="test-container">
+    
+    <div class="test-header">
+      <h1>🧪 Image Uploader Test</h1>
+      <p>Diagnostik för bilduppladdning</p>
     </div>
-  </div>
-  
-  <div style="background: white; padding: 20px; border-radius: 8px; margin-top: 20px;">
-    <h2>Test 3: Kontrollera funktionen</h2>
-    <button onclick="checkFunction()" class="btn btn-primary">Kontrollera createImageUploader</button>
-    <div id="result" style="margin-top: 10px;"></div>
+    
+    <!-- Test 1: Script Loading -->
+    <div class="test-card">
+      <h2>1️⃣ Script Status</h2>
+      <p>Kontrollerar om alla script laddas korrekt...</p>
+      
+      <div class="status-box">
+        <div class="status-item">
+          <div class="status-icon loading" id="icon-supabase">⏳</div>
+          <span class="status-text">Supabase JS</span>
+        </div>
+        <div class="status-item">
+          <div class="status-icon loading" id="icon-uploader">⏳</div>
+          <span class="status-text">Image Uploader</span>
+        </div>
+        <div class="status-item">
+          <div class="status-icon loading" id="icon-function">⏳</div>
+          <span class="status-text">createImageUploader()</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Test 2: Live Demo -->
+    <div class="test-card">
+      <h2>2️⃣ Live Demo</h2>
+      <p>Bilduppladdaren ska visas här:</p>
+      
+      <div class="uploader-demo">
+        <div id="demo-uploader">
+          <p style="color: var(--color-text-muted); text-align: center;">Laddar...</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Test 3: Manual Check -->
+    <div class="test-card">
+      <h2>3️⃣ Manuell Kontroll</h2>
+      <p>Klicka för att testa funktionen:</p>
+      
+      <button class="btn-test" onclick="checkUploader()">
+        🔍 Kontrollera Funktion
+      </button>
+      
+      <div id="manual-result" class="result-message"></div>
+    </div>
+    
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="image-upload.js"></script>
   <script>
-    console.log('🧪 Test Page: Scripts loaded');
-    console.log('window.createImageUploader type:', typeof window.createImageUploader);
-    
-    // Test if function exists
-    window.checkFunction = function() {
-      const resultDiv = document.getElementById('result');
-      if (window.createImageUploader) {
-        resultDiv.innerHTML = '<p style="color: green; font-weight: bold;">✅ createImageUploader finns!</p>';
-        resultDiv.innerHTML += '<p>Typ: ' + typeof window.createImageUploader + '</p>';
-      } else {
-        resultDiv.innerHTML = '<p style="color: red; font-weight: bold;">❌ createImageUpdater SAKNAS!</p>';
-        resultDiv.innerHTML += '<p>image-upload.js laddades inte korrekt</p>';
-      }
-    };
-    
-    // Initialize uploader when page loads
+    // Check script loading
     document.addEventListener('DOMContentLoaded', function() {
-      console.log('🧪 Test Page: DOM loaded');
+      console.log('🧪 Test: DOM loaded');
       
-      setTimeout(function() {
-        console.log('🧪 Test Page: Trying to create image uploader...');
+      // Check Supabase
+      setTimeout(() => {
+        const supabaseIcon = document.getElementById('icon-supabase');
+        if (typeof window.supabase !== 'undefined') {
+          supabaseIcon.textContent = '✅';
+          supabaseIcon.className = 'status-icon success';
+          console.log('✅ Supabase loaded');
+        } else {
+          supabaseIcon.textContent = '❌';
+          supabaseIcon.className = 'status-icon error';
+          console.error('❌ Supabase not loaded');
+        }
         
-        if (window.createImageUploader) {
-          console.log('✅ Test Page: createImageUploader exists');
+        // Check image-upload.js file
+        const uploaderIcon = document.getElementById('icon-uploader');
+        const scripts = document.querySelectorAll('script[src*="image-upload"]');
+        if (scripts.length > 0) {
+          uploaderIcon.textContent = '✅';
+          uploaderIcon.className = 'status-icon success';
+          console.log('✅ image-upload.js file loaded');
+        } else {
+          uploaderIcon.textContent = '❌';
+          uploaderIcon.className = 'status-icon error';
+          console.error('❌ image-upload.js file not found');
+        }
+        
+        // Check createImageUploader function
+        const functionIcon = document.getElementById('icon-function');
+        if (typeof window.createImageUploader === 'function') {
+          functionIcon.textContent = '✅';
+          functionIcon.className = 'status-icon success';
+          console.log('✅ createImageUploader function exists');
+          
+          // Try to create uploader
           try {
-            createImageUploader('test-uploader', 'test_image', '');
-            console.log('✅ Test Page: Image uploader created');
+            createImageUploader('demo-uploader', 'test_image', '');
+            console.log('✅ Uploader created successfully');
           } catch (error) {
-            console.error('❌ Test Page: Error creating uploader:', error);
-            document.getElementById('test-uploader').innerHTML = 
-              '<p style="color: red;">❌ Fel: ' + error.message + '</p>';
+            console.error('❌ Error creating uploader:', error);
+            document.getElementById('demo-uploader').innerHTML = 
+              '<p style="color: #EF4444; text-align: center; font-weight: 500;">❌ Fel: ' + error.message + '</p>';
           }
         } else {
-          console.error('❌ Test Page: createImageUploader NOT FOUND');
-          document.getElementById('test-uploader').innerHTML = 
-            '<p style="color: red;">❌ createImageUploader saknas! image-upload.js laddades inte.</p>';
+          functionIcon.textContent = '❌';
+          functionIcon.className = 'status-icon error';
+          console.error('❌ createImageUploader function NOT FOUND');
+          document.getElementById('demo-uploader').innerHTML = 
+            '<p style="color: #EF4444; text-align: center; font-weight: 500;">❌ Funktionen saknas!<br><br>image-upload.js laddades inte korrekt.</p>';
         }
-      }, 100);
+        
+      }, 200);
     });
+    
+    // Manual check function
+    window.checkUploader = function() {
+      const resultDiv = document.getElementById('manual-result');
+      
+      if (typeof window.createImageUploader === 'function') {
+        resultDiv.className = 'result-message success';
+        resultDiv.innerHTML = '✅ <strong>createImageUploader</strong> finns och är redo att användas!<br><br>Typ: ' + typeof window.createImageUploader;
+      } else {
+        resultDiv.className = 'result-message error';
+        resultDiv.innerHTML = '❌ <strong>createImageUploader</strong> saknas!<br><br>image-upload.js laddades inte korrekt. Kontrollera att filen finns.';
+      }
+    };
   </script>
   
 </body>
