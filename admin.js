@@ -839,6 +839,24 @@
       case 'settings':
         loadSettings();
         break;
+      case 'gallery':
+        // Gallery has its own loadGallery() function in admin-gallery.html
+        if (window.loadGallery) {
+          window.loadGallery();
+        }
+        break;
+      case 'about':
+        // About has its own load function in admin-about.html
+        if (window.loadAbout) {
+          window.loadAbout();
+        }
+        break;
+      case 'hero':
+        // Hero has its own load function in admin-hero.html
+        if (window.loadHero) {
+          window.loadHero();
+        }
+        break;
     }
   });
 
@@ -864,6 +882,16 @@
     deleteNews,
     
     saveSettings,
+    
+    // Gallery functions (will be added by admin-gallery.html)
+    openGalleryModal: window.openGalleryModal,
+    closeGalleryModal: window.closeGalleryModal,
+    saveGalleryImage: window.saveGalleryImage,
+    editGalleryImage: window.editGalleryImage,
+    deleteGalleryImage: window.deleteGalleryImage,
+    
+    // About functions (will be added by admin-about.html)
+    saveAbout: window.saveAbout,
   };
 
 })();

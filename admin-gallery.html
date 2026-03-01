@@ -103,7 +103,7 @@
   <script src="admin.js"></script>
   <script>
     // Load gallery images
-    async function loadGallery() {
+    window.loadGallery = async function() {
       try {
         const container = document.getElementById('gallery-grid');
         
@@ -246,8 +246,8 @@
       }
     };
     
-    // Initialize
-    document.addEventListener('DOMContentLoaded', loadGallery);
+    // Initialize - loadGallery will be called by admin.js
+    // window.loadGallery is now globally accessible
     
     window.Admin = Object.assign(window.Admin || {}, {
       openGalleryModal,
