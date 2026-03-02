@@ -10,13 +10,13 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    /* World-Class Dashboard Styles */
+    /* World-Class Dashboard - Functional & Beautiful */
     
     .admin-layout {
       display: grid;
       grid-template-columns: 250px 1fr;
       min-height: 100vh;
-      background: linear-gradient(135deg, #F5F1EB 0%, #E8E4DE 100%);
+      background: var(--color-neutral-light);
     }
     
     @media (max-width: 768px) {
@@ -27,10 +27,9 @@
     
     /* Sidebar */
     .admin-sidebar {
-      background: linear-gradient(180deg, #2D4A3E 0%, #1F3930 100%);
+      background: var(--color-primary);
       color: white;
       padding: var(--space-6);
-      box-shadow: 4px 0 24px rgba(0,0,0,0.1);
     }
     
     .admin-brand {
@@ -38,26 +37,22 @@
       align-items: center;
       gap: var(--space-3);
       margin-bottom: var(--space-8);
-      animation: fadeInDown 0.6s ease-out;
     }
     
     .admin-brand-icon {
-      width: 48px;
-      height: 48px;
-      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 100%);
-      border-radius: var(--radius-lg);
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.2);
+      border-radius: var(--radius-md);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 700;
-      font-size: var(--text-xl);
-      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      font-weight: 600;
     }
     
     .admin-brand-text {
       font-family: var(--font-heading);
       font-size: var(--text-lg);
-      font-weight: 600;
     }
     
     .admin-nav {
@@ -68,17 +63,7 @@
     
     .admin-nav-item {
       margin-bottom: var(--space-2);
-      animation: fadeInLeft 0.4s ease-out backwards;
     }
-    
-    .admin-nav-item:nth-child(1) { animation-delay: 0.1s; }
-    .admin-nav-item:nth-child(2) { animation-delay: 0.15s; }
-    .admin-nav-item:nth-child(3) { animation-delay: 0.2s; }
-    .admin-nav-item:nth-child(4) { animation-delay: 0.25s; }
-    .admin-nav-item:nth-child(5) { animation-delay: 0.3s; }
-    .admin-nav-item:nth-child(6) { animation-delay: 0.35s; }
-    .admin-nav-item:nth-child(7) { animation-delay: 0.4s; }
-    .admin-nav-item:nth-child(8) { animation-delay: 0.45s; }
     
     .admin-nav-link {
       display: flex;
@@ -86,175 +71,109 @@
       gap: var(--space-3);
       padding: var(--space-3) var(--space-4);
       border-radius: var(--radius-md);
-      color: rgba(255,255,255,0.75);
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      color: rgba(255,255,255,0.8);
+      transition: all 0.2s ease;
       font-size: var(--text-sm);
-      font-weight: 500;
       text-decoration: none;
-      position: relative;
     }
     
-    .admin-nav-link:hover {
+    .admin-nav-link:hover,
+    .admin-nav-link.active {
       background: rgba(255,255,255,0.1);
       color: white;
-      transform: translateX(4px);
     }
     
-    .admin-nav-link.active {
-      background: rgba(255,255,255,0.15);
-      color: white;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
-    
-    .admin-nav-link.active::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 3px;
-      height: 24px;
-      background: #C17F59;
-      border-radius: 0 2px 2px 0;
-    }
-    
-    /* Main Content */
+    /* Content */
     .admin-content {
       padding: var(--space-8);
-      overflow-y: auto;
+      max-width: 1400px;
     }
     
-    /* Dashboard Header */
+    /* Header */
     .dashboard-header {
       margin-bottom: var(--space-8);
-      animation: fadeInDown 0.6s ease-out;
     }
     
     .dashboard-header h1 {
       font-family: var(--font-heading);
-      font-size: var(--text-5xl);
+      font-size: var(--text-4xl);
       color: var(--color-primary);
       margin: 0 0 var(--space-2) 0;
-      font-weight: 700;
     }
     
     .dashboard-header p {
       color: var(--color-text-muted);
-      font-size: var(--text-lg);
       margin: 0;
     }
     
     /* KPI Cards */
     .kpi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: var(--space-6);
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: var(--space-5);
       margin-bottom: var(--space-8);
     }
     
     .kpi-card {
       background: white;
-      border-radius: var(--radius-xl);
-      padding: var(--space-6);
-      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-      position: relative;
-      overflow: hidden;
-      animation: fadeInUp 0.6s ease-out backwards;
+      border-radius: var(--radius-lg);
+      padding: var(--space-5);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      cursor: pointer;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    .kpi-card:nth-child(1) { animation-delay: 0.1s; }
-    .kpi-card:nth-child(2) { animation-delay: 0.2s; }
-    .kpi-card:nth-child(3) { animation-delay: 0.3s; }
-    .kpi-card:nth-child(4) { animation-delay: 0.4s; }
-    
-    .kpi-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, var(--kpi-color) 0%, transparent 100%);
-      opacity: 0;
-      transition: opacity 0.3s;
+      text-decoration: none;
+      display: block;
+      border: 2px solid transparent;
     }
     
     .kpi-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      border-color: var(--color-primary);
     }
     
-    .kpi-card:hover::before {
-      opacity: 1;
-    }
-    
-    .kpi-card--kittens { --kpi-color: #10B981; }
-    .kpi-card--cats { --kpi-color: #3B82F6; }
-    .kpi-card--news { --kpi-color: #F59E0B; }
-    .kpi-card--gallery { --kpi-color: #EC4899; }
-    
-    .kpi-header {
+    .kpi-card-header {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: var(--space-4);
+      align-items: center;
+      margin-bottom: var(--space-3);
     }
     
     .kpi-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: var(--radius-lg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      background: linear-gradient(135deg, var(--kpi-color) 0%, var(--kpi-color) 100%);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
-    
-    .kpi-badge {
-      padding: var(--space-1) var(--space-3);
-      border-radius: var(--radius-full);
-      font-size: var(--text-xs);
-      font-weight: 600;
-      background: rgba(16, 185, 129, 0.1);
-      color: #10B981;
+      font-size: 32px;
     }
     
     .kpi-number {
-      font-size: 48px;
+      font-size: 40px;
       font-weight: 700;
       color: var(--color-primary);
       line-height: 1;
       margin-bottom: var(--space-2);
-      font-family: 'Inter', sans-serif;
     }
     
     .kpi-label {
-      font-size: var(--text-base);
+      font-size: var(--text-sm);
       color: var(--color-text-muted);
       font-weight: 500;
     }
     
     /* Quick Actions */
-    .quick-actions {
+    .section-card {
       background: white;
-      border-radius: var(--radius-xl);
+      border-radius: var(--radius-lg);
       padding: var(--space-6);
-      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-      margin-bottom: var(--space-8);
-      animation: fadeInUp 0.6s ease-out 0.5s backwards;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      margin-bottom: var(--space-6);
     }
     
-    .quick-actions-header {
+    .section-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: var(--space-5);
     }
     
-    .quick-actions-header h2 {
+    .section-title {
       font-family: var(--font-heading);
       font-size: var(--text-2xl);
       color: var(--color-primary);
@@ -263,155 +182,158 @@
     
     .quick-actions-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: var(--space-4);
     }
     
-    .action-button {
+    .action-btn {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: var(--space-3);
+      gap: var(--space-2);
       padding: var(--space-5);
-      background: linear-gradient(135deg, #F5F1EB 0%, #E8E4DE 100%);
+      background: var(--color-neutral-light);
       border-radius: var(--radius-lg);
-      border: 2px solid transparent;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       text-decoration: none;
+      transition: all 0.2s ease;
+      border: 2px solid transparent;
     }
     
-    .action-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    .action-btn:hover {
+      background: white;
       border-color: var(--color-primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     }
     
-    .action-button-icon {
-      font-size: 32px;
+    .action-btn-icon {
+      font-size: 28px;
     }
     
-    .action-button-text {
+    .action-btn-text {
       font-size: var(--text-sm);
       font-weight: 600;
       color: var(--color-primary);
       text-align: center;
     }
     
-    /* Recent Activity */
-    .recent-activity {
-      background: white;
-      border-radius: var(--radius-xl);
-      padding: var(--space-6);
-      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-      animation: fadeInUp 0.6s ease-out 0.6s backwards;
+    /* Data Tables */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
     }
     
-    .recent-activity-header {
-      margin-bottom: var(--space-5);
+    .data-table th {
+      text-align: left;
+      padding: var(--space-3) var(--space-4);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--color-text-muted);
+      border-bottom: 2px solid var(--color-neutral-base);
     }
     
-    .recent-activity-header h2 {
-      font-family: var(--font-heading);
-      font-size: var(--text-2xl);
-      color: var(--color-primary);
-      margin: 0;
-    }
-    
-    .activity-list {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-3);
-    }
-    
-    .activity-item {
-      display: flex;
-      align-items: center;
-      gap: var(--space-4);
+    .data-table td {
       padding: var(--space-4);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .data-table tr:hover {
       background: var(--color-neutral-light);
+    }
+    
+    .table-image {
+      width: 48px;
+      height: 48px;
       border-radius: var(--radius-md);
-      transition: all 0.2s;
+      object-fit: cover;
     }
     
-    .activity-item:hover {
-      background: #E8E4DE;
-      transform: translateX(4px);
-    }
-    
-    .activity-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: var(--radius-md);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      flex-shrink: 0;
-    }
-    
-    .activity-content {
-      flex: 1;
-    }
-    
-    .activity-title {
+    .table-name {
       font-weight: 600;
       color: var(--color-primary);
-      margin-bottom: var(--space-1);
     }
     
-    .activity-time {
+    .table-info {
       font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      margin-top: var(--space-1);
+    }
+    
+    .table-actions {
+      display: flex;
+      gap: var(--space-2);
+    }
+    
+    .btn-table {
+      padding: var(--space-2) var(--space-3);
+      font-size: var(--text-sm);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+    }
+    
+    .btn-table:hover {
+      transform: translateY(-1px);
+    }
+    
+    .btn-edit {
+      background: var(--color-primary);
+      color: white;
+      border: none;
+    }
+    
+    .btn-delete {
+      background: white;
+      color: var(--color-accent);
+      border: 1px solid var(--color-accent);
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: var(--space-8);
       color: var(--color-text-muted);
     }
     
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: var(--space-3);
+    }
+    
     /* Animations */
-    @keyframes fadeInDown {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     
-    @keyframes fadeInLeft {
-      from {
-        opacity: 0;
-        transform: translateX(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
+    .kpi-card, .section-card {
+      animation: fadeIn 0.4s ease-out backwards;
     }
     
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+    .kpi-card:nth-child(1) { animation-delay: 0.05s; }
+    .kpi-card:nth-child(2) { animation-delay: 0.1s; }
+    .kpi-card:nth-child(3) { animation-delay: 0.15s; }
+    .kpi-card:nth-child(4) { animation-delay: 0.2s; }
     
-    @keyframes countUp {
-      from {
-        opacity: 0;
-        transform: scale(0.5);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
+    .section-card:nth-child(2) { animation-delay: 0.25s; }
+    .section-card:nth-child(3) { animation-delay: 0.3s; }
+    .section-card:nth-child(4) { animation-delay: 0.35s; }
     
     /* Responsive */
     @media (max-width: 968px) {
+      .admin-content {
+        padding: var(--space-4);
+      }
+      
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 640px) {
       .kpi-grid {
         grid-template-columns: 1fr;
       }
@@ -419,23 +341,13 @@
       .quick-actions-grid {
         grid-template-columns: repeat(2, 1fr);
       }
-    }
-    
-    @media (max-width: 640px) {
-      .admin-content {
-        padding: var(--space-4);
+      
+      .data-table {
+        font-size: var(--text-sm);
       }
       
-      .dashboard-header h1 {
-        font-size: var(--text-3xl);
-      }
-      
-      .kpi-number {
-        font-size: 36px;
-      }
-      
-      .quick-actions-grid {
-        grid-template-columns: 1fr;
+      .table-actions {
+        flex-direction: column;
       }
     }
   </style>
@@ -454,54 +366,34 @@
       <nav>
         <ul class="admin-nav">
           <li class="admin-nav-item">
-            <a href="admin-dashboard.html" class="admin-nav-link active">
-              📊 Dashboard
-            </a>
+            <a href="admin-dashboard.html" class="admin-nav-link active">📊 Dashboard</a>
           </li>
           <li class="admin-nav-item">
-            <a href="admin-kittens.html" class="admin-nav-link">
-              🐱 Kattungar
-            </a>
+            <a href="admin-kittens.html" class="admin-nav-link">🐱 Kattungar</a>
           </li>
           <li class="admin-nav-item">
-            <a href="admin-cats.html" class="admin-nav-link">
-              🐾 Mina katter
-            </a>
+            <a href="admin-cats.html" class="admin-nav-link">🐾 Mina katter</a>
           </li>
           <li class="admin-nav-item">
-            <a href="admin-news.html" class="admin-nav-link">
-              📰 Nyheter
-            </a>
+            <a href="admin-news.html" class="admin-nav-link">📰 Nyheter</a>
           </li>
           <li class="admin-nav-item">
-            <a href="admin-gallery.html" class="admin-nav-link">
-              🖼️ Galleri
-            </a>
+            <a href="admin-gallery.html" class="admin-nav-link">🖼️ Galleri</a>
           </li>
           <li class="admin-nav-item">
-            <a href="admin-about.html" class="admin-nav-link">
-              ℹ️ Om Oss
-            </a>
+            <a href="admin-about.html" class="admin-nav-link">ℹ️ Om Oss</a>
           </li>
           <li class="admin-nav-item">
-            <a href="admin-hero.html" class="admin-nav-link">
-              🖼️ Hero bild
-            </a>
+            <a href="admin-hero.html" class="admin-nav-link">🖼️ Hero bild</a>
           </li>
           <li class="admin-nav-item">
-            <a href="admin-settings.html" class="admin-nav-link">
-              ⚙️ Inställningar
-            </a>
+            <a href="admin-settings.html" class="admin-nav-link">⚙️ Inställningar</a>
           </li>
           <li class="admin-nav-item" style="margin-top: var(--space-8);">
-            <a href="index.html" class="admin-nav-link">
-              🌐 Visa sida
-            </a>
+            <a href="index.html" class="admin-nav-link">🌐 Visa sida</a>
           </li>
           <li class="admin-nav-item">
-            <a href="admin-login.html" class="admin-nav-link">
-              🚪 Logga ut
-            </a>
+            <a href="admin-login.html" class="admin-nav-link">🚪 Logga ut</a>
           </li>
         </ul>
       </nav>
@@ -512,91 +404,131 @@
       
       <div class="dashboard-header">
         <h1>Dashboard</h1>
-        <p>Välkommen tillbaka! Överblick av din uppfödning.</p>
+        <p>Överblick av NorthWind Scatters</p>
       </div>
       
       <!-- KPI Cards -->
       <div class="kpi-grid">
-        
-        <div class="kpi-card kpi-card--kittens">
-          <div class="kpi-header">
+        <a href="admin-kittens.html" class="kpi-card">
+          <div class="kpi-card-header">
             <div class="kpi-icon">🐱</div>
-            <span class="kpi-badge">Aktiva</span>
           </div>
           <div class="kpi-number" id="stat-kittens">0</div>
-          <div class="kpi-label">Kattungar till salu</div>
-        </div>
+          <div class="kpi-label">Kattungar</div>
+        </a>
         
-        <div class="kpi-card kpi-card--cats">
-          <div class="kpi-header">
+        <a href="admin-cats.html" class="kpi-card">
+          <div class="kpi-card-header">
             <div class="kpi-icon">🐾</div>
           </div>
           <div class="kpi-number" id="stat-cats">0</div>
-          <div class="kpi-label">Mina katter</div>
-        </div>
+          <div class="kpi-label">Katter</div>
+        </a>
         
-        <div class="kpi-card kpi-card--news">
-          <div class="kpi-header">
+        <a href="admin-news.html" class="kpi-card">
+          <div class="kpi-card-header">
             <div class="kpi-icon">📰</div>
           </div>
           <div class="kpi-number" id="stat-news">0</div>
-          <div class="kpi-label">Publicerade nyheter</div>
-        </div>
+          <div class="kpi-label">Nyheter</div>
+        </a>
         
-        <div class="kpi-card kpi-card--gallery">
-          <div class="kpi-header">
+        <a href="admin-gallery.html" class="kpi-card">
+          <div class="kpi-card-header">
             <div class="kpi-icon">🖼️</div>
           </div>
           <div class="kpi-number" id="stat-gallery">0</div>
-          <div class="kpi-label">Bilder i galleriet</div>
-        </div>
-        
+          <div class="kpi-label">Bilder</div>
+        </a>
       </div>
       
       <!-- Quick Actions -->
-      <div class="quick-actions">
-        <div class="quick-actions-header">
-          <h2>Snabbåtgärder</h2>
+      <div class="section-card">
+        <div class="section-header">
+          <h2 class="section-title">Snabbåtgärder</h2>
         </div>
         
         <div class="quick-actions-grid">
-          <a href="admin-kittens.html" class="action-button">
-            <div class="action-button-icon">➕</div>
-            <div class="action-button-text">Lägg till kattunge</div>
+          <a href="admin-kittens.html" class="action-btn">
+            <div class="action-btn-icon">➕</div>
+            <div class="action-btn-text">Lägg till kattunge</div>
           </a>
           
-          <a href="admin-cats.html" class="action-button">
-            <div class="action-button-icon">➕</div>
-            <div class="action-button-text">Lägg till katt</div>
+          <a href="admin-cats.html" class="action-btn">
+            <div class="action-btn-icon">➕</div>
+            <div class="action-btn-text">Lägg till katt</div>
           </a>
           
-          <a href="admin-news.html" class="action-button">
-            <div class="action-button-icon">✍️</div>
-            <div class="action-button-text">Skriv nyhet</div>
+          <a href="admin-news.html" class="action-btn">
+            <div class="action-btn-icon">✍️</div>
+            <div class="action-btn-text">Skriv nyhet</div>
           </a>
           
-          <a href="admin-gallery.html" class="action-button">
-            <div class="action-button-icon">📸</div>
-            <div class="action-button-text">Ladda upp bild</div>
+          <a href="admin-gallery.html" class="action-btn">
+            <div class="action-btn-icon">📸</div>
+            <div class="action-btn-text">Ladda upp bild</div>
           </a>
         </div>
       </div>
       
-      <!-- Recent Activity -->
-      <div class="recent-activity">
-        <div class="recent-activity-header">
-          <h2>Senaste aktiviteten</h2>
+      <!-- Recent Cats -->
+      <div class="section-card">
+        <div class="section-header">
+          <h2 class="section-title">Senaste Katterna</h2>
+          <a href="admin-cats.html" class="btn btn-outline btn-sm">Se alla →</a>
         </div>
         
-        <div class="activity-list" id="activity-list">
-          <div class="activity-item">
-            <div class="activity-icon" style="background: rgba(16, 185, 129, 0.1);">✨</div>
-            <div class="activity-content">
-              <div class="activity-title">Laddar aktivitet...</div>
-              <div class="activity-time">-</div>
-            </div>
-          </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 60px;">Bild</th>
+              <th>Namn</th>
+              <th>Roll</th>
+              <th>Status</th>
+              <th style="width: 160px;">Åtgärder</th>
+            </tr>
+          </thead>
+          <tbody id="cats-table-body">
+            <tr>
+              <td colspan="5">
+                <div class="empty-state">
+                  <div class="empty-state-icon">🐾</div>
+                  <p>Inga katter än</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+      <!-- Recent Kittens -->
+      <div class="section-card">
+        <div class="section-header">
+          <h2 class="section-title">Senaste Kattungarna</h2>
+          <a href="admin-kittens.html" class="btn btn-outline btn-sm">Se alla →</a>
         </div>
+        
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 60px;">Bild</th>
+              <th>Namn</th>
+              <th>Ålder</th>
+              <th>Status</th>
+              <th style="width: 160px;">Åtgärder</th>
+            </tr>
+          </thead>
+          <tbody id="kittens-table-body">
+            <tr>
+              <td colspan="5">
+                <div class="empty-state">
+                  <div class="empty-state-icon">🐱</div>
+                  <p>Inga kattungar än</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       
     </main>
@@ -610,149 +542,190 @@
     
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     
-    // Animate number counting
-    function animateNumber(elementId, targetValue) {
-      const element = document.getElementById(elementId);
-      if (!element) return;
-      
-      const duration = 1000; // 1 second
-      const startTime = performance.now();
-      const startValue = 0;
-      
-      function update(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        
-        // Easing function (ease-out)
-        const easeOut = 1 - Math.pow(1 - progress, 3);
-        const currentValue = Math.floor(startValue + (targetValue - startValue) * easeOut);
-        
-        element.textContent = currentValue;
-        element.style.animation = 'countUp 0.5s ease-out';
-        
-        if (progress < 1) {
-          requestAnimationFrame(update);
-        }
-      }
-      
-      requestAnimationFrame(update);
+    // Helper functions
+    function getRoleLabel(role) {
+      const labels = { stud: 'Avelshane', queen: 'Aktiv hona', retired: 'Pensionerad', angel: 'Ängel' };
+      return labels[role] || role;
     }
     
-    // Load dashboard data
+    function getStatusLabel(status) {
+      const labels = { sale: 'Till salu', reserved: 'Tingad', sold: 'Såld' };
+      return labels[status] || status;
+    }
+    
+    function calculateAge(birthDate) {
+      if (!birthDate) return 'Okänd';
+      const birth = new Date(birthDate);
+      const now = new Date();
+      const diffDays = Math.ceil(Math.abs(now - birth) / (1000 * 60 * 60 * 24));
+      const weeks = Math.floor(diffDays / 7);
+      const months = Math.floor(diffDays / 30);
+      return months > 0 ? `${months} mån` : `${weeks} v`;
+    }
+    
+    // Load dashboard
     async function loadDashboard() {
       try {
-        // Load all stats in parallel
+        // Load stats
         const [
           { count: kittensCount },
           { count: catsCount },
           { count: newsCount },
-          { count: galleryCount },
+          { count: galleryCount }
         ] = await Promise.all([
           supabase.from('kittens').select('*', { count: 'exact', head: true }),
           supabase.from('cats').select('*', { count: 'exact', head: true }),
           supabase.from('news').select('*', { count: 'exact', head: true }),
-          supabase.from('gallery').select('*', { count: 'exact', head: true }),
+          supabase.from('gallery').select('*', { count: 'exact', head: true })
         ]);
         
-        // Animate numbers after a short delay
-        setTimeout(() => {
-          animateNumber('stat-kittens', kittensCount || 0);
-          animateNumber('stat-cats', catsCount || 0);
-          animateNumber('stat-news', newsCount || 0);
-          animateNumber('stat-gallery', galleryCount || 0);
-        }, 300);
+        document.getElementById('stat-kittens').textContent = kittensCount || 0;
+        document.getElementById('stat-cats').textContent = catsCount || 0;
+        document.getElementById('stat-news').textContent = newsCount || 0;
+        document.getElementById('stat-gallery').textContent = galleryCount || 0;
         
-        // Load recent activity
-        await loadRecentActivity();
+        // Load recent cats
+        await loadRecentCats();
+        
+        // Load recent kittens
+        await loadRecentKittens();
         
       } catch (error) {
         console.error('Error loading dashboard:', error);
       }
     }
     
-    // Load recent activity
-    async function loadRecentActivity() {
+    // Load recent cats
+    async function loadRecentCats() {
       try {
-        const activityList = document.getElementById('activity-list');
-        
-        // Get recent kittens
-        const { data: recentKittens } = await supabase
-          .from('kittens')
-          .select('name, created_at')
-          .order('created_at', { ascending: false })
-          .limit(2);
-        
-        // Get recent cats
-        const { data: recentCats } = await supabase
+        const { data: cats, error } = await supabase
           .from('cats')
-          .select('name, created_at')
+          .select('*')
           .order('created_at', { ascending: false })
-          .limit(2);
+          .limit(5);
         
-        // Combine and sort by date
-        const activities = [
-          ...(recentKittens || []).map(k => ({
-            type: 'kitten',
-            title: `Ny kattunge: ${k.name}`,
-            time: new Date(k.created_at),
-            icon: '🐱',
-            color: 'rgba(16, 185, 129, 0.1)'
-          })),
-          ...(recentCats || []).map(c => ({
-            type: 'cat',
-            title: `Ny katt: ${c.name}`,
-            time: new Date(c.created_at),
-            icon: '🐾',
-            color: 'rgba(59, 130, 246, 0.1)'
-          }))
-        ].sort((a, b) => b.time - a.time).slice(0, 4);
+        if (error) throw error;
         
-        if (activities.length === 0) {
-          activityList.innerHTML = `
-            <div class="activity-item">
-              <div class="activity-icon" style="background: rgba(193, 127, 89, 0.1);">✨</div>
-              <div class="activity-content">
-                <div class="activity-title">Ingen aktivitet än</div>
-                <div class="activity-time">Börja med att lägga till katter eller kattungar!</div>
-              </div>
-            </div>
+        const tbody = document.getElementById('cats-table-body');
+        
+        if (!cats || cats.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="5">
+                <div class="empty-state">
+                  <div class="empty-state-icon">🐾</div>
+                  <p>Inga katter än</p>
+                </div>
+              </td>
+            </tr>
           `;
           return;
         }
         
-        activityList.innerHTML = activities.map(activity => {
-          const timeAgo = getTimeAgo(activity.time);
-          return `
-            <div class="activity-item">
-              <div class="activity-icon" style="background: ${activity.color};">${activity.icon}</div>
-              <div class="activity-content">
-                <div class="activity-title">${activity.title}</div>
-                <div class="activity-time">${timeAgo}</div>
+        tbody.innerHTML = cats.map(cat => `
+          <tr>
+            <td><img src="${cat.image_url || 'https://via.placeholder.com/48'}" alt="${cat.name}" class="table-image"></td>
+            <td>
+              <div class="table-name">${cat.name}</div>
+              <div class="table-info">${cat.ems_code || 'Ingen EMS-kod'}</div>
+            </td>
+            <td>${getRoleLabel(cat.role)}</td>
+            <td>${cat.gender === 'male' ? 'Hane' : 'Hona'}</td>
+            <td>
+              <div class="table-actions">
+                <button onclick="window.location.href='admin-cats.html'" class="btn-table btn-edit">✏️ Redigera</button>
+                <button onclick="deleteCat('${cat.id}')" class="btn-table btn-delete">🗑️ Radera</button>
               </div>
-            </div>
-          `;
-        }).join('');
+            </td>
+          </tr>
+        `).join('');
         
       } catch (error) {
-        console.error('Error loading activity:', error);
+        console.error('Error loading cats:', error);
       }
     }
     
-    // Get time ago string
-    function getTimeAgo(date) {
-      const now = new Date();
-      const diffMs = now - date;
-      const diffMins = Math.floor(diffMs / 60000);
-      const diffHours = Math.floor(diffMs / 3600000);
-      const diffDays = Math.floor(diffMs / 86400000);
-      
-      if (diffMins < 1) return 'Just nu';
-      if (diffMins < 60) return `${diffMins} minuter sedan`;
-      if (diffHours < 24) return `${diffHours} timmar sedan`;
-      if (diffDays < 7) return `${diffDays} dagar sedan`;
-      
-      return date.toLocaleDateString('sv-SE');
+    // Load recent kittens
+    async function loadRecentKittens() {
+      try {
+        const { data: kittens, error } = await supabase
+          .from('kittens')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(5);
+        
+        if (error) throw error;
+        
+        const tbody = document.getElementById('kittens-table-body');
+        
+        if (!kittens || kittens.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="5">
+                <div class="empty-state">
+                  <div class="empty-state-icon">🐱</div>
+                  <p>Inga kattungar än</p>
+                </div>
+              </td>
+            </tr>
+          `;
+          return;
+        }
+        
+        tbody.innerHTML = kittens.map(kitten => `
+          <tr>
+            <td><img src="${kitten.image_url || 'https://via.placeholder.com/48'}" alt="${kitten.name}" class="table-image"></td>
+            <td>
+              <div class="table-name">${kitten.name}</div>
+              <div class="table-info">${kitten.color || 'Okänd färg'}</div>
+            </td>
+            <td>${calculateAge(kitten.born_date)}</td>
+            <td><span class="badge badge-${kitten.status}">${getStatusLabel(kitten.status)}</span></td>
+            <td>
+              <div class="table-actions">
+                <button onclick="window.location.href='admin-kittens.html'" class="btn-table btn-edit">✏️ Redigera</button>
+                <button onclick="deleteKitten('${kitten.id}')" class="btn-table btn-delete">🗑️ Radera</button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+        
+      } catch (error) {
+        console.error('Error loading kittens:', error);
+      }
     }
+    
+    // Delete cat
+    window.deleteCat = async function(catId) {
+      if (!confirm('Är du säker på att du vill ta bort denna katt?')) return;
+      
+      try {
+        const { error } = await supabase.from('cats').delete().eq('id', catId);
+        if (error) throw error;
+        
+        alert('Katt borttagen!');
+        loadDashboard();
+      } catch (error) {
+        console.error('Error deleting cat:', error);
+        alert('Kunde inte ta bort katt: ' + error.message);
+      }
+    };
+    
+    // Delete kitten
+    window.deleteKitten = async function(kittenId) {
+      if (!confirm('Är du säker på att du vill ta bort denna kattunge?')) return;
+      
+      try {
+        const { error } = await supabase.from('kittens').delete().eq('id', kittenId);
+        if (error) throw error;
+        
+        alert('Kattunge borttagen!');
+        loadDashboard();
+      } catch (error) {
+        console.error('Error deleting kitten:', error);
+        alert('Kunde inte ta bort kattunge: ' + error.message);
+      }
+    };
     
     // Initialize
     document.addEventListener('DOMContentLoaded', loadDashboard);
