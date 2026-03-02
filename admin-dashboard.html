@@ -10,30 +10,433 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
-    .stats-grid {
+    /* World-Class Dashboard Styles */
+    
+    .admin-layout {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: 250px 1fr;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #F5F1EB 0%, #E8E4DE 100%);
+    }
+    
+    @media (max-width: 768px) {
+      .admin-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    /* Sidebar */
+    .admin-sidebar {
+      background: linear-gradient(180deg, #2D4A3E 0%, #1F3930 100%);
+      color: white;
+      padding: var(--space-6);
+      box-shadow: 4px 0 24px rgba(0,0,0,0.1);
+    }
+    
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-8);
+      animation: fadeInDown 0.6s ease-out;
+    }
+    
+    .admin-brand-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 100%);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: var(--text-xl);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+    
+    .admin-brand-text {
+      font-family: var(--font-heading);
+      font-size: var(--text-lg);
+      font-weight: 600;
+    }
+    
+    .admin-nav {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .admin-nav-item {
+      margin-bottom: var(--space-2);
+      animation: fadeInLeft 0.4s ease-out backwards;
+    }
+    
+    .admin-nav-item:nth-child(1) { animation-delay: 0.1s; }
+    .admin-nav-item:nth-child(2) { animation-delay: 0.15s; }
+    .admin-nav-item:nth-child(3) { animation-delay: 0.2s; }
+    .admin-nav-item:nth-child(4) { animation-delay: 0.25s; }
+    .admin-nav-item:nth-child(5) { animation-delay: 0.3s; }
+    .admin-nav-item:nth-child(6) { animation-delay: 0.35s; }
+    .admin-nav-item:nth-child(7) { animation-delay: 0.4s; }
+    .admin-nav-item:nth-child(8) { animation-delay: 0.45s; }
+    
+    .admin-nav-link {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-md);
+      color: rgba(255,255,255,0.75);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      text-decoration: none;
+      position: relative;
+    }
+    
+    .admin-nav-link:hover {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      transform: translateX(4px);
+    }
+    
+    .admin-nav-link.active {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    .admin-nav-link.active::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 24px;
+      background: #C17F59;
+      border-radius: 0 2px 2px 0;
+    }
+    
+    /* Main Content */
+    .admin-content {
+      padding: var(--space-8);
+      overflow-y: auto;
+    }
+    
+    /* Dashboard Header */
+    .dashboard-header {
+      margin-bottom: var(--space-8);
+      animation: fadeInDown 0.6s ease-out;
+    }
+    
+    .dashboard-header h1 {
+      font-family: var(--font-heading);
+      font-size: var(--text-5xl);
+      color: var(--color-primary);
+      margin: 0 0 var(--space-2) 0;
+      font-weight: 700;
+    }
+    
+    .dashboard-header p {
+      color: var(--color-text-muted);
+      font-size: var(--text-lg);
+      margin: 0;
+    }
+    
+    /* KPI Cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: var(--space-6);
       margin-bottom: var(--space-8);
     }
     
-    .stat-card {
-      background: var(--color-white);
+    .kpi-card {
+      background: white;
+      border-radius: var(--radius-xl);
       padding: var(--space-6);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.6s ease-out backwards;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .kpi-card:nth-child(1) { animation-delay: 0.1s; }
+    .kpi-card:nth-child(2) { animation-delay: 0.2s; }
+    .kpi-card:nth-child(3) { animation-delay: 0.3s; }
+    .kpi-card:nth-child(4) { animation-delay: 0.4s; }
+    
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--kpi-color) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .kpi-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+    }
+    
+    .kpi-card:hover::before {
+      opacity: 1;
+    }
+    
+    .kpi-card--kittens { --kpi-color: #10B981; }
+    .kpi-card--cats { --kpi-color: #3B82F6; }
+    .kpi-card--news { --kpi-color: #F59E0B; }
+    .kpi-card--gallery { --kpi-color: #EC4899; }
+    
+    .kpi-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: var(--space-4);
+    }
+    
+    .kpi-icon {
+      width: 56px;
+      height: 56px;
       border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      background: linear-gradient(135deg, var(--kpi-color) 0%, var(--kpi-color) 100%);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
     
-    .stat-label {
-      font-size: var(--text-sm);
-      color: var(--color-text-muted);
+    .kpi-badge {
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-full);
+      font-size: var(--text-xs);
+      font-weight: 600;
+      background: rgba(16, 185, 129, 0.1);
+      color: #10B981;
+    }
+    
+    .kpi-number {
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--color-primary);
+      line-height: 1;
       margin-bottom: var(--space-2);
+      font-family: 'Inter', sans-serif;
     }
     
-    .stat-value {
-      font-size: var(--text-4xl);
+    .kpi-label {
+      font-size: var(--text-base);
+      color: var(--color-text-muted);
+      font-weight: 500;
+    }
+    
+    /* Quick Actions */
+    .quick-actions {
+      background: white;
+      border-radius: var(--radius-xl);
+      padding: var(--space-6);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      margin-bottom: var(--space-8);
+      animation: fadeInUp 0.6s ease-out 0.5s backwards;
+    }
+    
+    .quick-actions-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-5);
+    }
+    
+    .quick-actions-header h2 {
+      font-family: var(--font-heading);
+      font-size: var(--text-2xl);
+      color: var(--color-primary);
+      margin: 0;
+    }
+    
+    .quick-actions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-4);
+    }
+    
+    .action-button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-5);
+      background: linear-gradient(135deg, #F5F1EB 0%, #E8E4DE 100%);
+      border-radius: var(--radius-lg);
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration: none;
+    }
+    
+    .action-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      border-color: var(--color-primary);
+    }
+    
+    .action-button-icon {
+      font-size: 32px;
+    }
+    
+    .action-button-text {
+      font-size: var(--text-sm);
       font-weight: 600;
       color: var(--color-primary);
+      text-align: center;
+    }
+    
+    /* Recent Activity */
+    .recent-activity {
+      background: white;
+      border-radius: var(--radius-xl);
+      padding: var(--space-6);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      animation: fadeInUp 0.6s ease-out 0.6s backwards;
+    }
+    
+    .recent-activity-header {
+      margin-bottom: var(--space-5);
+    }
+    
+    .recent-activity-header h2 {
+      font-family: var(--font-heading);
+      font-size: var(--text-2xl);
+      color: var(--color-primary);
+      margin: 0;
+    }
+    
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+    
+    .activity-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-4);
+      background: var(--color-neutral-light);
+      border-radius: var(--radius-md);
+      transition: all 0.2s;
+    }
+    
+    .activity-item:hover {
+      background: #E8E4DE;
+      transform: translateX(4px);
+    }
+    
+    .activity-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    
+    .activity-content {
+      flex: 1;
+    }
+    
+    .activity-title {
+      font-weight: 600;
+      color: var(--color-primary);
+      margin-bottom: var(--space-1);
+    }
+    
+    .activity-time {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+    }
+    
+    /* Animations */
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes fadeInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes countUp {
+      from {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
+    /* Responsive */
+    @media (max-width: 968px) {
+      .kpi-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .quick-actions-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 640px) {
+      .admin-content {
+        padding: var(--space-4);
+      }
+      
+      .dashboard-header h1 {
+        font-size: var(--text-3xl);
+      }
+      
+      .kpi-number {
+        font-size: 36px;
+      }
+      
+      .quick-actions-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -67,17 +470,17 @@
           </li>
           <li class="admin-nav-item">
             <a href="admin-news.html" class="admin-nav-link">
-          <li class="admin-nav-item">
-            <a href="admin-gallery.html" class="admin-nav-link">
-          <li class="admin-nav-item">
-            <a href="admin-about.html" class="admin-nav-link">
-              ℹ️ Om Oss
+              📰 Nyheter
             </a>
           </li>
+          <li class="admin-nav-item">
+            <a href="admin-gallery.html" class="admin-nav-link">
               🖼️ Galleri
             </a>
           </li>
-              📰 Nyheter
+          <li class="admin-nav-item">
+            <a href="admin-about.html" class="admin-nav-link">
+              ℹ️ Om Oss
             </a>
           </li>
           <li class="admin-nav-item">
@@ -107,46 +510,91 @@
     <!-- Content -->
     <main class="admin-content">
       
-      <div class="admin-header">
-        <h1 class="admin-title">Dashboard</h1>
+      <div class="dashboard-header">
+        <h1>Dashboard</h1>
+        <p>Välkommen tillbaka! Överblick av din uppfödning.</p>
       </div>
       
-      <!-- Stats -->
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-label">Kattungar</div>
-          <div class="stat-value" id="stat-kittens">0</div>
+      <!-- KPI Cards -->
+      <div class="kpi-grid">
+        
+        <div class="kpi-card kpi-card--kittens">
+          <div class="kpi-header">
+            <div class="kpi-icon">🐱</div>
+            <span class="kpi-badge">Aktiva</span>
+          </div>
+          <div class="kpi-number" id="stat-kittens">0</div>
+          <div class="kpi-label">Kattungar till salu</div>
         </div>
         
-        <div class="stat-card">
-          <div class="stat-label">Mina katter</div>
-          <div class="stat-value" id="stat-cats">0</div>
+        <div class="kpi-card kpi-card--cats">
+          <div class="kpi-header">
+            <div class="kpi-icon">🐾</div>
+          </div>
+          <div class="kpi-number" id="stat-cats">0</div>
+          <div class="kpi-label">Mina katter</div>
         </div>
         
-        <div class="stat-card">
-          <div class="stat-label">Nyheter</div>
-          <div class="stat-value" id="stat-news">0</div>
+        <div class="kpi-card kpi-card--news">
+          <div class="kpi-header">
+            <div class="kpi-icon">📰</div>
+          </div>
+          <div class="kpi-number" id="stat-news">0</div>
+          <div class="kpi-label">Publicerade nyheter</div>
         </div>
+        
+        <div class="kpi-card kpi-card--gallery">
+          <div class="kpi-header">
+            <div class="kpi-icon">🖼️</div>
+          </div>
+          <div class="kpi-number" id="stat-gallery">0</div>
+          <div class="kpi-label">Bilder i galleriet</div>
+        </div>
+        
       </div>
       
       <!-- Quick Actions -->
-      <div class="admin-table">
-        <div style="padding: var(--space-6);">
-          <h2 style="font-size: var(--text-xl); margin-bottom: var(--space-4);">Snabbåtgärder</h2>
-          <div style="display: flex; gap: var(--space-3); flex-wrap: wrap;">
-            <a href="admin-kittens.html" class="btn btn-primary">Hantera kattungar</a>
-            <a href="admin-cats.html" class="btn btn-secondary">Hantera katter</a>
-            <a href="admin-news.html" class="btn btn-outline">Skriv nyhet</a>
-          <li class="admin-nav-item">
-            <a href="admin-gallery.html" class="admin-nav-link">
-          <li class="admin-nav-item">
-            <a href="admin-about.html" class="admin-nav-link">
-              ℹ️ Om Oss
-            </a>
-          </li>
-              🖼️ Galleri
-            </a>
-          </li>
+      <div class="quick-actions">
+        <div class="quick-actions-header">
+          <h2>Snabbåtgärder</h2>
+        </div>
+        
+        <div class="quick-actions-grid">
+          <a href="admin-kittens.html" class="action-button">
+            <div class="action-button-icon">➕</div>
+            <div class="action-button-text">Lägg till kattunge</div>
+          </a>
+          
+          <a href="admin-cats.html" class="action-button">
+            <div class="action-button-icon">➕</div>
+            <div class="action-button-text">Lägg till katt</div>
+          </a>
+          
+          <a href="admin-news.html" class="action-button">
+            <div class="action-button-icon">✍️</div>
+            <div class="action-button-text">Skriv nyhet</div>
+          </a>
+          
+          <a href="admin-gallery.html" class="action-button">
+            <div class="action-button-icon">📸</div>
+            <div class="action-button-text">Ladda upp bild</div>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Recent Activity -->
+      <div class="recent-activity">
+        <div class="recent-activity-header">
+          <h2>Senaste aktiviteten</h2>
+        </div>
+        
+        <div class="activity-list" id="activity-list">
+          <div class="activity-item">
+            <div class="activity-icon" style="background: rgba(16, 185, 129, 0.1);">✨</div>
+            <div class="activity-content">
+              <div class="activity-title">Laddar aktivitet...</div>
+              <div class="activity-time">-</div>
+            </div>
           </div>
         </div>
       </div>
@@ -155,9 +603,160 @@
     
   </div>
 
-  <script src="admin.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="image-upload.js"></script>
-  <script src="admin.js"></script>
+  <script>
+    const SUPABASE_URL = 'https://lsjzeubrhagoutqxlsoz.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxzanpldWJyaGFnb3V0cXhsc296Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyODQzODksImV4cCI6MjA4Nzg2MDM4OX0.BPkdOavlxXwsP7ubHpWqjGMOU_QpkiP5hl5XKK4IePg';
+    
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    // Animate number counting
+    function animateNumber(elementId, targetValue) {
+      const element = document.getElementById(elementId);
+      if (!element) return;
+      
+      const duration = 1000; // 1 second
+      const startTime = performance.now();
+      const startValue = 0;
+      
+      function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Easing function (ease-out)
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        const currentValue = Math.floor(startValue + (targetValue - startValue) * easeOut);
+        
+        element.textContent = currentValue;
+        element.style.animation = 'countUp 0.5s ease-out';
+        
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        }
+      }
+      
+      requestAnimationFrame(update);
+    }
+    
+    // Load dashboard data
+    async function loadDashboard() {
+      try {
+        // Load all stats in parallel
+        const [
+          { count: kittensCount },
+          { count: catsCount },
+          { count: newsCount },
+          { count: galleryCount },
+        ] = await Promise.all([
+          supabase.from('kittens').select('*', { count: 'exact', head: true }),
+          supabase.from('cats').select('*', { count: 'exact', head: true }),
+          supabase.from('news').select('*', { count: 'exact', head: true }),
+          supabase.from('gallery').select('*', { count: 'exact', head: true }),
+        ]);
+        
+        // Animate numbers after a short delay
+        setTimeout(() => {
+          animateNumber('stat-kittens', kittensCount || 0);
+          animateNumber('stat-cats', catsCount || 0);
+          animateNumber('stat-news', newsCount || 0);
+          animateNumber('stat-gallery', galleryCount || 0);
+        }, 300);
+        
+        // Load recent activity
+        await loadRecentActivity();
+        
+      } catch (error) {
+        console.error('Error loading dashboard:', error);
+      }
+    }
+    
+    // Load recent activity
+    async function loadRecentActivity() {
+      try {
+        const activityList = document.getElementById('activity-list');
+        
+        // Get recent kittens
+        const { data: recentKittens } = await supabase
+          .from('kittens')
+          .select('name, created_at')
+          .order('created_at', { ascending: false })
+          .limit(2);
+        
+        // Get recent cats
+        const { data: recentCats } = await supabase
+          .from('cats')
+          .select('name, created_at')
+          .order('created_at', { ascending: false })
+          .limit(2);
+        
+        // Combine and sort by date
+        const activities = [
+          ...(recentKittens || []).map(k => ({
+            type: 'kitten',
+            title: `Ny kattunge: ${k.name}`,
+            time: new Date(k.created_at),
+            icon: '🐱',
+            color: 'rgba(16, 185, 129, 0.1)'
+          })),
+          ...(recentCats || []).map(c => ({
+            type: 'cat',
+            title: `Ny katt: ${c.name}`,
+            time: new Date(c.created_at),
+            icon: '🐾',
+            color: 'rgba(59, 130, 246, 0.1)'
+          }))
+        ].sort((a, b) => b.time - a.time).slice(0, 4);
+        
+        if (activities.length === 0) {
+          activityList.innerHTML = `
+            <div class="activity-item">
+              <div class="activity-icon" style="background: rgba(193, 127, 89, 0.1);">✨</div>
+              <div class="activity-content">
+                <div class="activity-title">Ingen aktivitet än</div>
+                <div class="activity-time">Börja med att lägga till katter eller kattungar!</div>
+              </div>
+            </div>
+          `;
+          return;
+        }
+        
+        activityList.innerHTML = activities.map(activity => {
+          const timeAgo = getTimeAgo(activity.time);
+          return `
+            <div class="activity-item">
+              <div class="activity-icon" style="background: ${activity.color};">${activity.icon}</div>
+              <div class="activity-content">
+                <div class="activity-title">${activity.title}</div>
+                <div class="activity-time">${timeAgo}</div>
+              </div>
+            </div>
+          `;
+        }).join('');
+        
+      } catch (error) {
+        console.error('Error loading activity:', error);
+      }
+    }
+    
+    // Get time ago string
+    function getTimeAgo(date) {
+      const now = new Date();
+      const diffMs = now - date;
+      const diffMins = Math.floor(diffMs / 60000);
+      const diffHours = Math.floor(diffMs / 3600000);
+      const diffDays = Math.floor(diffMs / 86400000);
+      
+      if (diffMins < 1) return 'Just nu';
+      if (diffMins < 60) return `${diffMins} minuter sedan`;
+      if (diffHours < 24) return `${diffHours} timmar sedan`;
+      if (diffDays < 7) return `${diffDays} dagar sedan`;
+      
+      return date.toLocaleDateString('sv-SE');
+    }
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', loadDashboard);
+  </script>
+  
 </body>
 </html>
