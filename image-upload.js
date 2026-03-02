@@ -18,7 +18,13 @@
             <button type="button" class="remove-btn" onclick="window.removeUploadImage('${containerId}')">&times;</button>
           </div>
         ` : `
-          <div class="upload-area">
+          <div class="upload-area" 
+               ondragover="event.preventDefault(); this.style.borderColor='var(--color-primary)'; this.style.background='rgba(45, 74, 62, 0.05)';"
+               ondragleave="this.style.borderColor='#D1D5DB'; this.style.background='var(--color-neutral-light)';"
+               ondrop="event.preventDefault(); this.style.borderColor='#D1D5DB'; this.style.background='var(--color-neutral-light)';">
+            <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-4); text-align: center;">
+              📸 Dra och släpp en bild här, eller använd knapparna nedan
+            </p>
             <div class="upload-buttons-row">
               <label class="upload-btn upload-btn-file">
                 <span class="btn-icon">📁</span>
@@ -89,6 +95,7 @@
           border-radius: var(--radius-lg);
           text-align: center;
           background: var(--color-neutral-light);
+          transition: all 0.3s ease;
         }
 
         .upload-buttons-row {
