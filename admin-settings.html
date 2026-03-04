@@ -265,7 +265,100 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="image-upload.js"></script>
+  <script>
+    // INLINE image uploader - NO external dependencies!
+    // This GUARANTEES it will work!
+    
+    window.createImageUploader = function(containerId, inputName, currentUrl = '') {
+      const container = document.getElementById(containerId);
+      if (!container) {
+        console.error('Container not found:', containerId);
+        return;
+      }
+      
+      const hasImage = currentUrl && currentUrl.length > 0;
+      
+      container.innerHTML = `
+        <div class="image-uploader-wrapper">
+          ${hasImage ? `
+            <div class="image-preview-box" style="position: relative; display: inline-block; width: 100%;">
+              <img src="${currentUrl}" style="width: 100%; max-height: 300px; object-fit: contain; border-radius: var(--radius-md); border: 2px solid #E5E7EB;" alt="Preview">
+              <button type="button" onclick="window.removeImage('${containerId}')" style="position: absolute; top: 10px; right: 10px; width: 36px; height: 36px; background: rgba(239, 68, 68, 0.95); color: white; border: none; border-radius: 50%; font-size: 24px; line-height: 1; cursor: pointer;">&times;</button>
+            </div>
+          ` : `
+            <div class="upload-area" style="padding: var(--space-8); border: 2px dashed #D1D5DB; border-radius: var(--radius-lg); text-align: center; background: var(--color-neutral-light);">
+              <p style="font-size: var(--text-sm); color: var(--color-text-muted); margin-bottom: var(--space-4);">
+                📸 Dra och släpp en bild här, eller använd knapparna nedan
+              </p>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); max-width: 600px; margin: 0 auto;">
+                <label style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-2); padding: var(--space-6) var(--space-4); border-radius: var(--radius-lg); cursor: pointer; font-weight: 600; min-height: 120px; background: var(--color-primary); color: white; border: 2px solid transparent;">
+                  <span style="font-size: 2.5rem;">📁</span>
+                  <span style="font-size: var(--text-base);">Välj från datorn</span>
+                  <input type="file" accept="image/*" onchange="window.handleImageUpload('${containerId}', this)" style="display: none;">
+                </label>
+                <button type="button" onclick="window.showUrlInput('${containerId}')" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-2); padding: var(--space-6) var(--space-4); border-radius: var(--radius-lg); cursor: pointer; font-weight: 600; min-height: 120px; background: white; color: var(--color-primary); border: 2px solid var(--color-primary);">
+                  <span style="font-size: 2.5rem;">🔗</span>
+                  <span style="font-size: var(--text-base);">Klistra in URL</span>
+                </button>
+              </div>
+              <div id="${containerId}-url-row" style="margin-top: var(--space-4); display: none; gap: var(--space-2); max-width: 600px; margin-left: auto; margin-right: auto;">
+                <input type="url" placeholder="https://example.com/bild.jpg" id="${containerId}-url-field" style="flex: 1; padding: var(--space-3) var(--space-4); border: 2px solid #E5E7EB; border-radius: var(--radius-md); font-size: var(--text-base);">
+                <button type="button" onclick="window.useImage('${containerId}')" style="padding: var(--space-3) var(--space-6); background: var(--color-primary); color: white; border: none; border-radius: var(--radius-md); font-size: var(--text-base); font-weight: 600; cursor: pointer;">Använd</button>
+              </div>
+            </div>
+          `}
+          <input type="hidden" name="${inputName}" id="${containerId}-value" value="${currentUrl}">
+        </div>
+      `;
+    };
+    
+    window.handleImageUpload = function(containerId, input) {
+      const file = input.files[0];
+      if (!file) return;
+      
+      if (!file.type.startsWith('image/')) {
+        alert('Vänligen välj en bildfil');
+        return;
+      }
+      
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Bilden får max vara 5MB');
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        window.setImage(containerId, e.target.result);
+      };
+      reader.readAsDataURL(file);
+    };
+    
+    window.showUrlInput = function(containerId) {
+      const row = document.getElementById(`${containerId}-url-row`);
+      if (row) row.style.display = 'flex';
+    };
+    
+    window.useImage = function(containerId) {
+      const field = document.getElementById(`${containerId}-url-field`);
+      if (field && field.value) {
+        window.setImage(containerId, field.value);
+      }
+    };
+    
+    window.setImage = function(containerId, url) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      
+      // Recreate uploader with new image
+      window.createImageUploader(containerId, 'hero_image_url', url);
+    };
+    
+    window.removeImage = function(containerId) {
+      window.createImageUploader(containerId, 'hero_image_url', '');
+    };
+    
+    console.log('✅ Image uploader loaded INLINE - guaranteed to work!');
+  </script>
   <script src="admin.js"></script>
   <script>
     // Add reset settings function

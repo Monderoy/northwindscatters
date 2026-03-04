@@ -694,41 +694,9 @@
       }
     }
     
-    // Delete cat
-    window.deleteCat = async function(catId) {
-      if (!confirm('Är du säker på att du vill ta bort denna katt?')) return;
-      
-      try {
-        const { error } = await supabase.from('cats').delete().eq('id', catId);
-        if (error) throw error;
-        
-        alert('Katt borttagen!');
-        loadDashboard();
-      } catch (error) {
-        console.error('Error deleting cat:', error);
-        alert('Kunde inte ta bort katt: ' + error.message);
-      }
-    };
-    
-    // Delete kitten
-    window.deleteKitten = async function(kittenId) {
-      if (!confirm('Är du säker på att du vill ta bort denna kattunge?')) return;
-      
-      try {
-        const { error } = await supabase.from('kittens').delete().eq('id', kittenId);
-        if (error) throw error;
-        
-        alert('Kattunge borttagen!');
-        loadDashboard();
-      } catch (error) {
-        console.error('Error deleting kitten:', error);
-        alert('Kunde inte ta bort kattunge: ' + error.message);
-      }
-    };
-    
     // Initialize
     document.addEventListener('DOMContentLoaded', loadDashboard);
   </script>
-  
+  <script src="admin.js"></script>
 </body>
 </html>
