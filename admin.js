@@ -733,33 +733,61 @@
       if (field) field.value = fields[key];
     });
 
-    // Hero image uploader with better error handling
-    console.log('🔍 Settings: Checking if createImageUploader exists...');
-    console.log('window.createImageUploader:', typeof window.createImageUploader);
-    
-    setTimeout(() => {
-      if (window.createImageUploader) {
-        console.log('✅ Settings: Initializing hero image uploader...');
-        const heroImageContainer = document.getElementById('hero-image-uploader');
-        if (heroImageContainer) {
-          try {
-            createImageUploader('hero-image-uploader', 'hero_image_url', settings.hero_image_url || '');
-            console.log('✅ Settings: Hero image uploader initialized successfully');
-          } catch (error) {
-            console.error('❌ Settings: Error initializing image uploader:', error);
-            heroImageContainer.innerHTML = '<p style="color: red; padding: var(--space-4);">⚠️ Kunde inte ladda bilduppladdare</p>';
-          }
-        } else {
-          console.error('❌ Settings: hero-image-uploader container not found!');
+    // Initialize image uploader with MULTIPLE fallbacks
+    const heroContainer = document.getElementById('hero-image-uploader');
+    if (!heroContainer) {
+      console.error('❌ hero-image-uploader container not found!');
+      return;
+    }
+
+    // Show loading state
+    heroContainer.innerHTML = '<p style="text-align: center; padding: var(--space-4); color: var(--color-text-muted);">⏳ Laddar bilduppladdare...</p>';
+
+    // Try multiple times with increasing delays
+    const tryInit = (attempt) => {
+      console.log(`🔄 Attempt ${attempt} to initialize hero image uploader...`);
+      
+      if (typeof window.createImageUploader === 'function') {
+        try {
+          console.log('✅ createImageUploader found! Initializing...');
+          window.createImageUploader('hero-image-uploader', 'hero_image_url', settings.hero_image_url || '');
+          console.log('✅ Hero image uploader initialized successfully!');
+          return true;
+        } catch (error) {
+          console.error('❌ Error initializing hero image uploader:', error);
+          heroContainer.innerHTML = `
+            <div style="padding: var(--space-4); background: #FEE2E2; border-radius: var(--radius-md); color: #991B1B;">
+              <p style="font-weight: 600; margin-bottom: var(--space-2);">⚠️ Kunde inte ladda bilduppladdare</p>
+              <p style="font-size: var(--text-sm);">Fel: ${error.message}</p>
+            </div>
+          `;
+          return false;
         }
       } else {
-        console.error('❌ Settings: createImageUploader not found! image-upload.js may not be loaded');
-        const heroImageContainer = document.getElementById('hero-image-uploader');
-        if (heroImageContainer) {
-          heroImageContainer.innerHTML = '<p style="color: red; padding: var(--space-4);">⚠️ Bilduppladdare kunde inte laddas. Ladda om sidan.</p>';
+        console.warn(`⚠️ createImageUploader not ready yet (attempt ${attempt})`);
+        
+        if (attempt < 5) {
+          const delay = attempt * 200; // 200ms, 400ms, 600ms, 800ms, 1000ms
+          console.log(`⏳ Retrying in ${delay}ms...`);
+          setTimeout(() => tryInit(attempt + 1), delay);
+        } else {
+          console.error('❌ Failed to initialize after 5 attempts');
+          heroContainer.innerHTML = `
+            <div style="padding: var(--space-4); background: #FEE2E2; border-radius: var(--radius-md); color: #991B1B;">
+              <p style="font-weight: 600; margin-bottom: var(--space-2);">⚠️ Bilduppladdare kunde inte laddas</p>
+              <p style="font-size: var(--text-sm); margin-bottom: var(--space-3);">Ladda om sidan och försök igen.</p>
+              <button onclick="location.reload()" style="background: #991B1B; color: white; border: none; padding: var(--space-2) var(--space-4); border-radius: var(--radius-md); cursor: pointer;">
+                Ladda om
+              </button>
+            </div>
+          `;
         }
+        return false;
       }
-    }, 200); // Wait 200ms for scripts to load
+    };
+
+    // Start trying after a short delay
+    setTimeout(() => tryInit(1), 100);
   }
 
   window.saveSettings = async function(event) {

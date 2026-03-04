@@ -4,9 +4,17 @@
 (function() {
   'use strict';
 
+  // Make ABSOLUTELY SURE the function is globally available
   window.createImageUploader = function(containerId, inputName, currentUrl = '') {
+    console.log(`🎯 createImageUploader called for: ${containerId}`);
+    
     const container = document.getElementById(containerId);
-    if (!container) return;
+    if (!container) {
+      console.error(`❌ Container #${containerId} not found!`);
+      return;
+    }
+    
+    console.log(`✅ Container #${containerId} found!`);
 
     const hasImage = currentUrl && currentUrl.length > 0;
 
