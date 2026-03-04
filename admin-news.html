@@ -3,12 +3,100 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hantera nyheter | Admin - NorthWind Scatters</title>
+  <title>Nyheter | Admin - NorthWind Scatters</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    .admin-layout {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      min-height: 100vh;
+      background: var(--color-neutral-light);
+    }
+    
+    @media (max-width: 768px) {
+      .admin-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .admin-sidebar {
+      background: var(--color-primary);
+      color: white;
+      padding: var(--space-6);
+    }
+    
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      margin-bottom: var(--space-8);
+    }
+    
+    .admin-brand-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.2);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+    
+    .admin-brand-text {
+      font-family: var(--font-heading);
+      font-size: var(--text-lg);
+    }
+    
+    .admin-nav {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .admin-nav-item {
+      margin-bottom: var(--space-2);
+    }
+    
+    .admin-nav-link {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-md);
+      color: rgba(255,255,255,0.8);
+      transition: all 0.2s ease;
+      font-size: var(--text-sm);
+      text-decoration: none;
+    }
+    
+    .admin-nav-link:hover,
+    .admin-nav-link.active {
+      background: rgba(255,255,255,0.1);
+      color: white;
+    }
+    
+    .admin-content {
+      padding: var(--space-8);
+    }
+    
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-6);
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+    
+    .admin-title {
+      font-family: var(--font-heading);
+      font-size: var(--text-3xl);
+    }
+  </style>
 </head>
 <body data-page="news">
   
@@ -24,54 +112,31 @@
       <nav>
         <ul class="admin-nav">
           <li class="admin-nav-item">
-            <a href="admin-dashboard.html" class="admin-nav-link">
-              📊 Dashboard
-            </a>
+            <a href="admin-dashboard.html" class="admin-nav-link">📊 Dashboard</a>
           </li>
           <li class="admin-nav-item">
-            <a href="admin-kittens.html" class="admin-nav-link">
-              🐱 Kattungar
-            </a>
+            <a href="admin-kittens.html" class="admin-nav-link">🐱 Kattungar</a>
           </li>
           <li class="admin-nav-item">
-            <a href="admin-cats.html" class="admin-nav-link">
-              🐾 Mina katter
-            </a>
+            <a href="admin-cats.html" class="admin-nav-link">🐾 Mina katter</a>
           </li>
           <li class="admin-nav-item">
-            <a href="admin-news.html" class="admin-nav-link active">
-          <li class="admin-nav-item">
-            <a href="admin-gallery.html" class="admin-nav-link">
-          <li class="admin-nav-item">
-            <a href="admin-about.html" class="admin-nav-link">
-              ℹ️ Om Oss
-            </a>
-          </li>
-              🖼️ Galleri
-            </a>
-          </li>
-              📰 Nyheter
-            </a>
+            <a href="admin-news.html" class="admin-nav-link active">📰 Nyheter</a>
           </li>
           <li class="admin-nav-item">
-            <a href="admin-hero.html" class="admin-nav-link">
-              🖼️ Hero bild
-            </a>
+            <a href="admin-gallery.html" class="admin-nav-link">🖼️ Galleri</a>
           </li>
           <li class="admin-nav-item">
-            <a href="admin-settings.html" class="admin-nav-link">
-              ⚙️ Inställningar
-            </a>
+            <a href="admin-about.html" class="admin-nav-link">ℹ️ Om Oss</a>
+          </li>
+          <li class="admin-nav-item">
+            <a href="admin-settings.html" class="admin-nav-link">⚙️ Inställningar</a>
           </li>
           <li class="admin-nav-item" style="margin-top: var(--space-8);">
-            <a href="index.html" class="admin-nav-link">
-              🌐 Visa sida
-            </a>
+            <a href="index.html" class="admin-nav-link">🌐 Visa sida</a>
           </li>
           <li class="admin-nav-item">
-            <a href="admin-login.html" class="admin-nav-link">
-              🚪 Logga ut
-            </a>
+            <a href="admin-login.html" class="admin-nav-link">🚪 Logga ut</a>
           </li>
         </ul>
       </nav>
@@ -81,25 +146,19 @@
     <main class="admin-content">
       
       <div class="admin-header">
-        <h1 class="admin-title">Hantera nyheter</h1>
+        <h1 class="admin-title">Nyheter</h1>
         <button class="btn btn-primary" onclick="Admin.openNewsModal()">
           + Skriv nyhet
         </button>
       </div>
       
-      <!-- Table -->
-      <div id="news-table" class="admin-table">
-        <!-- Table will be populated by JavaScript -->
-        <div class="text-center" style="padding: var(--space-12);">
-          <p style="color: var(--color-text-muted);">Laddar nyheter...</p>
-        </div>
-      </div>
+      <!-- News Table -->
+      <div id="news-table" class="table-container"></div>
       
     </main>
     
   </div>
 
-  <script src="admin.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="image-upload.js"></script>
   <script src="admin.js"></script>
