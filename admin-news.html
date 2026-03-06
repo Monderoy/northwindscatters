@@ -3,164 +3,227 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nyheter | Admin - NorthWind Scatters</title>
+  <title>Nyheter | Admin</title>
   <link rel="stylesheet" href="style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    .admin-layout {
-      display: grid;
-      grid-template-columns: 250px 1fr;
-      min-height: 100vh;
-      background: var(--color-neutral-light);
-    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Inter', sans-serif; background: #FAF8F5; }
     
+    .wrap { display: flex; min-height: 100vh; }
+    .sidebar { width: 250px; background: #2D4A3E; padding: 24px; }
+    .sidebar h2 { color: white; font-family: 'DM Serif Display', serif; margin: 0 0 32px 0; }
+    .sidebar a { display: block; color: rgba(255,255,255,0.7); padding: 10px 14px; text-decoration: none; border-radius: 8px; margin-bottom: 4px; }
+    .sidebar a:hover, .sidebar a.active { background: rgba(255,255,255,0.1); color: white; }
+    
+    .main { flex: 1; padding: 32px; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
+    .header h1 { font-family: 'DM Serif Display', serif; font-size: 32px; color: #2D4A3E; margin: 0; }
+    
+    .btn { padding: 12px 24px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
+    .btn-green { background: #2D4A3E; color: white; }
+    .btn-green:hover { background: #1F3930; }
+    .btn-red { background: #EF4444; color: white; }
+    .btn-red:hover { background: #DC2626; }
+    .btn-gray { background: #F3F4F6; color: #374151; }
+    
+    .news-item { background: white; padding: 24px; border-radius: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.08); }
+    .news-item h3 { margin: 0 0 8px 0; font-size: 18px; }
+    .news-item p { margin: 0; color: #6B7280; font-size: 14px; }
+    .news-item .actions { display: flex; gap: 12px; }
+    
+    .empty { text-align: center; padding: 64px; color: #6B7280; }
+    
+    #modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+    #modal.show { display: flex; }
+    .modal-box { background: white; border-radius: 16px; width: 90%; max-width: 500px; }
+    .modal-head { padding: 24px; border-bottom: 1px solid #E5E7EB; display: flex; justify-content: space-between; }
+    .modal-head h2 { margin: 0; }
+    .modal-close { width: 32px; height: 32px; background: #F3F4F6; border: none; border-radius: 8px; cursor: pointer; font-size: 20px; }
+    .modal-body { padding: 24px; }
+    .modal-foot { padding: 24px; border-top: 1px solid #E5E7EB; display: flex; gap: 12px; }
+    
+    .field { margin-bottom: 16px; }
+    .field label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; }
+    .field input, .field textarea { width: 100%; padding: 10px 14px; border: 2px solid #E5E7EB; border-radius: 8px; font-size: 14px; }
+    .field input:focus, .field textarea:focus { outline: none; border-color: #2D4A3E; }
+    .field textarea { min-height: 100px; resize: vertical; }
+    
+    /* Responsive */
     @media (max-width: 768px) {
-      .admin-layout {
-        grid-template-columns: 1fr;
-      }
-    }
-    
-    .admin-sidebar {
-      background: var(--color-primary);
-      color: white;
-      padding: var(--space-6);
-    }
-    
-    .admin-brand {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-      margin-bottom: var(--space-8);
-    }
-    
-    .admin-brand-icon {
-      width: 40px;
-      height: 40px;
-      background: rgba(255,255,255,0.2);
-      border-radius: var(--radius-md);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-    }
-    
-    .admin-brand-text {
-      font-family: var(--font-heading);
-      font-size: var(--text-lg);
-    }
-    
-    .admin-nav {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    
-    .admin-nav-item {
-      margin-bottom: var(--space-2);
-    }
-    
-    .admin-nav-link {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-      padding: var(--space-3) var(--space-4);
-      border-radius: var(--radius-md);
-      color: rgba(255,255,255,0.8);
-      transition: all 0.2s ease;
-      font-size: var(--text-sm);
-      text-decoration: none;
-    }
-    
-    .admin-nav-link:hover,
-    .admin-nav-link.active {
-      background: rgba(255,255,255,0.1);
-      color: white;
-    }
-    
-    .admin-content {
-      padding: var(--space-8);
-    }
-    
-    .admin-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: var(--space-6);
-      flex-wrap: wrap;
-      gap: var(--space-3);
-    }
-    
-    .admin-title {
-      font-family: var(--font-heading);
-      font-size: var(--text-3xl);
+      .wrap { flex-direction: column; }
+      .sidebar { width: 100%; padding: 16px; display: none; }
+      .sidebar.open { display: block; }
+      #menu-toggle { display: block !important; }
+      .main { padding: 16px; }
+      .header { flex-direction: column; gap: 16px; align-items: stretch; }
+      .header h1 { font-size: 24px; }
+      .news-item { flex-direction: column; align-items: flex-start; }
+      .news-item .actions { margin-top: 12px; width: 100%; }
+      .news-item .actions .btn { flex: 1; padding: 10px; }
     }
   </style>
 </head>
-<body data-page="news">
-  
-  <div class="admin-layout">
-    
-    <!-- Sidebar -->
-    <aside class="admin-sidebar">
-      <div class="admin-brand">
-        <div class="admin-brand-icon">N</div>
-        <span class="admin-brand-text">NorthWind</span>
-      </div>
-      
-      <nav>
-        <ul class="admin-nav">
-          <li class="admin-nav-item">
-            <a href="admin-dashboard.html" class="admin-nav-link">📊 Dashboard</a>
-          </li>
-          <li class="admin-nav-item">
-            <a href="admin-kittens.html" class="admin-nav-link">🐱 Kattungar</a>
-          </li>
-          <li class="admin-nav-item">
-            <a href="admin-cats.html" class="admin-nav-link">🐾 Mina katter</a>
-          </li>
-          <li class="admin-nav-item">
-            <a href="admin-news.html" class="admin-nav-link active">📰 Nyheter</a>
-          </li>
-          <li class="admin-nav-item">
-            <a href="admin-gallery.html" class="admin-nav-link">🖼️ Galleri</a>
-          </li>
-          <li class="admin-nav-item">
-            <a href="admin-about.html" class="admin-nav-link">ℹ️ Om Oss</a>
-          </li>
-          <li class="admin-nav-item">
-            <a href="admin-settings.html" class="admin-nav-link">⚙️ Inställningar</a>
-          </li>
-          <li class="admin-nav-item" style="margin-top: var(--space-8);">
-            <a href="index.html" class="admin-nav-link">🌐 Visa sida</a>
-          </li>
-          <li class="admin-nav-item">
-            <a href="admin-login.html" class="admin-nav-link">🚪 Logga ut</a>
-          </li>
-        </ul>
-      </nav>
-    </aside>
-    
-    <!-- Content -->
-    <main class="admin-content">
-      
-      <div class="admin-header">
-        <h1 class="admin-title">Nyheter</h1>
-        <button class="btn btn-primary" onclick="Admin.openNewsModal()">
-          + Skriv nyhet
-        </button>
-      </div>
-      
-      <!-- News Table -->
-      <div id="news-table" class="table-container"></div>
-      
-    </main>
-    
-  </div>
+<body>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="image-upload.js"></script>
-  <script src="admin.js"></script>
+<div class="wrap">
+  <aside class="sidebar">
+    <h2>NorthWind</h2>
+    <a href="admin-dashboard.html">Dashboard</a>
+    <a href="admin-kittens.html">Kattungar</a>
+    <a href="admin-cats.html">Mina katter</a>
+    <a href="admin-news.html" class="active">Nyheter</a>
+    <a href="admin-gallery.html">Galleri</a>
+    <a href="admin-about.html">Om oss</a>
+    <a href="admin-settings.html">Inställningar</a>
+    <a href="index.html" target="_blank" style="margin-top: 32px;">Visa sida</a>
+    <a href="admin-login.html">Logga ut</a>
+  </aside>
+
+  <main class="main">
+    <div class="header">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <button id="menu-toggle" style="display: none; background: none; border: none; font-size: 24px; cursor: pointer; padding: 8px;">☰</button>
+        <h1>Nyheter</h1>
+      </div>
+      <button class="btn btn-green" id="btn-new">+ Skriv nyhet</button>
+    </div>
+    <div id="list"></div>
+  </main>
+</div>
+
+<div id="modal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h2 id="modal-title">Ny nyhet</h2>
+      <button class="modal-close" id="btn-close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label>Rubrik *</label>
+        <input type="text" id="input-title">
+      </div>
+      <div class="field">
+        <label>Innehåll *</label>
+        <textarea id="input-content"></textarea>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-gray" id="btn-cancel">Avbryt</button>
+      <button class="btn btn-green" id="btn-save">Spara</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = 'https://lsjzeubrhagoutqxlsoz.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxzanpldWJyaGFnb3V0cXhsc296Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyODQzODksImV4cCI6MjA4Nzg2MDM4OX0.BPkdOavlxXwsP7ubHpWqjGMOU_QpkiP5hl5XKK4IePg';
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let currentId = null;
+const modal = document.getElementById('modal');
+
+// Format date
+function fmt(d) { return d ? new Date(d).toLocaleDateString('sv-SE') : ''; }
+
+// Load all news
+async function load() {
+  const { data, error } = await db.from('news').select('*').order('published_at', { ascending: false });
+  if (error) { console.error(error); return; }
+  render(data || []);
+}
+
+// Render list
+function render(items) {
+  const list = document.getElementById('list');
+  if (!items.length) {
+    list.innerHTML = '<div class="empty">Inga nyheter ännu</div>';
+    return;
+  }
+  
+  list.innerHTML = items.map(n => `
+    <div class="news-item">
+      <div>
+        <h3>${n.title || 'Ingen titel'}</h3>
+        <p>${fmt(n.published_at)}</p>
+      </div>
+      <div class="actions">
+        <button class="btn btn-green" data-id="${n.id}" data-act="edit">Redigera</button>
+        <button class="btn btn-red" data-id="${n.id}" data-act="del">Ta bort</button>
+      </div>
+    </div>
+  `).join('');
+  
+  // Attach handlers
+  list.querySelectorAll('[data-act="edit"]').forEach(b => {
+    b.onclick = () => editNews(b.dataset.id);
+  });
+  list.querySelectorAll('[data-act="del"]').forEach(b => {
+    b.onclick = () => deleteNews(b.dataset.id);
+  });
+}
+
+// New
+document.getElementById('btn-new').onclick = () => {
+  currentId = null;
+  document.getElementById('modal-title').textContent = 'Ny nyhet';
+  document.getElementById('input-title').value = '';
+  document.getElementById('input-content').value = '';
+  modal.classList.add('show');
+};
+
+// Edit
+async function editNews(id) {
+  const { data, error } = await db.from('news').select('*').eq('id', id).single();
+  if (error) { alert('Error: ' + error.message); return; }
+  currentId = id;
+  document.getElementById('modal-title').textContent = 'Redigera nyhet';
+  document.getElementById('input-title').value = data.title || '';
+  document.getElementById('input-content').value = data.content || '';
+  modal.classList.add('show');
+}
+
+// Delete
+async function deleteNews(id) {
+  if (!confirm('Ta bort denna nyhet?')) return;
+  const { error } = await db.from('news').delete().eq('id', id);
+  if (error) { alert('Error: ' + error.message); return; }
+  load();
+}
+
+// Save
+document.getElementById('btn-save').onclick = async () => {
+  const title = document.getElementById('input-title').value.trim();
+  const content = document.getElementById('input-content').value.trim();
+  if (!title || !content) { alert('Fyll i alla fält'); return; }
+  
+  const payload = { title, content, published_at: new Date().toISOString() };
+  
+  let result;
+  if (currentId) {
+    result = await db.from('news').update(payload).eq('id', currentId);
+  } else {
+    result = await db.from('news').insert([payload]);
+  }
+  
+  if (result.error) { alert('Error: ' + result.error.message); return; }
+  modal.classList.remove('show');
+  load();
+};
+
+// Close modal
+document.getElementById('btn-close').onclick = () => modal.classList.remove('show');
+document.getElementById('btn-cancel').onclick = () => modal.classList.remove('show');
+
+// Start
+load();
+
+// Mobile menu toggle
+document.getElementById('menu-toggle').onclick = () => {
+  document.querySelector('.sidebar').classList.toggle('open');
+};
+</script>
+
 </body>
 </html>

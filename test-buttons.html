@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Button Test</title>
+</head>
+<body>
+  <h1>Button Test</h1>
+  <button onclick="alert('Direct onclick works!')">Test Direct</button>
+  <button onclick="window.testFunc()">Test window function</button>
+  
+  <div id="container"></div>
+  
+  <script>
+    window.testFunc = function() {
+      alert('Window function works!');
+    };
+    
+    // Test dynamically created button
+    document.getElementById('container').innerHTML = `
+      <button onclick="window.testFunc()">Dynamically created button</button>
+    `;
+  </script>
+</body>
+</html>

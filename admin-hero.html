@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inställningar | Admin - NorthWind Scatters</title>
+  <title>Hero bild | Admin - NorthWind Scatters</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,7 +21,7 @@
     }
     .admin-title { font-family: var(--font-heading); font-size: var(--text-3xl); }
     
-    .settings-card {
+    .hero-preview {
       background: var(--color-white);
       border-radius: var(--radius-lg);
       padding: var(--space-6);
@@ -29,29 +29,24 @@
       margin-bottom: var(--space-6);
     }
     
-    .settings-title {
-      font-size: var(--text-xl);
+    .hero-preview-image {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+      border-radius: var(--radius-md);
       margin-bottom: var(--space-4);
-      padding-bottom: var(--space-3);
-      border-bottom: 1px solid rgba(0,0,0,0.1);
     }
     
-    .form-hint {
-      font-size: var(--text-sm);
+    .hero-preview-title {
+      font-family: var(--font-heading);
+      font-size: var(--text-3xl);
+      color: var(--color-primary);
+      margin-bottom: var(--space-2);
+    }
+    
+    .hero-preview-subtitle {
       color: var(--color-text-muted);
-      margin-top: var(--space-1);
-    }
-    
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-4);
-    }
-    
-    @media (max-width: 640px) {
-      .form-row {
-        grid-template-columns: 1fr;
-      }
+      font-size: var(--text-lg);
     }
     
     /* Mobile sidebar toggle */
@@ -65,7 +60,7 @@
     }
   </style>
 </head>
-<body data-page="settings">
+<body data-page="hero">
 
   <div class="admin-layout">
     
@@ -139,7 +134,7 @@
             </a>
           </li>
           <li>
-            <a href="admin-settings.html" class="admin-nav-link active">
+            <a href="admin-settings.html" class="admin-nav-link">
               <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
               Inställningar
             </a>
@@ -170,87 +165,38 @@
     <main class="admin-content">
 
       <div class="admin-header">
-        <h1 class="admin-title">Inställningar</h1>
+        <h1 class="admin-title">Hero bild</h1>
+        <button class="btn btn-primary" onclick="window.saveHero()">
+          Spara ändringar
+        </button>
       </div>
 
-      <form id="settings-form" onsubmit="Admin.saveSettings(event)">
+      <!-- Preview -->
+      <div class="hero-preview">
+        <img id="hero-preview-image" class="hero-preview-image" src="" alt="Hero preview">
+        <h2 id="hero-preview-title" class="hero-preview-title"></h2>
+        <p id="hero-preview-subtitle" class="hero-preview-subtitle"></p>
+      </div>
 
-        <!-- General Settings -->
-        <div class="settings-card">
-          <h2 class="settings-title">Allmänna inställningar</h2>
+      <!-- Form -->
+      <div class="settings-card">
+        <h2 class="settings-title">Redigera hero</h2>
 
-          <div class="form-group">
-            <label class="form-label">Uppfödningsnamn</label>
-            <input type="text" name="kennel_name" class="form-input" value="NorthWind Scatters">
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">E-post</label>
-              <input type="email" name="contact_email" class="form-input" value="info@northwindscatters.se">
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Telefon</label>
-              <input type="tel" name="contact_phone" class="form-input" value="+46 70 123 45 67">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Plats</label>
-            <input type="text" name="contact_address" class="form-input" value="Stockholm, Sverige">
-            <p class="form-hint">Visas på kontaktsidan och i footer</p>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Beskrivning (kort)</label>
-            <textarea name="kennel_description" class="form-textarea">Norsk Skogskatt uppfödning med kärlek och omsorg. Vi är en liten hemuppfödning belägen i Sverige som fokuserar på hälsa, temperament och rasstandard.</textarea>
-            <p class="form-hint">Används i footer och meta-beskrivningar</p>
-          </div>
+        <div class="form-group">
+          <label class="form-label">Titel</label>
+          <input type="text" id="hero-title" class="form-input" placeholder="NorthWind Scatters">
         </div>
 
-        <!-- Hero Settings -->
-        <div class="settings-card">
-          <h2 class="settings-title">Hero-sektion (startsida)</h2>
-
-          <div class="form-group">
-            <label class="form-label">Hero titel</label>
-            <input type="text" name="hero_title" class="form-input" value="NorthWind Scatters">
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Hero undertext</label>
-            <textarea name="hero_subtitle" class="form-textarea">Norsk Skogskatt uppfödning med kärlek och omsorg i Sverige. Våra katter är vår familj.</textarea>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Hero bild</label>
-            <div id="hero-image-uploader"></div>
-          </div>
+        <div class="form-group">
+          <label class="form-label">Undertext</label>
+          <textarea id="hero-subtitle" class="form-textarea" placeholder="Norsk Skogskatt uppfödning med kärlek och omsorg i Sverige."></textarea>
         </div>
 
-        <!-- Social Media -->
-        <div class="settings-card">
-          <h2 class="settings-title">Sociala medier</h2>
-
-          <div class="form-group">
-            <label class="form-label">Facebook URL</label>
-            <input type="url" name="facebook_url" class="form-input" placeholder="https://facebook.com/northwindscatters">
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Instagram URL</label>
-            <input type="url" name="instagram_url" class="form-input" placeholder="https://instagram.com/northwindscatters">
-          </div>
+        <div class="form-group">
+          <label class="form-label">Bild</label>
+          <div id="hero-image-uploader"></div>
         </div>
-
-        <!-- Save Button -->
-        <div style="display: flex; gap: var(--space-3);">
-          <button type="submit" class="btn btn-primary">Spara inställningar</button>
-          <button type="button" class="btn btn-outline" onclick="if(confirm('Är du säker? Detta återställer alla inställningar till standard.')) { window.resetSettings(); }">Återställ standard</button>
-        </div>
-
-      </form>
+      </div>
 
     </main>
 
@@ -260,40 +206,86 @@
   <script src="image-upload.js"></script>
   <script src="admin.js"></script>
   <script>
-    // Add reset settings function
-    window.resetSettings = async function() {
-      if (!confirm('Är du säker på att du vill återställa alla inställningar?')) {
-        return;
-      }
-
+    // Load hero settings
+    window.loadHero = async function() {
       try {
-        const defaultSettings = {
-          kennel_name: 'NorthWind Scatters',
-          contact_email: 'info@northwindscatters.se',
-          contact_phone: '+46 70 123 45 67',
-          contact_address: 'Stockholm, Sverige',
-          kennel_description: 'Norsk Skogskatt uppfödning med kärlek och omsorg.',
-          hero_title: 'NorthWind Scatters',
-          hero_subtitle: 'Norsk Skogskatt uppfödning med kärlek och omsorg i Sverige.',
-          hero_image_url: 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=1920&q=80',
-          facebook_url: '',
-          instagram_url: '',
-        };
-
-        for (const [key, value] of Object.entries(defaultSettings)) {
-          await supabaseClient
-            .from('settings')
-            .upsert({ key, value }, { onConflict: 'key' });
+        const { data: settings, error } = await supabaseClient
+          .from('settings')
+          .select('*')
+          .in('key', ['hero_title', 'hero_subtitle', 'hero_image_url']);
+        
+        if (error) throw error;
+        
+        const settingsObj = {};
+        (settings || []).forEach(s => {
+          settingsObj[s.key] = s.value;
+        });
+        
+        // Set form values
+        document.getElementById('hero-title').value = settingsObj.hero_title || 'NorthWind Scatters';
+        document.getElementById('hero-subtitle').value = settingsObj.hero_subtitle || '';
+        
+        // Set preview
+        document.getElementById('hero-preview-title').textContent = settingsObj.hero_title || 'NorthWind Scatters';
+        document.getElementById('hero-preview-subtitle').textContent = settingsObj.hero_subtitle || '';
+        
+        // Set image
+        const imageUrl = settingsObj.hero_image_url || 'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=1920&q=80';
+        document.getElementById('hero-preview-image').src = imageUrl;
+        
+        // Initialize image uploader
+        if (window.createImageUploader) {
+          createImageUploader('hero-image-uploader', 'hero_image_url', imageUrl);
         }
-
-        alert('Inställningar återställda!');
-        location.reload();
-
+        
+        // Live preview
+        document.getElementById('hero-title').addEventListener('input', (e) => {
+          document.getElementById('hero-preview-title').textContent = e.target.value;
+        });
+        
+        document.getElementById('hero-subtitle').addEventListener('input', (e) => {
+          document.getElementById('hero-preview-subtitle').textContent = e.target.value;
+        });
+        
       } catch (error) {
-        console.error('Error resetting settings:', error);
-        alert('Kunde inte återställa: ' + error.message);
+        console.error('Error loading hero settings:', error);
       }
     };
+    
+    // Save hero settings
+    window.saveHero = async function() {
+      try {
+        const title = document.getElementById('hero-title').value;
+        const subtitle = document.getElementById('hero-subtitle').value;
+        const imageUrl = window.getImageValue ? window.getImageValue('hero-image-uploader') : '';
+        
+        // Save title
+        await supabaseClient
+          .from('settings')
+          .upsert({ key: 'hero_title', value: title }, { onConflict: 'key' });
+        
+        // Save subtitle
+        await supabaseClient
+          .from('settings')
+          .upsert({ key: 'hero_subtitle', value: subtitle }, { onConflict: 'key' });
+        
+        // Save image URL
+        if (imageUrl) {
+          await supabaseClient
+            .from('settings')
+            .upsert({ key: 'hero_image_url', value: imageUrl }, { onConflict: 'key' });
+        }
+        
+        alert('Hero sparad!');
+        
+      } catch (error) {
+        console.error('Error saving hero:', error);
+        alert('Kunde inte spara: ' + error.message);
+      }
+    };
+    
+    // Initialize
+    loadHero();
     
     // Mobile menu toggle
     document.getElementById('mobile-menu-toggle').onclick = () => {

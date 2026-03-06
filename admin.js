@@ -555,7 +555,6 @@
   // ==================== NEWS ====================
   async function loadNews() {
     try {
-      showLoading('news-table');
       const { data: news, error } = await supabaseClient.from('news').select('*').order('published_at', { ascending: false });
       if (error) throw error;
       renderNewsTable(news || []);
@@ -574,21 +573,81 @@
       return;
     }
 
-    const rows = news.map(item => `
-      <div class="table-row" data-id="${item.id}">
-        <div style="grid-column: span 4;">
-          <strong>${item.title}</strong><br>
-          <span style="font-size: var(--text-sm); color: var(--color-text-muted);">${formatDate(item.published_at)}</span>
+    let html = '<div class="news-list-container">';
+    
+    news.forEach(item => {
+      const newsId = item.id || '';
+      html += `
+        <div class="news-item-row" style="background: white; padding: 24px; margin-bottom: 16px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.08);">
+          <div class="news-info">
+            <h3 style="margin: 0 0 8px 0; font-size: 18px;">${item.title || 'Ingen titel'}</h3>
+            <p style="margin: 0; color: #6B7280; font-size: 14px;">${formatDate(item.published_at)}</p>
+          </div>
+          <div class="news-actions" style="display: flex; gap: 12px;">
+            <button type="button" class="edit-btn" data-id="${newsId}" style="padding: 12px 24px; background-color: #2D4A3E; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;">Redigera</button>
+            <button type="button" class="delete-btn" data-id="${newsId}" style="padding: 12px 24px; background-color: #EF4444; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer;">Ta bort</button>
+          </div>
         </div>
-        <div class="action-buttons">
-          <button class="btn btn-outline btn-sm" onclick="Admin.editNews('${item.id}')">Redigera</button>
-          <button class="btn btn-outline btn-sm" style="color: var(--color-accent); border-color: var(--color-accent);" onclick="Admin.deleteNews('${item.id}')">Ta bort</button>
-        </div>
-      </div>
-    `).join('');
-
-    container.innerHTML = `<div class="table-header"><span style="grid-column: span 4;">Nyheter</span><span>Åtgärder</span></div>${rows}`;
+      `;
+    });
+    
+    html += '</div>';
+    container.innerHTML = html;
+    
+    // Add event listeners after DOM is ready
+    setTimeout(() => {
+      document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const id = this.getAttribute('data-id');
+          window.editNewsItem(id);
+        });
+      });
+      
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const id = this.getAttribute('data-id');
+          window.deleteNewsItem(id);
+        });
+      });
+    }, 100);
   }
+  
+  window.editNewsItem = async function(id) {
+    console.log('Editing news:', id);
+    if (!id) {
+      alert('Error: No ID');
+      return;
+    }
+    try {
+      const { data, error } = await supabaseClient.from('news').select('*').eq('id', id).single();
+      if (error) {
+        console.error('Supabase error:', error);
+        alert('Database error: ' + error.message);
+        return;
+      }
+      console.log('Loaded news:', data);
+      window.openNewsModal(data);
+    } catch (err) {
+      console.error('Exception:', err);
+      alert('Error: ' + err.message);
+    }
+  };
+  
+  window.deleteNewsItem = async function(id) {
+    console.log('Deleting news:', id);
+    if (!confirm('Ta bort denna nyhet?')) return;
+    try {
+      const { error } = await supabaseClient.from('news').delete().eq('id', id);
+      if (error) throw error;
+      alert('Nyheter borttagen!');
+      loadNews();
+    } catch (err) {
+      console.error('Delete error:', err);
+      alert('Error: ' + err.message);
+    }
+  };
 
   window.openNewsModal = function(newsItem = null) {
     const modal = document.createElement('div');
@@ -906,8 +965,8 @@
     openNewsModal,
     closeNewsModal,
     saveNews,
-    editNews,
-    deleteNews,
+    editNews: window.editNews,
+    deleteNews: window.deleteNews,
     
     saveSettings,
     
