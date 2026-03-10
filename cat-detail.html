@@ -158,7 +158,7 @@
               
               <div class="detail-meta">
                 <span class="badge" style="background: var(--color-neutral-base);">${cat.gender === 'male' ? 'Hane' : 'Hona'}</span>
-                ${cat.birth_date ? `<span class="badge" style="background: var(--color-neutral-base);">${calculateAge(cat.birth_date)}</span>` : ''}
+                ${cat.born_date ? `<span class="badge" style="background: var(--color-neutral-base);">${calculateAge(cat.born_date)}</span>` : ''}
                 ${cat.ems_code ? `<span class="badge" style="background: var(--color-neutral-base);">${cat.ems_code}</span>` : ''}
               </div>
               
@@ -169,10 +169,10 @@
                 </div>
               ` : ''}
               
-              ${cat.birth_date ? `
+              ${cat.born_date ? `
                 <div class="detail-field">
                   <p class="detail-label">Född</p>
-                  <p class="detail-value">${formatDate(cat.birth_date)}</p>
+                  <p class="detail-value">${formatDate(cat.born_date)}</p>
                 </div>
               ` : ''}
               

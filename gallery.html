@@ -46,58 +46,15 @@
       
       <!-- Filters -->
       <div class="filters">
-        <button class="filter-btn active">Alla</button>
-        <button class="filter-btn">Kattungar</button>
-        <button class="filter-btn">Vuxna katter</button>
-        <button class="filter-btn">Familjen</button>
+        <button class="filter-btn active" data-filter="all">Alla</button>
+        <button class="filter-btn" data-filter="kittens">Kattungar</button>
+        <button class="filter-btn" data-filter="cats">Vuxna katter</button>
+        <button class="filter-btn" data-filter="family">Familjen</button>
       </div>
       
       <!-- Gallery Grid -->
-      <div class="gallery-grid">
-        
-        <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&q=80" alt="Katt 1" loading="lazy">
-        </div>
-        
-        <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1574158622682-e40e69881006?w=400&q=80" alt="Katt 2" loading="lazy">
-        </div>
-        
-        <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=400&q=80" alt="Katt 3" loading="lazy">
-        </div>
-        
-        <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=400&q=80" alt="Katt 4" loading="lazy">
-        </div>
-        
-        <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=400&q=80" alt="Katt 5" loading="lazy">
-        </div>
-        
-        <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=400&q=80" alt="Katt 6" loading="lazy">
-        </div>
-        
-        <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=400&q=80" alt="Katt 7" loading="lazy">
-        </div>
-        
-        <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1571566882372-1598d88abd90?w=400&q=80" alt="Katt 8" loading="lazy">
-        </div>
-        
-        <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=400&q=80" alt="Katt 9" loading="lazy">
-        </div>
-        
-        <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1533743983669-94fa5c4338ec?w=400&q=80" alt="Katt 10" loading="lazy">
-        </div>
-        
-        <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1519052537078-e6302a4968d4?w=400&q=80" alt="Katt 11" loading="lazy">
-        </div>
+      <div class="gallery-grid" id="gallery-grid">
+        <!-- Images loaded from database -->
         
         <div class="gallery-item">
           <img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=400&q=80" alt="Katt 12" loading="lazy">
@@ -157,6 +114,168 @@
       </div>
     </div>
   </footer>
+
+  <!-- Lightbox / Bildspel -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+    <button class="lightbox-nav lightbox-prev" onclick="navigateLightbox(-1)">‹</button>
+    
+    <div class="lightbox-content">
+      <img class="lightbox-image" id="lightbox-image" src="" alt="">
+    </div>
+    
+    <button class="lightbox-nav lightbox-next" onclick="navigateLightbox(1)">›</button>
+    <div class="lightbox-counter" id="lightbox-counter">1 / 10</div>
+    <div class="lightbox-title" id="lightbox-title" style="display: none;"></div>
+  </div>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://lsjzeubrhagoutqxlsoz.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxzanpldWJyaGFnb3V0cXhsc296Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyODQzODksImV4cCI6MjA4Nzg2MDM4OX0.BPkdOavlxXwsP7ubHpWqjGMOU_QpkiP5hl5XKK4IePg';
+    const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let allImages = [];
+    let currentFilter = 'all';
+    let currentLightboxImages = [];
+    let currentImageIndex = 0;
+
+    async function loadGallery() {
+      try {
+        const { data: images, error } = await db
+          .from('gallery')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+        
+        allImages = images || [];
+        renderGallery(allImages);
+        setupFilters();
+
+      } catch (error) {
+        console.error('Error loading gallery:', error);
+        document.getElementById('gallery-grid').innerHTML = `
+          <div style="text-align: center; padding: 64px 20px; grid-column: 1/-1;">
+            <p style="color: var(--color-text-muted);">Kunde inte ladda galleriet. Försök igen senare.</p>
+          </div>
+        `;
+      }
+    }
+
+    function renderGallery(images) {
+      const grid = document.getElementById('gallery-grid');
+
+      if (!images || images.length === 0) {
+        grid.innerHTML = `
+          <div style="text-align: center; padding: 64px 20px; grid-column: 1/-1;">
+            <p style="color: var(--color-text-muted); font-size: 18px;">Inga bilder i galleriet ännu.</p>
+            <p style="color: var(--color-text-muted); margin-top: 8px;">Kom tillbaka snart! 🐱</p>
+          </div>
+        `;
+        return;
+      }
+
+      currentLightboxImages = images;
+      
+      grid.innerHTML = images.map((img, index) => `
+        <div class="gallery-item" onclick="openLightbox(${index})">
+          <img src="${img.image_url}" alt="${img.title || 'Galleribild'}" loading="lazy">
+          ${img.title || img.description ? `
+            <div style="padding: 12px; background: white;">
+              ${img.title ? `<h4 style="margin: 0 0 4px 0; font-size: 14px;">${img.title}</h4>` : ''}
+              ${img.description ? `<p style="margin: 0; font-size: 12px; color: var(--color-text-muted);">${img.description}</p>` : ''}
+            </div>
+          ` : ''}
+        </div>
+      `).join('');
+    }
+
+    function setupFilters() {
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Update active state
+          filterBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          
+          // Filter images
+          const filter = btn.dataset.filter;
+          currentFilter = filter;
+          
+          if (filter === 'all') {
+            renderGallery(allImages);
+          } else {
+            const filtered = allImages.filter(img => img.category === filter);
+            renderGallery(filtered);
+          }
+        });
+      });
+    }
+
+    // === LIGHTBOX FUNCTIONS ===
+    function openLightbox(index) {
+      currentImageIndex = index;
+      const lightbox = document.getElementById('lightbox');
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      updateLightboxImage();
+    }
+
+    function closeLightbox() {
+      const lightbox = document.getElementById('lightbox');
+      lightbox.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function navigateLightbox(direction) {
+      currentImageIndex += direction;
+      
+      if (currentImageIndex < 0) {
+        currentImageIndex = currentLightboxImages.length - 1;
+      } else if (currentImageIndex >= currentLightboxImages.length) {
+        currentImageIndex = 0;
+      }
+      
+      updateLightboxImage();
+    }
+
+    function updateLightboxImage() {
+      const img = currentLightboxImages[currentImageIndex];
+      document.getElementById('lightbox-image').src = img.image_url;
+      document.getElementById('lightbox-counter').textContent = `${currentImageIndex + 1} / ${currentLightboxImages.length}`;
+      
+      const titleEl = document.getElementById('lightbox-title');
+      if (img.title) {
+        titleEl.textContent = img.title;
+        titleEl.style.display = 'block';
+      } else {
+        titleEl.style.display = 'none';
+      }
+    }
+
+    // Close lightbox on escape key
+    document.addEventListener('keydown', (e) => {
+      const lightbox = document.getElementById('lightbox');
+      if (!lightbox.classList.contains('active')) return;
+      
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') navigateLightbox(-1);
+      if (e.key === 'ArrowRight') navigateLightbox(1);
+    });
+
+    // Close lightbox when clicking outside image
+    document.getElementById('lightbox').addEventListener('click', (e) => {
+      if (e.target.id === 'lightbox') {
+        closeLightbox();
+      }
+    });
+
+    // Load on page load
+    loadGallery();
+  </script>
 
 </body>
 </html>

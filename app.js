@@ -474,6 +474,38 @@ function getRoleBadge(role) {
 }
 
 // ============================================
+// MOBILE NAVIGATION
+// ============================================
+
+function initMobileNav() {
+  const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+  const navMenu = document.querySelector('.nav-menu');
+
+  if (mobileMenuBtn && navMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+      navMenu.classList.toggle('nav-menu-open');
+      mobileMenuBtn.textContent = navMenu.classList.contains('nav-menu-open') ? '✕' : '☰';
+    });
+
+    // Close menu when clicking a link
+    navMenu.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('nav-menu-open');
+        mobileMenuBtn.textContent = '☰';
+      });
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.nav') && navMenu.classList.contains('nav-menu-open')) {
+        navMenu.classList.remove('nav-menu-open');
+        mobileMenuBtn.textContent = '☰';
+      }
+    });
+  }
+}
+
+// ============================================
 // INITIALIZATION
 // ============================================
 
@@ -485,6 +517,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       window.location.href = 'admin-login.html';
     }
   }
+
+  // Initialize mobile navigation
+  initMobileNav();
 
   // Initialize page-specific functionality
   if (typeof initPage === 'function') {

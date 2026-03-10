@@ -327,7 +327,7 @@
       <div class="table-row" data-id="${cat.id}">
         <img src="${cat.image_url || 'https://via.placeholder.com/50'}" alt="${cat.name}" class="table-img">
         <div><strong>${cat.name}</strong><br><span style="font-size: var(--text-sm); color: var(--color-text-muted);">${cat.ems_code || ''}</span></div>
-        <div style="font-size: var(--text-sm);">${cat.gender === 'male' ? 'Hane' : 'Hona'}<br>${cat.birth_date ? formatDate(cat.birth_date) : 'Okänt'}</div>
+        <div style="font-size: var(--text-sm);">${cat.gender === 'male' ? 'Hane' : 'Hona'}<br>${cat.born_date ? formatDate(cat.born_date) : 'Okänt'}</div>
         <div><span class="badge badge-${cat.role}">${getRoleLabel(cat.role)}</span></div>
         <div class="action-buttons">
           <button class="btn btn-outline btn-sm" onclick="Admin.editCat('${cat.id}')">Redigera</button>
@@ -398,7 +398,7 @@
             </div>
             <div class="form-group">
               <label for="cat-birth-date">Föddedatum</label>
-              <input type="date" id="cat-birth-date" name="birth_date" value="${cat?.birth_date || ''}">
+              <input type="date" id="cat-birth-date" name="born_date" value="${cat?.born_date || ''}">
             </div>
             <div class="form-group">
               <label for="cat-ems-code">EMS-kod</label>
@@ -499,7 +499,7 @@
       name: formData.get('name'),
       gender: formData.get('gender'),
       role: formData.get('role'),
-      birth_date: formData.get('birth_date') || null,
+      born_date: formData.get('born_date') || null,
       ems_code: formData.get('ems_code') || null,
       pedigree_name: formData.get('pedigree_name') || null,
       image_url: getImageValue('cat-image-uploader'),

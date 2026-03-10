@@ -138,13 +138,17 @@
 
       <div class="admin-header">
         <h1 class="admin-title">Om oss</h1>
-        <button class="btn btn-primary" onclick="Admin.saveAbout()">
+        <button class="btn btn-primary" onclick="saveAboutContent()">
           Spara ändringar
         </button>
       </div>
 
       <!-- About Form -->
-      <div id="about-form" class="settings-card"></div>
+      <div id="about-form" style="background: white; border-radius: var(--radius-lg); padding: var(--space-6); box-shadow: var(--shadow-sm);">
+        <p style="color: var(--color-text-muted); text-align: center; padding: var(--space-8);">
+          Laddar...
+        </p>
+      </div>
 
     </main>
 
@@ -158,6 +162,246 @@
     document.getElementById('mobile-menu-toggle').onclick = () => {
       document.querySelector('.admin-layout').classList.toggle('sidebar-open');
     };
+
+    const SUPABASE_URL = 'https://lsjzeubrhagoutqxlsoz.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxzanpldWJyaGFnb3V0cXhsc296Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyODQzODksImV4cCI6MjA4Nzg2MDM4OX0.BPkdOavlxXwsP7ubHpWqjGMOU_QpkiP5hl5XKK4IePg';
+    const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let aboutImages = {};
+
+    async function loadAbout() {
+      try {
+        const { data, error } = await db.from('about').select('*').order('section', { ascending: true });
+        
+        if (error) {
+          // Table might not exist yet - show setup message
+          if (error.code === '42P01') {
+            showSetupMessage();
+            return;
+          }
+          throw error;
+        }
+
+        const aboutData = {};
+        (data || []).forEach(item => {
+          aboutData[item.section] = item;
+        });
+
+        renderAboutForm(aboutData);
+
+      } catch (error) {
+        console.error('Error loading about:', error);
+        document.getElementById('about-form').innerHTML = `
+          <div style="text-align: center; padding: var(--space-8); color: var(--color-error);">
+            <p>Kunde inte ladda: ${error.message}</p>
+            <button class="btn btn-outline" onclick="loadAbout()" style="margin-top: var(--space-4);">Försök igen</button>
+          </div>
+        `;
+      }
+    }
+
+    function showSetupMessage() {
+      document.getElementById('about-form').innerHTML = `
+        <div style="text-align: center; padding: var(--space-12);">
+          <div style="font-size: 3rem; margin-bottom: var(--space-4);">📋</div>
+          <h2 style="margin-bottom: var(--space-3);">Första gången?</h2>
+          <p style="color: var(--color-text-muted); margin-bottom: var(--space-6);">
+            About-tabellen saknas i databasen. Klicka nedan för att skapa den automatiskt.
+          </p>
+          <button class="btn btn-primary" onclick="createAboutTable()">Skapa tabell</button>
+        </div>
+      `;
+    }
+
+    async function createAboutTable() {
+      try {
+        // Try to insert default sections - this will fail if table doesn't exist
+        // but give a helpful error message
+        document.getElementById('about-form').innerHTML = `
+          <div style="text-align: center; padding: var(--space-8);">
+            <p style="color: var(--color-text-muted);">⏳ Skapar tabell...</p>
+          </div>
+        `;
+
+        // Insert default content to create the table structure
+        const defaults = [
+          { section: 'hero', title: 'Om NorthWind Scatters', subtitle: 'En kärlekshistoria med Norsk Skogskatt', image_url: '' },
+          { section: 'story', title: 'Vår historia', content: 'Allt började 2015 när vi föll för den Norska Skogskattens charm. Deras majestätiska utseende, vänliga temperament och lekfulla natur stal våra hjärtan direkt.\n\nEfter år av erfarenhet som kattägare bestämde vi oss för att ta nästa steg och bli uppfödare. Vår målsättning var enkel: att föda upp friska, sociala och vackra katter som skulle bli älskade familjemedlemmar.\n\nIdag är NorthWind Scatters en registrerad uppfödning hos SVERAK och FIFe. Vi har fött upp över 30 kullar och vår passion för rasen bara växer för varje år.', image_url: '' },
+          { section: 'philosophy', title: 'Vår filosofi', subtitle: 'Tre pelare som styr allt vi gör', content: '', image_url: '' },
+          { section: 'approach', title: 'Hur vi jobbar', content: 'Vi är en liten hemuppfödning vilket innebär att våra katter lever med oss som familjemedlemmar. Alla kattunger föds upp i vardagsrummet och vant vid vanliga husljud, barn och andra djur.', image_url: '' },
+          { section: 'credentials', title: 'Medlemskap & certifieringar', subtitle: 'Vi är stolta medlemmar av dessa organisationer', content: 'SVERAK - Svenska Kattklubbens Riksförbund. Registrerad uppfödning.\n\nFIFe - Fédération Internationale Féline. Vi följer deras standarder och etikregler.', image_url: '' },
+        ];
+
+        for (const item of defaults) {
+          const { error } = await db.from('about').insert([item]);
+          if (error && error.code !== '23505') { // Ignore duplicate key errors
+            throw error;
+          }
+        }
+
+        showSuccess('Tabell skapad!');
+        loadAbout();
+
+      } catch (error) {
+        console.error('Error creating table:', error);
+        document.getElementById('about-form').innerHTML = `
+          <div style="text-align: center; padding: var(--space-8); color: var(--color-error);">
+            <p style="font-weight: 600; margin-bottom: var(--space-2);">Kunde inte skapa tabell</p>
+            <p style="font-size: var(--text-sm); margin-bottom: var(--space-4);">
+              Du behöver skapa tabellen manuellt i Supabase:
+            </p>
+            <code style="display: block; background: #f3f4f6; padding: var(--space-4); border-radius: var(--radius-md); text-align: left; font-size: var(--text-sm);">
+              CREATE TABLE about (<br>
+              &nbsp;&nbsp;id UUID PRIMARY KEY DEFAULT gen_random_uuid(),<br>
+              &nbsp;&nbsp;section TEXT UNIQUE NOT NULL,<br>
+              &nbsp;&nbsp;title TEXT,<br>
+              &nbsp;&nbsp;subtitle TEXT,<br>
+              &nbsp;&nbsp;content TEXT,<br>
+              &nbsp;&nbsp;image_url TEXT,<br>
+              &nbsp;&nbsp;created_at TIMESTAMPTZ DEFAULT NOW(),<br>
+              &nbsp;&nbsp;updated_at TIMESTAMPTZ DEFAULT NOW()<br>
+              );
+            </code>
+          </div>
+        `;
+      }
+    }
+
+    function renderAboutForm(aboutData) {
+      const sections = [
+        { key: 'hero', label: 'Hero-sektion', fields: ['title', 'subtitle', 'image_url'], imageLabel: 'Hero-bild' },
+        { key: 'story', label: 'Vår historia', fields: ['title', 'content', 'image_url'], imageLabel: 'Bild (valfritt)' },
+        { key: 'philosophy', label: 'Vår filosofi', fields: ['title', 'subtitle'], imageLabel: '' },
+        { key: 'approach', label: 'Hur vi jobbar', fields: ['title', 'content', 'image_url'], imageLabel: 'Bild (valfritt)' },
+        { key: 'credentials', label: 'Medlemskap', fields: ['title', 'subtitle', 'content'], imageLabel: '' },
+      ];
+
+      let html = '';
+
+      sections.forEach(section => {
+        const data = aboutData[section.key] || {};
+        
+        html += `
+          <div style="margin-bottom: var(--space-8); padding-bottom: var(--space-8); border-bottom: 1px solid #E5E7EB;">
+            <h3 style="margin-bottom: var(--space-4); font-size: var(--text-xl);">${section.label}</h3>
+            
+            ${section.fields.includes('title') ? `
+              <div class="form-group">
+                <label for="about-${section.key}-title">Rubrik</label>
+                <input type="text" id="about-${section.key}-title" value="${escapeHtml(data.title || '')}" placeholder="Rubrik...">
+              </div>
+            ` : ''}
+            
+            ${section.fields.includes('subtitle') ? `
+              <div class="form-group">
+                <label for="about-${section.key}-subtitle">Underrubrik</label>
+                <input type="text" id="about-${section.key}-subtitle" value="${escapeHtml(data.subtitle || '')}" placeholder="Underrubrik...">
+              </div>
+            ` : ''}
+            
+            ${section.fields.includes('content') ? `
+              <div class="form-group">
+                <label for="about-${section.key}-content">Innehåll</label>
+                <textarea id="about-${section.key}-content" rows="5" placeholder="Skriv här...">${escapeHtml(data.content || '')}</textarea>
+              </div>
+            ` : ''}
+            
+            ${section.fields.includes('image_url') ? `
+              <div class="form-group">
+                <label>${section.imageLabel}</label>
+                <div id="about-${section.key}-uploader"></div>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      });
+
+      document.getElementById('about-form').innerHTML = html;
+
+      // Initialize image uploaders
+      setTimeout(() => {
+        sections.forEach(section => {
+          if (section.fields.includes('image_url')) {
+            const data = aboutData[section.key] || {};
+            if (window.createImageUploader) {
+              createImageUploader(`about-${section.key}-uploader`, `about-${section.key}-image`, data.image_url || '');
+            }
+          }
+        });
+      }, 100);
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    async function saveAboutContent() {
+      const sections = ['hero', 'story', 'philosophy', 'approach', 'credentials'];
+
+      try {
+        const saveBtn = document.querySelector('.admin-header .btn-primary');
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'Sparar...';
+
+        for (const section of sections) {
+          const data = {
+            section: section,
+            title: document.getElementById(`about-${section}-title`)?.value || null,
+            subtitle: document.getElementById(`about-${section}-subtitle`)?.value || null,
+            content: document.getElementById(`about-${section}-content`)?.value || null,
+            image_url: null,
+            updated_at: new Date().toISOString(),
+          };
+
+          // Get image URL if uploader exists
+          const imageInput = document.getElementById(`about-${section}-image-value`);
+          if (imageInput) {
+            data.image_url = imageInput.value || null;
+          }
+
+          // Upsert the data
+          const { error } = await db.from('about').upsert(data, { onConflict: 'section' });
+          if (error) throw error;
+        }
+
+        // Show success
+        const toast = document.createElement('div');
+        toast.textContent = '✓ Sparat!';
+        toast.style.cssText = `
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background: #10B981;
+          color: white;
+          padding: 12px 24px;
+          border-radius: 8px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+          z-index: 10000;
+        `;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Spara ändringar';
+
+      } catch (error) {
+        console.error('Error saving about:', error);
+        alert('Kunde inte spara: ' + error.message);
+        
+        const saveBtn = document.querySelector('.admin-header .btn-primary');
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Spara ändringar';
+      }
+    }
+
+    // Make it available globally
+    window.saveAboutContent = saveAboutContent;
+    window.createAboutTable = createAboutTable;
+    window.loadAbout = loadAbout;
+
+    // Load on page load
+    loadAbout();
   </script>
 </body>
 </html>

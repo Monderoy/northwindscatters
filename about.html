@@ -37,10 +37,10 @@
   </nav>
 
   <!-- Hero Section -->
-  <section class="hero" style="height: 50vh; min-height: 400px; background-image: url('https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=1920&q=80');">
+  <section class="hero" id="hero-section" style="height: 50vh; min-height: 400px; background-image: url('https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=1920&q=80');">
     <div class="hero-content">
-      <h1 class="hero-title" style="font-size: var(--text-4xl);">Om NorthWind Scatters</h1>
-      <p class="hero-subtitle" style="font-size: var(--text-lg);">En kärlekshistoria med Norsk Skogskatt</p>
+      <h1 class="hero-title" style="font-size: var(--text-4xl);" id="hero-title">Om NorthWind Scatters</h1>
+      <p class="hero-subtitle" style="font-size: var(--text-lg);" id="hero-subtitle">En kärlekshistoria med Norsk Skogskatt</p>
     </div>
   </section>
 
@@ -49,14 +49,12 @@
     <div class="container">
       <div class="grid grid-2" style="max-width: 1000px; margin: 0 auto; gap: var(--space-8);">
         
-        <div>
+        <div id="story-content">
           <h2>Vår historia</h2>
-          <p>Allt började 2015 när vi föll för den Norska Skogskattens charm. Deras majestätiska utseende, vänliga temperament och lekfulla natur stal våra hjärtan direkt.</p>
-          <p>Efter år av erfarenhet som kattägare bestämde vi oss för att ta nästa steg och bli uppfödare. Vår målsättning var enkel: att föda upp friska, sociala och vackra katter som skulle bli älskade familjemedlemmar.</p>
-          <p>Idag är NorthWind Scatters en registrerad uppfödning hos SVERAK och FIFe. Vi har fött upp över 30 kullar och vår passion för rasen bara växer för varje år.</p>
+          <p>Laddar...</p>
         </div>
         
-        <div>
+        <div id="story-image">
           <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=600&q=80" alt="Kattfamilj" style="border-radius: var(--radius-lg); width: 100%; box-shadow: var(--shadow-lg);">
         </div>
         
@@ -68,8 +66,8 @@
   <section class="section section-beige">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title">Vår filosofi</h2>
-        <p class="section-subtitle">Tre pelare som styr allt vi gör</p>
+        <h2 class="section-title" id="philosophy-title">Vår filosofi</h2>
+        <p class="section-subtitle" id="philosophy-subtitle">Tre pelare som styr allt vi gör</p>
       </div>
       
       <div class="grid grid-3" style="max-width: 1100px; margin: 0 auto;">
@@ -107,32 +105,13 @@
     <div class="container">
       <div class="grid grid-2" style="max-width: 1000px; margin: 0 auto; gap: var(--space-8);">
         
-        <div>
+        <div id="approach-image">
           <img src="https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=600&q=80" alt="Kattunge" style="border-radius: var(--radius-lg); width: 100%; box-shadow: var(--shadow-lg);">
         </div>
         
-        <div>
+        <div id="approach-content">
           <h2>Hur vi jobbar</h2>
-          <p>Vi är en liten hemuppfödning vilket innebär att våra katter lever med oss som familjemedlemmar. Alla kattunger föds upp i vardagsrummet och vant vid vanliga husljud, barn och andra djur.</p>
-          
-          <ul style="list-style: none; padding: 0; margin-top: var(--space-4);">
-            <li style="padding: var(--space-2) 0; border-bottom: 1px solid rgba(0,0,0,0.05);">
-              <strong>Få kullar per år</strong><br>
-              <span style="color: var(--color-text-muted); font-size: var(--text-sm);">Max 2-3 kullar årligen för högsta kvalitet</span>
-            </li>
-            <li style="padding: var(--space-2) 0; border-bottom: 1px solid rgba(0,0,0,0.05);">
-              <strong>Individuell uppföljning</strong><br>
-              <span style="color: var(--color-text-muted); font-size: var(--text-sm);">Livslångt stöd och rådgivning till alla köpare</span>
-            </li>
-            <li style="padding: var(--space-2) 0; border-bottom: 1px solid rgba(0,0,0,0.05);">
-              <strong>Köparscreening</strong><br>
-              <span style="color: var(--color-text-muted); font-size: var(--text-sm);">Vi väljer noggrant hem till våra kattunger</span>
-            </li>
-            <li style="padding: var(--space-2) 0;">
-              <strong>Full dokumentation</strong><br>
-              <span style="color: var(--color-text-muted); font-size: var(--text-sm);">Stamtavla, hälsotester, vaccinationsintyg ingår</span>
-            </li>
-          </ul>
+          <p>Laddar...</p>
         </div>
         
       </div>
@@ -143,8 +122,8 @@
   <section class="section section-beige">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title">Medlemskap & certifieringar</h2>
-        <p class="section-subtitle">Vi är stolta medlemmar av dessa organisationer</p>
+        <h2 class="section-title" id="credentials-title">Medlemskap & certifieringar</h2>
+        <p class="section-subtitle" id="credentials-subtitle">Vi är stolta medlemmar av dessa organisationer</p>
       </div>
       
       <div class="grid grid-2" style="max-width: 700px; margin: 0 auto;">
@@ -222,6 +201,100 @@
       </div>
     </div>
   </footer>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://lsjzeubrhagoutqxlsoz.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxzanpldWJyaGFnb3V0cXhsc296Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIyODQzODksImV4cCI6MjA4Nzg2MDM4OX0.BPkdOavlxXwsP7ubHpWqjGMOU_QpkiP5hl5XKK4IePg';
+    const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function loadAbout() {
+      try {
+        const { data, error } = await db.from('about').select('*');
+        
+        if (error) {
+          console.warn('Could not load about from database:', error);
+          return; // Keep default content
+        }
+
+        const aboutData = {};
+        (data || []).forEach(item => {
+          aboutData[item.section] = item;
+        });
+
+        // Update Hero
+        if (aboutData.hero) {
+          if (aboutData.hero.title) {
+            document.getElementById('hero-title').textContent = aboutData.hero.title;
+          }
+          if (aboutData.hero.subtitle) {
+            document.getElementById('hero-subtitle').textContent = aboutData.hero.subtitle;
+          }
+          if (aboutData.hero.image_url) {
+            document.getElementById('hero-section').style.backgroundImage = `url('${aboutData.hero.image_url}')`;
+          }
+        }
+
+        // Update Story
+        if (aboutData.story) {
+          const storyContent = document.getElementById('story-content');
+          let storyHtml = `<h2>${aboutData.story.title || 'Vår historia'}</h2>`;
+          if (aboutData.story.content) {
+            storyHtml += aboutData.story.content.split('\n\n').map(p => `<p>${p}</p>`).join('');
+          }
+          storyContent.innerHTML = storyHtml;
+          
+          if (aboutData.story.image_url) {
+            document.getElementById('story-image').innerHTML = `
+              <img src="${aboutData.story.image_url}" alt="Vår historia" style="border-radius: var(--radius-lg); width: 100%; box-shadow: var(--shadow-lg);">
+            `;
+          }
+        }
+
+        // Update Philosophy
+        if (aboutData.philosophy) {
+          if (aboutData.philosophy.title) {
+            document.getElementById('philosophy-title').textContent = aboutData.philosophy.title;
+          }
+          if (aboutData.philosophy.subtitle) {
+            document.getElementById('philosophy-subtitle').textContent = aboutData.philosophy.subtitle;
+          }
+        }
+
+        // Update Approach
+        if (aboutData.approach) {
+          const approachContent = document.getElementById('approach-content');
+          let approachHtml = `<h2>${aboutData.approach.title || 'Hur vi jobbar'}</h2>`;
+          if (aboutData.approach.content) {
+            approachHtml += aboutData.approach.content.split('\n\n').map(p => `<p>${p}</p>`).join('');
+          }
+          approachContent.innerHTML = approachHtml;
+          
+          if (aboutData.approach.image_url) {
+            document.getElementById('approach-image').innerHTML = `
+              <img src="${aboutData.approach.image_url}" alt="Hur vi jobbar" style="border-radius: var(--radius-lg); width: 100%; box-shadow: var(--shadow-lg);">
+            `;
+          }
+        }
+
+        // Update Credentials
+        if (aboutData.credentials) {
+          if (aboutData.credentials.title) {
+            document.getElementById('credentials-title').textContent = aboutData.credentials.title;
+          }
+          if (aboutData.credentials.subtitle) {
+            document.getElementById('credentials-subtitle').textContent = aboutData.credentials.subtitle;
+          }
+        }
+
+      } catch (error) {
+        console.error('Error loading about:', error);
+      }
+    }
+
+    loadAbout();
+  </script>
 
 </body>
 </html>

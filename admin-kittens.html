@@ -262,7 +262,7 @@ function render(items) {
       <img src="${k.image_url || 'https://via.placeholder.com/80'}" alt="${k.name || ''}">
       <div class="item-content">
         <h3>${k.name || 'Inget namn'}</h3>
-        <p>${k.gender === 'male' ? 'Hane' : 'Hona'} • Född: ${fmt(k.birth_date)}</p>
+        <p>${k.gender === 'male' ? 'Hane' : 'Hona'} • Född: ${fmt(k.born_date)}</p>
         ${k.price ? `<p>Pris: ${k.price} kr</p>` : ''}
         <span class="item-status status-${k.status}">${statusLabel(k.status)}</span>
       </div>
@@ -311,7 +311,7 @@ async function editItem(id) {
   document.getElementById('input-id').value = id;
   document.getElementById('input-name').value = data.name || '';
   document.getElementById('input-gender').value = data.gender || 'male';
-  document.getElementById('input-born').value = data.birth_date || '';
+  document.getElementById('input-born').value = data.born_date || '';
   document.getElementById('input-status').value = data.status || 'sale';
   document.getElementById('input-price').value = data.price || '';
   document.getElementById('input-description').value = data.description || '';
@@ -349,7 +349,7 @@ document.getElementById('btn-save').onclick = async () => {
   const payload = {
     name: name,
     gender: document.getElementById('input-gender').value,
-    birth_date: document.getElementById('input-born').value || null,
+    born_date: document.getElementById('input-born').value || null,
     status: document.getElementById('input-status').value,
     price: parseInt(document.getElementById('input-price').value) || null,
     description: document.getElementById('input-description').value.trim(),

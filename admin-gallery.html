@@ -143,6 +143,16 @@
           <label>Beskrivning</label>
           <textarea id="input-description" placeholder="Beskriv bilden..."></textarea>
         </div>
+        
+        <div class="field">
+          <label>Kategori</label>
+          <select id="input-category">
+            <option value="all">Alla</option>
+            <option value="kittens">Kattungar</option>
+            <option value="cats">Vuxna katter</option>
+            <option value="family">Familjen</option>
+          </select>
+        </div>
       </form>
     </div>
     <div class="modal-foot">
@@ -232,6 +242,7 @@ document.getElementById('btn-new').onclick = () => {
   document.getElementById('modal-title').textContent = 'Ny bild';
   document.getElementById('form').reset();
   document.getElementById('input-image-url').value = '';
+  document.getElementById('input-category').value = 'all';
   document.getElementById('image-preview').innerHTML = `
     <p><strong>Klicka för att ladda upp bild</strong></p>
     <p style="font-size: 12px;">(Max 5MB, JPG/PNG)</p>
@@ -250,6 +261,7 @@ async function editItem(id) {
   document.getElementById('input-image-url').value = data.image_url || '';
   document.getElementById('input-title').value = data.title || '';
   document.getElementById('input-description').value = data.description || '';
+  document.getElementById('input-category').value = data.category || 'all';
   
   if (data.image_url) {
     document.getElementById('image-preview').innerHTML = `
@@ -285,7 +297,8 @@ document.getElementById('btn-save').onclick = async () => {
   const payload = {
     image_url: imageUrl,
     title: document.getElementById('input-title').value.trim(),
-    description: document.getElementById('input-description').value.trim()
+    description: document.getElementById('input-description').value.trim(),
+    category: document.getElementById('input-category').value
   };
   
   let result;

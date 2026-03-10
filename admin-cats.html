@@ -260,7 +260,7 @@ function render(items) {
       <div class="item-content">
         <h3>${c.name || 'Inget namn'}</h3>
         <p>${c.gender === 'male' ? 'Hane' : 'Hona'} ${c.ems_code ? '• ' + c.ems_code : ''}</p>
-        ${c.birth_date ? `<p>Född: ${fmt(c.birth_date)}</p>` : ''}
+        ${c.born_date ? `<p>Född: ${fmt(c.born_date)}</p>` : ''}
         <span class="item-role role-${c.role}">${roleLabel(c.role)}</span>
       </div>
       <div class="actions">
@@ -309,7 +309,7 @@ async function editItem(id) {
   document.getElementById('input-name').value = data.name || '';
   document.getElementById('input-gender').value = data.gender || 'male';
   document.getElementById('input-role').value = data.role || 'stud';
-  document.getElementById('input-born').value = data.birth_date || '';
+  document.getElementById('input-born').value = data.born_date || '';
   document.getElementById('input-ems').value = data.ems_code || '';
   document.getElementById('input-description').value = data.description || '';
   document.getElementById('input-image-url').value = data.image_url || '';
@@ -346,7 +346,7 @@ document.getElementById('btn-save').onclick = async () => {
     name: name,
     gender: document.getElementById('input-gender').value,
     role: document.getElementById('input-role').value,
-    birth_date: document.getElementById('input-born').value || null,
+    born_date: document.getElementById('input-born').value || null,
     ems_code: document.getElementById('input-ems').value.trim() || null,
     description: document.getElementById('input-description').value.trim(),
     image_url: document.getElementById('input-image-url').value.trim() || null
