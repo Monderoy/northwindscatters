@@ -142,6 +142,10 @@
         <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: var(--space-3);">
           Logga in
         </button>
+
+        <button type="button" id="forgot-password" class="btn btn-secondary" style="width: 100%; margin-top: var(--space-2);">
+          Glömt lösenord?
+        </button>
       </form>
 
       <div class="login-link">
@@ -200,6 +204,40 @@
 
         } catch (err) {
           console.error('Fel:', err);
+          errorDiv.textContent = 'Fel: ' + err.message;
+          errorDiv.style.display = 'block';
+        }
+      });
+
+      // Glömt lösenord
+      document.getElementById('forgot-password').addEventListener('click', async () => {
+        const email = document.getElementById('email').value;
+        const errorDiv = document.getElementById('error-message');
+        const successDiv = document.getElementById('success-message');
+
+        if (!email) {
+          errorDiv.textContent = 'Fyll i din e-postadress först';
+          errorDiv.style.display = 'block';
+          return;
+        }
+
+        errorDiv.style.display = 'none';
+        successDiv.style.display = 'none';
+
+        try {
+          const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+            redirectTo: window.location.origin + '/admin-reset-password.html'
+          });
+
+          if (error) {
+            errorDiv.textContent = 'Fel: ' + error.message;
+            errorDiv.style.display = 'block';
+            return;
+          }
+
+          successDiv.textContent = 'Återställningslänk skickad till ' + email + '! Kolla din inkorg.';
+          successDiv.style.display = 'block';
+        } catch (err) {
           errorDiv.textContent = 'Fel: ' + err.message;
           errorDiv.style.display = 'block';
         }
