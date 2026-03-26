@@ -136,7 +136,10 @@
 
         <div class="form-group">
           <label class="form-label">Lösenord</label>
-          <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+          <div style="position: relative;">
+            <input type="password" id="password" class="form-input" placeholder="••••••••" required style="padding-right: 44px;">
+            <button type="button" id="toggle-password" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 18px; padding: 4px;">👁️</button>
+          </div>
         </div>
 
         <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: var(--space-3);">
@@ -209,6 +212,14 @@
         }
       });
 
+      // Visa/dölj lösenord
+      document.getElementById('toggle-password').addEventListener('click', function() {
+        const passwordInput = document.getElementById('password');
+        const isPassword = passwordInput.type === 'password';
+        passwordInput.type = isPassword ? 'text' : 'password';
+        this.textContent = isPassword ? '🙈' : '👁️';
+      });
+
       // Glömt lösenord
       document.getElementById('forgot-password').addEventListener('click', async () => {
         const email = document.getElementById('email').value;
@@ -225,9 +236,7 @@
         successDiv.style.display = 'none';
 
         try {
-          const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-            redirectTo: window.location.origin + '/admin-reset-password.html'
-          });
+          const { error } = await supabaseClient.auth.resetPasswordForEmail(email);
 
           if (error) {
             errorDiv.textContent = 'Fel: ' + error.message;
